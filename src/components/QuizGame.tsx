@@ -263,11 +263,11 @@ const QuizGame = ({ avatar }: QuizGameProps) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-900 to-blue-700 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
           <p className="text-white">Carregando perguntas da fase {currentPhase}...</p>
-          <p className="text-blue-200 text-sm mt-2">Dificuldade: {getDifficulty(currentPhase)}</p>
+          <p className="text-blue-300 text-sm mt-2">Dificuldade: {getDifficulty(currentPhase)}</p>
         </div>
       </div>
     );
@@ -278,9 +278,9 @@ const QuizGame = ({ avatar }: QuizGameProps) => {
   const currentQ = questions[currentQuestion];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 to-blue-700">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900">
       {/* Header */}
-      <div className="bg-white/10 backdrop-blur-sm border-b border-white/20">
+      <div className="bg-slate-800/80 backdrop-blur-lg border-b border-slate-700">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <img 
@@ -291,11 +291,30 @@ const QuizGame = ({ avatar }: QuizGameProps) => {
             <h1 className="text-xl font-bold text-white">Quiz Católico</h1>
           </div>
           
-          <div className="flex items-center gap-4 text-white">
-            <span className="text-lg font-semibold">Fase {currentPhase}</span>
-            <span className="text-sm bg-white/20 px-3 py-1 rounded-full">
-              {currentQuestion + 1}/{questions.length}
-            </span>
+          <div className="flex flex-col items-center gap-2">
+            <div 
+              className="w-12 h-12 rounded-full flex items-center justify-center text-lg"
+              style={{ backgroundColor: avatar.skinColor }}
+            >
+              {avatar.gender === 'boy' ? '👦' : '👧'}
+            </div>
+            <span className="text-white font-semibold text-sm">{avatar.name}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Progress Bar for Overall Game */}
+      <div className="bg-slate-800/60 p-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-sm text-blue-300">Progresso Geral</span>
+            <span className="text-sm text-blue-300">{currentPhase}/100 fases</span>
+          </div>
+          <div className="w-full bg-slate-700 rounded-full h-3">
+            <div 
+              className="bg-gradient-to-r from-blue-500 to-purple-500 h-3 rounded-full transition-all duration-500"
+              style={{ width: `${(currentPhase / 100) * 100}%` }}
+            />
           </div>
         </div>
       </div>
@@ -303,102 +322,112 @@ const QuizGame = ({ avatar }: QuizGameProps) => {
       {/* Game Content */}
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-white rounded-2xl shadow-2xl p-8">
-            {/* Avatar and Score Header */}
-            <div className="flex items-center justify-between mb-8">
-              <div className="flex items-center gap-4">
-                <div className={`transition-all duration-300 ${
-                  avatarAnimation === 'correct' 
-                    ? 'animate-bounce scale-110' 
-                    : avatarAnimation === 'wrong' 
-                      ? 'animate-pulse scale-90' 
-                      : ''
-                }`}>
-                  <div 
-                    className={`w-16 h-16 rounded-full flex items-center justify-center text-2xl border-4 ${
-                      avatarAnimation === 'correct' 
-                        ? 'border-green-400 bg-green-100' 
-                        : avatarAnimation === 'wrong' 
-                          ? 'border-red-400 bg-red-100' 
-                          : 'border-gray-300 bg-white'
-                    }`}
-                    style={{ backgroundColor: avatarAnimation === 'idle' ? avatar.skinColor : undefined }}
-                  >
-                    {avatarAnimation === 'correct' ? '😊' : 
-                     avatarAnimation === 'wrong' ? '😔' : 
-                     avatar.gender === 'boy' ? '👦' : '👧'}
-                  </div>
-                </div>
-                <div>
-                  <div className="text-lg font-semibold text-gray-800">{avatar.name}</div>
-                  <div className="text-sm text-gray-600">Fase {currentPhase}</div>
-                </div>
+          <div className="flex items-start gap-8">
+            {/* Score and Avatar Section */}
+            <div className="flex flex-col items-center gap-4">
+              <div className="text-center">
+                <div className="text-3xl font-bold text-yellow-400">{score}</div>
+                <div className="text-sm text-yellow-200">pontos</div>
               </div>
               
-              <div className="text-center">
-                <div className="text-3xl font-bold text-blue-600">{score}</div>
-                <div className="text-sm text-gray-600">Pontos</div>
-              </div>
-            </div>
-
-            {/* Question */}
-            <h2 className="text-2xl font-bold text-gray-800 mb-8 text-center leading-relaxed">
-              {currentQ.question}
-            </h2>
-
-            {/* Options */}
-            <div className="grid gap-4 mb-8">
-              {currentQ.options.map((option, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleAnswerSelect(index)}
-                  disabled={selectedAnswer !== null}
-                  className={`p-4 rounded-xl text-left transition-all border-2 ${
-                    selectedAnswer === null
-                      ? 'bg-gray-50 hover:bg-gray-100 border-gray-200 text-gray-800 hover:border-blue-300'
-                      : selectedAnswer === index
-                        ? index === currentQ.correctAnswer
-                          ? 'bg-green-50 border-green-400 text-green-800'
-                          : 'bg-red-50 border-red-400 text-red-800'
-                        : index === currentQ.correctAnswer
-                          ? 'bg-green-50 border-green-400 text-green-800'
-                          : 'bg-gray-50 border-gray-200 text-gray-500'
+              {/* Animated Avatar */}
+              <div className={`transition-all duration-300 ${
+                avatarAnimation === 'correct' 
+                  ? 'animate-bounce scale-110' 
+                  : avatarAnimation === 'wrong' 
+                    ? 'animate-pulse scale-90' 
+                    : ''
+              }`}>
+                <div 
+                  className={`w-20 h-20 rounded-full flex items-center justify-center text-2xl border-4 ${
+                    avatarAnimation === 'correct' 
+                      ? 'border-green-400 bg-green-100' 
+                      : avatarAnimation === 'wrong' 
+                        ? 'border-red-400 bg-red-100' 
+                        : 'border-slate-600'
                   }`}
+                  style={{ backgroundColor: avatarAnimation === 'idle' ? avatar.skinColor : undefined }}
                 >
-                  <span className="font-semibold mr-3 text-gray-600">
-                    {String.fromCharCode(65 + index)}.
-                  </span>
-                  {option}
-                </button>
-              ))}
+                  {avatarAnimation === 'correct' ? '😊' : 
+                   avatarAnimation === 'wrong' ? '😔' : 
+                   avatar.gender === 'boy' ? '👦' : '👧'}
+                </div>
+              </div>
             </div>
 
-            {/* Explanation */}
-            {showExplanation && (
-              <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-6">
-                <h3 className="text-lg font-semibold text-blue-800 mb-2">
-                  Explicação:
-                </h3>
-                <p className="text-blue-700">{currentQ.explanation}</p>
+            {/* Questions Section */}
+            <div className="flex-1 bg-slate-800/80 backdrop-blur-lg rounded-2xl p-8">
+              <div className="mb-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                    getDifficulty(currentPhase) === 'Fácil' 
+                      ? 'bg-green-600 text-green-100' 
+                      : getDifficulty(currentPhase) === 'Médio' 
+                        ? 'bg-yellow-600 text-yellow-100' 
+                        : getDifficulty(currentPhase) === 'Difícil' 
+                          ? 'bg-orange-600 text-orange-100' 
+                          : 'bg-red-600 text-red-100'
+                  }`}>
+                    {getDifficulty(currentPhase)}
+                  </span>
+                </div>
+                
+                <h2 className="text-2xl font-bold text-white mb-6">
+                  {currentQ.question}
+                </h2>
               </div>
-            )}
 
-            {/* Next Button */}
-            {showExplanation && (
-              <div className="text-center">
-                <button
-                  onClick={handleNextQuestion}
-                  className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-all shadow-md"
-                >
-                  {currentQuestion < questions.length - 1 
-                    ? 'Próxima Pergunta' 
-                    : currentPhase < 100 
-                      ? 'Próxima Fase' 
-                      : 'Finalizar Quiz'
-                  }
-                </button>
+              <div className="grid gap-4 mb-6">
+                {currentQ.options.map((option, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleAnswerSelect(index)}
+                    disabled={selectedAnswer !== null}
+                    className={`p-4 rounded-xl text-left transition-all ${
+                      selectedAnswer === null
+                        ? 'bg-slate-700 hover:bg-slate-600 text-white'
+                        : selectedAnswer === index
+                          ? index === currentQ.correctAnswer
+                            ? 'bg-green-600 text-white'
+                            : 'bg-red-600 text-white'
+                          : index === currentQ.correctAnswer
+                            ? 'bg-green-600 text-white'
+                            : 'bg-slate-700 text-gray-400'
+                    }`}
+                  >
+                    <span className="font-semibold mr-3">
+                      {String.fromCharCode(65 + index)}.
+                    </span>
+                    {option}
+                  </button>
+                ))}
               </div>
-            )}
+
+              {showExplanation && (
+                <div className="bg-blue-900/50 border border-blue-700 rounded-xl p-6 mb-6">
+                  <h3 className="text-lg font-semibold text-blue-200 mb-2">
+                    Explicação:
+                  </h3>
+                  <p className="text-blue-100">{currentQ.explanation}</p>
+                </div>
+              )}
+
+              {showExplanation && (
+                <div className="text-center">
+                  <button
+                    onClick={handleNextQuestion}
+                    className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all"
+                  >
+                    {currentQuestion < questions.length - 1 
+                      ? 'Próxima Pergunta' 
+                      : currentPhase < 100 
+                        ? 'Próxima Fase' 
+                        : 'Finalizar Quiz'
+                    }
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
