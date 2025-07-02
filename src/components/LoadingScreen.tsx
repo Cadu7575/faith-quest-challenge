@@ -28,7 +28,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
       <div className="text-center mb-8">
         <div className="mb-6">
           <img 
-            src="/lovable-uploads/a6371fe2-8d4e-4de4-835f-970a32b7024a.png" 
+            src="/lovable-uploads/ebf9a6d5-503e-4a4a-813b-cab50ba45b0e.png" 
             alt="Carlo Acutis Logo" 
             className="w-32 h-32 mx-auto rounded-full shadow-2xl"
           />

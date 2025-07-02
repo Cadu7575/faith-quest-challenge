@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import LoadingScreen from '../components/LoadingScreen';
 import AvatarSelection from '../components/AvatarSelection';
 import QuizGame from '../components/QuizGame';
@@ -12,17 +12,57 @@ interface Avatar {
   name: string;
 }
 
+interface GameProgress {
+  avatar: Avatar;
+  currentPhase: number;
+  score: number;
+  currentQuestion: number;
+}
+
 const Index = () => {
   const [gameState, setGameState] = useState<GameState>('loading');
   const [avatar, setAvatar] = useState<Avatar | null>(null);
+  const [gameProgress, setGameProgress] = useState<GameProgress | null>(null);
+
+  // Load saved progress on component mount
+  useEffect(() => {
+    const savedProgress = localStorage.getItem('quiz-progress');
+    if (savedProgress) {
+      try {
+        const progress = JSON.parse(savedProgress) as GameProgress;
+        setGameProgress(progress);
+        setAvatar(progress.avatar);
+      } catch (error) {
+        console.error('Error loading saved progress:', error);
+        localStorage.removeItem('quiz-progress');
+      }
+    }
+  }, []);
 
   const handleLoadingComplete = () => {
-    setGameState('avatar-selection');
+    if (gameProgress && avatar) {
+      setGameState('playing');
+    } else {
+      setGameState('avatar-selection');
+    }
   };
 
   const handleAvatarComplete = (selectedAvatar: Avatar) => {
     setAvatar(selectedAvatar);
+    const initialProgress: GameProgress = {
+      avatar: selectedAvatar,
+      currentPhase: 1,
+      score: 0,
+      currentQuestion: 0
+    };
+    setGameProgress(initialProgress);
+    localStorage.setItem('quiz-progress', JSON.stringify(initialProgress));
     setGameState('playing');
+  };
+
+  const handleProgressUpdate = (progress: GameProgress) => {
+    setGameProgress(progress);
+    localStorage.setItem('quiz-progress', JSON.stringify(progress));
   };
 
   if (gameState === 'loading') {
@@ -33,8 +73,8 @@ const Index = () => {
     return <AvatarSelection onComplete={handleAvatarComplete} />;
   }
 
-  if (gameState === 'playing' && avatar) {
-    return <QuizGame avatar={avatar} />;
+  if (gameState === 'playing' && avatar && gameProgress) {
+    return <QuizGame avatar={avatar} initialProgress={gameProgress} onProgressUpdate={handleProgressUpdate} />;
   }
 
   return null;

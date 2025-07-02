@@ -1,5 +1,3 @@
-
-
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 
@@ -16,20 +14,41 @@ interface Question {
   explanation: string;
 }
 
-interface QuizGameProps {
+interface GameProgress {
   avatar: Avatar;
+  currentPhase: number;
+  score: number;
+  currentQuestion: number;
 }
 
-const QuizGame = ({ avatar }: QuizGameProps) => {
-  const [currentPhase, setCurrentPhase] = useState(1);
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [score, setScore] = useState(0);
+interface QuizGameProps {
+  avatar: Avatar;
+  initialProgress?: GameProgress;
+  onProgressUpdate?: (progress: GameProgress) => void;
+}
+
+const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) => {
+  const [currentPhase, setCurrentPhase] = useState(initialProgress?.currentPhase || 1);
+  const [currentQuestion, setCurrentQuestion] = useState(initialProgress?.currentQuestion || 0);
+  const [score, setScore] = useState(initialProgress?.score || 0);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState(false);
   const [showExplanation, setShowExplanation] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [usedQuestions, setUsedQuestions] = useState<Set<string>>(new Set());
   const [avatarAnimation, setAvatarAnimation] = useState<'idle' | 'correct' | 'wrong'>('idle');
+
+  // Update progress in parent component whenever state changes
+  useEffect(() => {
+    if (onProgressUpdate) {
+      onProgressUpdate({
+        avatar,
+        currentPhase,
+        score,
+        currentQuestion
+      });
+    }
+  }, [currentPhase, score, currentQuestion, avatar, onProgressUpdate]);
 
   // Function to determine difficulty based on phase
   const getDifficulty = (phase: number) => {
@@ -451,4 +470,3 @@ const QuizGame = ({ avatar }: QuizGameProps) => {
 };
 
 export default QuizGame;
-
