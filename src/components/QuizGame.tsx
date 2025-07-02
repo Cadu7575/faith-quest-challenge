@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 
@@ -43,7 +44,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
 
   // Array de chaves API para rotação
   const apiKeys = [
-    'AIzaSyCzZYJc8PNmfKsSIuajC4K-JbqwQHhc500'
+    'AIzaSyCHGe5lPFUUF0LpHSm9kOvKcdQu0lHjFDY'
   ];
 
   // Update progress in parent component whenever state changes
