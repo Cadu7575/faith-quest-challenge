@@ -37,6 +37,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [usedQuestions, setUsedQuestions] = useState<Set<string>>(new Set());
   const [avatarAnimation, setAvatarAnimation] = useState<'idle' | 'correct' | 'wrong'>('idle');
+  const [currentDifficulty, setCurrentDifficulty] = useState<'Fácil' | 'Difícil'>('Fácil');
 
   // Update progress in parent component whenever state changes
   useEffect(() => {
@@ -50,76 +51,52 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
     }
   }, [currentPhase, score, currentQuestion, avatar, onProgressUpdate]);
 
-  // Function to determine difficulty based on phase
-  const getDifficulty = (phase: number) => {
-    if (phase <= 20) return 'Fácil';
-    if (phase <= 40) return 'Fácil';
-    if (phase <= 60) return 'Médio';
-    if (phase <= 80) return 'Difícil';
-    return 'Muito Difícil';
+  // Function to randomly alternate between easy and difficult
+  const getRandomDifficulty = () => {
+    return Math.random() < 0.5 ? 'Fácil' : 'Difícil';
   };
 
-  // Function to get more specific topics as phases progress
-  const getTopicsForPhase = (phase: number) => {
-    const basicTopics = [
+  // Function to get topics based on difficulty (simplified)
+  const getTopicsForDifficulty = (difficulty: 'Fácil' | 'Difícil') => {
+    const easyTopics = [
       'santos católicos básicos e suas vidas',
       'história básica da Igreja Católica',
       'milagres eucarísticos famosos',
-      'doutrina católica fundamental'
+      'doutrina católica fundamental',
+      'orações tradicionais básicas',
+      'festividades litúrgicas principais'
     ];
 
-    const intermediateTopics = [
-      'papas históricos e pontificado',
-      'sacramentos católicos em detalhe',
-      'orações tradicionais e liturgia',
-      'festividades litúrgicas do ano',
-      'mártires católicos através da história',
-      'aparições marianas reconhecidas'
-    ];
-
-    const advancedTopics = [
+    const difficultTopics = [
       'concílios ecumênicos e decisões dogmáticas',
       'teologia católica avançada',
       'santos doutores da Igreja',
-      'história das ordens religiosas',
       'encíclicas papais importantes',
       'patrística e Padres da Igreja',
       'mariologia e dogmas marianos',
-      'escatologia católica',
-      'liturgia e ritos orientais',
-      'canonização e beatificação'
-    ];
-
-    const expertTopics = [
       'teologia moral complexa',
       'filosofia escolástica',
       'direito canônico',
-      'exegese bíblica católica',
-      'santos místicos e experiências espirituais',
-      'heresias históricas e refutações',
-      'relações Igreja-Estado na história',
-      'desenvolvimento da doutrina social',
-      'arquitetura e arte sacra',
-      'música litúrgica tradicional'
+      'exegese bíblica católica'
     ];
 
-    if (phase <= 20) return basicTopics;
-    if (phase <= 40) return intermediateTopics;
-    if (phase <= 80) return advancedTopics;
-    return expertTopics;
+    return difficulty === 'Fácil' ? easyTopics : difficultTopics;
   };
 
   const generateQuestions = async (phase: number) => {
     setLoading(true);
+    
+    // Randomly choose difficulty for this set of questions
+    const difficulty = getRandomDifficulty();
+    setCurrentDifficulty(difficulty);
+    
     try {
-      const topics = getTopicsForPhase(phase);
+      const topics = getTopicsForDifficulty(difficulty);
       const randomTopic = topics[Math.floor(Math.random() * topics.length)];
-      const difficulty = getDifficulty(phase);
       
       const prompt = `Gere exatamente 10 perguntas de múltipla escolha sobre ${randomTopic} para a fase ${phase} de um jogo católico. 
       Dificuldade: ${difficulty}.
-      ${phase > 50 ? 'Inclua detalhes históricos específicos, datas importantes e conhecimento aprofundado.' : ''}
-      ${phase > 80 ? 'Faça perguntas que requerem conhecimento especializado e análise teológica profunda.' : ''}
+      ${difficulty === 'Difícil' ? 'Inclua detalhes históricos específicos, datas importantes e conhecimento aprofundado que requer estudo especializado.' : 'Faça perguntas acessíveis para católicos em geral, com conhecimento básico da fé.'}
       
       Formato JSON:
       {
@@ -189,7 +166,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
           newQuestions.forEach((q: Question) => {
             setUsedQuestions(prev => new Set([...prev, q.question]));
           });
-          console.log(`${newQuestions.length} perguntas carregadas para a fase ${phase}`);
+          console.log(`${newQuestions.length} perguntas carregadas para a fase ${phase} - Dificuldade: ${difficulty}`);
         } else {
           // If all questions were used, clear some of the set and try again
           console.log('Muitas perguntas já foram usadas, limpando parte do histórico...');
@@ -229,6 +206,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
       ];
       
       setQuestions(fallbackQuestions);
+      setCurrentDifficulty('Fácil');
       console.log('Usando perguntas de fallback');
     }
     setLoading(false);
@@ -288,7 +266,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
           <p className="text-white">Carregando perguntas da fase {currentPhase}...</p>
-          <p className="text-blue-300 text-sm mt-2">Dificuldade: {getDifficulty(currentPhase)}</p>
+          <p className="text-blue-300 text-sm mt-2">Dificuldade: {currentDifficulty}</p>
         </div>
       </div>
     );
@@ -387,15 +365,11 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
               <div className="flex-1 mx-8">
                 <div className="flex items-center gap-3 mb-4 justify-center">
                   <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                    getDifficulty(currentPhase) === 'Fácil' 
+                    currentDifficulty === 'Fácil' 
                       ? 'bg-green-600 text-green-100' 
-                      : getDifficulty(currentPhase) === 'Médio' 
-                        ? 'bg-yellow-600 text-yellow-100' 
-                        : getDifficulty(currentPhase) === 'Difícil' 
-                          ? 'bg-orange-600 text-orange-100' 
-                          : 'bg-red-600 text-red-100'
+                      : 'bg-red-600 text-red-100'
                   }`}>
-                    {getDifficulty(currentPhase)}
+                    {currentDifficulty}
                   </span>
                   <span className="text-blue-300 text-sm">Fase {currentPhase}</span>
                 </div>
