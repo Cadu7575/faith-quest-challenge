@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 
@@ -37,7 +38,8 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [usedQuestions, setUsedQuestions] = useState<Set<string>>(new Set());
   const [avatarAnimation, setAvatarAnimation] = useState<'idle' | 'correct' | 'wrong'>('idle');
-  const [currentDifficulty, setCurrentDifficulty] = useState<'Fácil' | 'Difícil'>('Fácil');
+  const [currentDifficulty, setCurrentDifficulty] = useState<'Fácil' | 'Médio' | 'Difícil'>('Fácil');
+  const [difficultyPattern, setDifficultyPattern] = useState<('Fácil' | 'Médio' | 'Difícil')[]>([]);
 
   // Update progress in parent component whenever state changes
   useEffect(() => {
@@ -51,13 +53,22 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
     }
   }, [currentPhase, score, currentQuestion, avatar, onProgressUpdate]);
 
-  // Function to randomly alternate between easy and difficult
-  const getRandomDifficulty = () => {
-    return Math.random() < 0.5 ? 'Fácil' : 'Difícil';
+  // Function to generate a mixed difficulty pattern for 10 questions
+  const generateDifficultyPattern = () => {
+    const patterns = [
+      ['Fácil', 'Fácil', 'Fácil', 'Fácil', 'Médio', 'Fácil', 'Difícil', 'Fácil', 'Médio', 'Fácil'],
+      ['Fácil', 'Médio', 'Fácil', 'Fácil', 'Fácil', 'Difícil', 'Fácil', 'Médio', 'Fácil', 'Fácil'],
+      ['Fácil', 'Fácil', 'Médio', 'Fácil', 'Fácil', 'Fácil', 'Difícil', 'Fácil', 'Médio', 'Difícil'],
+      ['Médio', 'Fácil', 'Fácil', 'Difícil', 'Fácil', 'Fácil', 'Médio', 'Fácil', 'Fácil', 'Fácil'],
+      ['Fácil', 'Fácil', 'Fácil', 'Médio', 'Difícil', 'Fácil', 'Fácil', 'Médio', 'Fácil', 'Difícil']
+    ];
+    
+    const randomPattern = patterns[Math.floor(Math.random() * patterns.length)];
+    return randomPattern as ('Fácil' | 'Médio' | 'Difícil')[];
   };
 
-  // Function to get topics based on difficulty (simplified)
-  const getTopicsForDifficulty = (difficulty: 'Fácil' | 'Difícil') => {
+  // Function to get topics based on difficulty
+  const getTopicsForDifficulty = (difficulty: 'Fácil' | 'Médio' | 'Difícil') => {
     const easyTopics = [
       'santos católicos básicos e suas vidas',
       'história básica da Igreja Católica',
@@ -65,6 +76,17 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
       'doutrina católica fundamental',
       'orações tradicionais básicas',
       'festividades litúrgicas principais'
+    ];
+
+    const mediumTopics = [
+      'sacramentos e sua teologia',
+      'vida dos papas importantes',
+      'história dos concílios',
+      'santos padroeiros e sua devoção',
+      'tradições litúrgicas específicas',
+      'escrituras sagradas e interpretação básica',
+      'virtudes teologais e cardeais',
+      'ordens religiosas importantes'
     ];
 
     const difficultTopics = [
@@ -80,108 +102,86 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
       'exegese bíblica católica'
     ];
 
-    return difficulty === 'Fácil' ? easyTopics : difficultTopics;
+    if (difficulty === 'Fácil') return easyTopics;
+    if (difficulty === 'Médio') return mediumTopics;
+    return difficultTopics;
   };
 
   const generateQuestions = async (phase: number) => {
     setLoading(true);
     
-    // Randomly choose difficulty for this set of questions
-    const difficulty = getRandomDifficulty();
-    setCurrentDifficulty(difficulty);
-    
     try {
-      const topics = getTopicsForDifficulty(difficulty);
-      const randomTopic = topics[Math.floor(Math.random() * topics.length)];
+      // Generate difficulty pattern for this phase
+      const pattern = generateDifficultyPattern();
+      setDifficultyPattern(pattern);
       
-      const prompt = `Gere exatamente 10 perguntas de múltipla escolha sobre ${randomTopic} para a fase ${phase} de um jogo católico. 
-      Dificuldade: ${difficulty}.
-      ${difficulty === 'Difícil' ? 'Inclua detalhes históricos específicos, datas importantes e conhecimento aprofundado que requer estudo especializado.' : 'Faça perguntas acessíveis para católicos em geral, com conhecimento básico da fé.'}
+      const allQuestions: Question[] = [];
       
-      Formato JSON:
-      {
-        "questions": [
-          {
-            "question": "pergunta aqui",
-            "options": ["opção 1", "opção 2", "opção 3", "opção 4"],
-            "correctAnswer": 0,
-            "explanation": "explicação detalhada da resposta correta"
-          }
-        ]
-      }
-      
-      Certifique-se de que as perguntas sejam educativas e apropriadas para católicos de todas as idades.`;
+      // Generate questions for each difficulty in the pattern
+      for (let i = 0; i < pattern.length; i++) {
+        const difficulty = pattern[i];
+        const topics = getTopicsForDifficulty(difficulty);
+        const randomTopic = topics[Math.floor(Math.random() * topics.length)];
+        
+        const prompt = `Gere exatamente 1 pergunta de múltipla escolha sobre ${randomTopic} para a fase ${phase} de um jogo católico. 
+        Dificuldade: ${difficulty}.
+        ${difficulty === 'Fácil' ? 'Faça perguntas acessíveis para católicos em geral, com conhecimento básico da fé.' : 
+          difficulty === 'Médio' ? 'Inclua conhecimento intermediário que católicos praticantes conhecem.' :
+          'Inclua detalhes históricos específicos, datas importantes e conhecimento aprofundado que requer estudo especializado.'
+        }
+        
+        Formato JSON:
+        {
+          "question": "pergunta aqui",
+          "options": ["opção 1", "opção 2", "opção 3", "opção 4"],
+          "correctAnswer": 0,
+          "explanation": "explicação detalhada da resposta correta"
+        }
+        
+        Certifique-se de que a pergunta seja educativa e apropriada para católicos de todas as idades.`;
 
-      console.log(`Gerando perguntas para fase ${phase} - Dificuldade: ${difficulty}`);
-
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyCBOdpOuYHal7QRi2se-_u9bwjidAVUBsY`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          contents: [{
-            parts: [{
-              text: prompt
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyCBOdpOuYHal7QRi2se-_u9bwjidAVUBsY`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            contents: [{
+              parts: [{
+                text: prompt
+              }]
             }]
-          }]
-        })
-      });
+          })
+        });
 
-      console.log('Resposta recebida:', response.status);
+        if (!response.ok) {
+          throw new Error(`API Error: ${response.status}`);
+        }
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error('Erro da API:', errorData);
-        throw new Error(`API Error: ${response.status} - ${errorData.error?.message || 'Erro desconhecido'}`);
+        const data = await response.json();
+        const generatedText = data.candidates[0].content.parts[0].text;
+        
+        // Extract JSON from the response
+        const jsonMatch = generatedText.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          const parsedQuestion = JSON.parse(jsonMatch[0]);
+          
+          if (!usedQuestions.has(parsedQuestion.question)) {
+            allQuestions.push(parsedQuestion);
+            setUsedQuestions(prev => new Set([...prev, parsedQuestion.question]));
+          }
+        }
       }
-
-      const data = await response.json();
-      console.log('Dados recebidos:', data);
-
-      if (!data.candidates || !data.candidates[0] || !data.candidates[0].content) {
-        throw new Error('Formato de resposta inválido da API');
-      }
-
-      const generatedText = data.candidates[0].content.parts[0].text;
-      console.log('Texto gerado:', generatedText);
       
-      // Extract JSON from the response
-      const jsonMatch = generatedText.match(/\{[\s\S]*\}/);
-      if (jsonMatch) {
-        const parsedData = JSON.parse(jsonMatch[0]);
-        
-        if (!parsedData.questions || !Array.isArray(parsedData.questions)) {
-          throw new Error('Formato de perguntas inválido');
-        }
-        
-        // Filter out used questions
-        const newQuestions = parsedData.questions.filter((q: Question) => 
-          !usedQuestions.has(q.question)
-        );
-        
-        if (newQuestions.length > 0) {
-          setQuestions(newQuestions);
-          // Add questions to used questions set
-          newQuestions.forEach((q: Question) => {
-            setUsedQuestions(prev => new Set([...prev, q.question]));
-          });
-          console.log(`${newQuestions.length} perguntas carregadas para a fase ${phase} - Dificuldade: ${difficulty}`);
-        } else {
-          // If all questions were used, clear some of the set and try again
-          console.log('Muitas perguntas já foram usadas, limpando parte do histórico...');
-          const usedArray = Array.from(usedQuestions);
-          const keepRecent = usedArray.slice(-500); // Keep only last 500 questions
-          setUsedQuestions(new Set(keepRecent));
-          await generateQuestions(phase);
-          return;
-        }
+      if (allQuestions.length > 0) {
+        setQuestions(allQuestions);
+        console.log(`${allQuestions.length} perguntas carregadas para a fase ${phase} com padrão misto de dificuldade`);
       } else {
-        throw new Error('Não foi possível extrair JSON da resposta');
+        throw new Error('Nenhuma pergunta nova foi gerada');
       }
     } catch (error) {
       console.error('Error generating questions:', error);
-      toast.error('Erro ao carregar perguntas. Tentando novamente...');
+      toast.error('Erro ao carregar perguntas. Usando perguntas de fallback...');
       
       // Fallback: use predefined questions if API fails
       const fallbackQuestions: Question[] = [
@@ -198,16 +198,15 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
           explanation: "São sete os sacramentos: Batismo, Confirmação, Eucaristia, Penitência, Unção dos Enfermos, Ordem e Matrimônio."
         },
         {
-          question: "Qual é a oração mais importante do cristianismo?",
-          options: ["Ave Maria", "Pai Nosso", "Credo", "Glória"],
+          question: "Em que ano foi realizado o Concílio Vaticano II?",
+          options: ["1960-1963", "1962-1965", "1965-1968", "1958-1961"],
           correctAnswer: 1,
-          explanation: "O Pai Nosso é a oração que Jesus Cristo ensinou aos seus discípulos, sendo considerada a oração fundamental do cristianismo."
+          explanation: "O Concílio Vaticano II foi realizado entre 1962 e 1965, sendo um dos mais importantes concílios da Igreja Católica."
         }
       ];
       
       setQuestions(fallbackQuestions);
-      setCurrentDifficulty('Fácil');
-      console.log('Usando perguntas de fallback');
+      setDifficultyPattern(['Fácil', 'Fácil', 'Médio']);
     }
     setLoading(false);
   };
@@ -216,6 +215,13 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
     generateQuestions(currentPhase);
   }, [currentPhase]);
 
+  // Update current difficulty based on the question being shown
+  useEffect(() => {
+    if (difficultyPattern.length > 0 && currentQuestion < difficultyPattern.length) {
+      setCurrentDifficulty(difficultyPattern[currentQuestion]);
+    }
+  }, [currentQuestion, difficultyPattern]);
+
   const handleAnswerSelect = (answerIndex: number) => {
     if (selectedAnswer !== null) return;
     
@@ -223,9 +229,11 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
     const currentQ = questions[currentQuestion];
     
     if (answerIndex === currentQ.correctAnswer) {
-      setScore(prev => prev + 1);
+      // Different points based on difficulty
+      const points = currentDifficulty === 'Fácil' ? 1 : currentDifficulty === 'Médio' ? 2 : 3;
+      setScore(prev => prev + points);
       setAvatarAnimation('correct');
-      toast.success('Resposta correta! +1 ponto');
+      toast.success(`Resposta correta! +${points} ponto${points > 1 ? 's' : ''}`);
     } else {
       setAvatarAnimation('wrong');
       toast.error('Resposta incorreta!');
@@ -266,7 +274,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
           <p className="text-white">Carregando perguntas da fase {currentPhase}...</p>
-          <p className="text-blue-300 text-sm mt-2">Dificuldade: {currentDifficulty}</p>
+          <p className="text-blue-300 text-sm mt-2">Preparando mix de dificuldades...</p>
         </div>
       </div>
     );
@@ -367,11 +375,14 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
                   <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
                     currentDifficulty === 'Fácil' 
                       ? 'bg-green-600 text-green-100' 
-                      : 'bg-red-600 text-red-100'
+                      : currentDifficulty === 'Médio'
+                        ? 'bg-yellow-600 text-yellow-100'
+                        : 'bg-red-600 text-red-100'
                   }`}>
                     {currentDifficulty}
                   </span>
                   <span className="text-blue-300 text-sm">Fase {currentPhase}</span>
+                  <span className="text-slate-400 text-sm">({currentQuestion + 1}/10)</span>
                 </div>
                 
                 <h2 className="text-xl font-bold text-white text-center">
