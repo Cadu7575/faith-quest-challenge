@@ -65,7 +65,7 @@ const QuizGame = ({ avatar }: QuizGameProps) => {
 
       console.log('Enviando requisição para Gemini API...');
 
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyCKFcRpG7OB7gh8wKy6-tpZsfmh-DEgZbY`, {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyCBOdpOuYHal7QRi2se-_u9bwjidAVUBsY`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
