@@ -1,5 +1,4 @@
-
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { toast } from 'sonner';
 
 interface Avatar {
@@ -41,6 +40,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
   const [currentDifficulty, setCurrentDifficulty] = useState<'Fácil' | 'Médio' | 'Difícil'>('Fácil');
   const [difficultyPattern, setDifficultyPattern] = useState<('Fácil' | 'Médio' | 'Difícil')[]>([]);
   const [currentApiKeyIndex, setCurrentApiKeyIndex] = useState(0);
+  const [isGenerating, setIsGenerating] = useState(false);
 
   // Array de chaves API para rotação
   const apiKeys = [
@@ -60,7 +60,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
   }, [currentPhase, score, currentQuestion, avatar, onProgressUpdate]);
 
   // Function to generate a mixed difficulty pattern for 10 questions
-  const generateDifficultyPattern = () => {
+  const generateDifficultyPattern = useCallback(() => {
     const patterns = [
       ['Fácil', 'Fácil', 'Fácil', 'Fácil', 'Médio', 'Fácil', 'Difícil', 'Fácil', 'Médio', 'Fácil'],
       ['Fácil', 'Médio', 'Fácil', 'Fácil', 'Fácil', 'Difícil', 'Fácil', 'Médio', 'Fácil', 'Fácil'],
@@ -71,10 +71,10 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
     
     const randomPattern = patterns[Math.floor(Math.random() * patterns.length)];
     return randomPattern as ('Fácil' | 'Médio' | 'Difícil')[];
-  };
+  }, []);
 
   // Function to get topics based on difficulty
-  const getTopicsForDifficulty = (difficulty: 'Fácil' | 'Médio' | 'Difícil') => {
+  const getTopicsForDifficulty = useCallback((difficulty: 'Fácil' | 'Médio' | 'Difícil') => {
     const easyTopics = [
       'santos católicos básicos e suas vidas',
       'história básica da Igreja Católica',
@@ -111,9 +111,12 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
     if (difficulty === 'Fácil') return easyTopics;
     if (difficulty === 'Médio') return mediumTopics;
     return difficultTopics;
-  };
+  }, []);
 
-  const generateQuestions = async (phase: number) => {
+  const generateQuestions = useCallback(async (phase: number) => {
+    if (isGenerating) return;
+    
+    setIsGenerating(true);
     setLoading(true);
     
     try {
@@ -186,6 +189,10 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
                 questionGenerated = true;
               }
             }
+            
+            // Add delay between requests to avoid rate limiting
+            await new Promise(resolve => setTimeout(resolve, 200));
+            
           } catch (error) {
             console.error(`Erro com API key ${currentApiKeyIndex}:`, error);
             
@@ -240,12 +247,17 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
       setQuestions(fallbackQuestions);
       setDifficultyPattern(['Fácil', 'Fácil', 'Médio']);
     }
+    
     setLoading(false);
-  };
+    setIsGenerating(false);
+  }, [isGenerating, generateDifficultyPattern, getTopicsForDifficulty, currentApiKeyIndex, usedQuestions, apiKeys]);
 
+  // Only generate questions when phase changes and not already generating
   useEffect(() => {
-    generateQuestions(currentPhase);
-  }, [currentPhase]);
+    if (!isGenerating && questions.length === 0) {
+      generateQuestions(currentPhase);
+    }
+  }, [currentPhase, generateQuestions, isGenerating, questions.length]);
 
   // Update current difficulty based on the question being shown
   useEffect(() => {
@@ -293,6 +305,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
         setSelectedAnswer(null);
         setShowExplanation(false);
         setAvatarAnimation('idle');
+        setQuestions([]); // Clear questions to trigger new generation
         toast.success(`Fase ${currentPhase} concluída! Avançando para a fase ${currentPhase + 1}`);
       } else {
         toast.success(`Parabéns! Você completou todas as 100 fases com ${score} pontos! Você é um verdadeiro mestre da fé católica!`);
