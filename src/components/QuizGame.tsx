@@ -1,5 +1,7 @@
+
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { toast } from 'sonner';
+import { getQuestionsForPattern } from '../data/questions';
 
 interface Avatar {
   gender: 'boy' | 'girl';
@@ -35,14 +37,9 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
   const [loading, setLoading] = useState(false);
   const [showExplanation, setShowExplanation] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
-  const [usedQuestions, setUsedQuestions] = useState<Set<string>>(new Set());
   const [avatarAnimation, setAvatarAnimation] = useState<'idle' | 'correct' | 'wrong'>('idle');
   const [currentDifficulty, setCurrentDifficulty] = useState<'Fácil' | 'Médio' | 'Difícil'>('Fácil');
   const [difficultyPattern, setDifficultyPattern] = useState<('Fácil' | 'Médio' | 'Difícil')[]>([]);
-  const [isGenerating, setIsGenerating] = useState(false);
-
-  // Nova API key fornecida pelo usuário
-  const apiKey = 'AIzaSyCHGe5lPFUUF0LpHSm9kOvKcdQu0lHjFDY';
 
   // Memoize the progress object to prevent unnecessary re-renders
   const gameProgress = useMemo(() => ({
@@ -78,58 +75,10 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
     return randomPattern as ('Fácil' | 'Médio' | 'Difícil')[];
   }, []);
 
-  // Function to get topics based on difficulty
-  const getTopicsForDifficulty = useCallback((difficulty: 'Fácil' | 'Médio' | 'Difícil') => {
-    const easyTopics = [
-      'santos católicos básicos e suas vidas',
-      'história básica da Igreja Católica',
-      'milagres eucarísticos famosos',
-      'doutrina católica fundamental',
-      'orações tradicionais básicas',
-      'festividades litúrgicas principais'
-    ];
-
-    const mediumTopics = [
-      'sacramentos e sua teologia',
-      'vida dos papas importantes',
-      'história dos concílios',
-      'santos padroeiros e sua devoção',
-      'tradições litúrgicas específicas',
-      'escrituras sagradas e interpretação básica',
-      'virtudes teologais e cardeais',
-      'ordens religiosas importantes'
-    ];
-
-    const difficultTopics = [
-      'concílios ecumênicos e decisões dogmáticas',
-      'teologia católica avançada',
-      'santos doutores da Igreja',
-      'encíclicas papais importantes',
-      'patrística e Padres da Igreja',
-      'mariologia e dogmas marianos',
-      'teologia moral complexa',
-      'filosofia escolástica',
-      'direito canônico',
-      'exegese bíblica católica'
-    ];
-
-    if (difficulty === 'Fácil') return easyTopics;
-    if (difficulty === 'Médio') return mediumTopics;
-    return difficultTopics;
-  }, []);
-
-  const generateQuestions = useCallback(async (phase: number) => {
-    console.log(`=== INICIANDO GERAÇÃO DE PERGUNTAS ===`);
+  const loadQuestions = useCallback((phase: number) => {
+    console.log(`=== CARREGANDO PERGUNTAS ===`);
     console.log(`Fase: ${phase}`);
-    console.log(`isGenerating: ${isGenerating}`);
-    console.log(`API Key: ${apiKey.substring(0, 10)}...`);
     
-    if (isGenerating) {
-      console.log('❌ Já está gerando perguntas, cancelando...');
-      return;
-    }
-    
-    setIsGenerating(true);
     setLoading(true);
     
     try {
@@ -138,165 +87,35 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
       setDifficultyPattern(pattern);
       console.log('✅ Padrão de dificuldade gerado:', pattern);
       
-      const allQuestions: Question[] = [];
+      // Get questions based on the pattern
+      const phaseQuestions = getQuestionsForPattern(pattern);
       
-      // Generate questions for each difficulty in the pattern
-      for (let i = 0; i < pattern.length; i++) {
-        const difficulty = pattern[i];
-        const topics = getTopicsForDifficulty(difficulty);
-        const randomTopic = topics[Math.floor(Math.random() * topics.length)];
-        
-        console.log(`\n--- Pergunta ${i + 1}/10 ---`);
-        console.log(`Dificuldade: ${difficulty}`);
-        console.log(`Tópico: ${randomTopic}`);
-        
-        const prompt = `Gere exatamente 1 pergunta de múltipla escolha sobre ${randomTopic} para a fase ${phase} de um jogo católico. 
-        Dificuldade: ${difficulty}.
-        ${difficulty === 'Fácil' ? 'Faça perguntas acessíveis para católicos em geral, com conhecimento básico da fé.' : 
-          difficulty === 'Médio' ? 'Inclua conhecimento intermediário que católicos praticantes conhecem.' :
-          'Inclua detalhes históricos específicos, datas importantes e conhecimento aprofundado que requer estudo especializado.'
-        }
-        
-        Formato JSON:
-        {
-          "question": "pergunta aqui",
-          "options": ["opção 1", "opção 2", "opção 3", "opção 4"],
-          "correctAnswer": 0,
-          "explanation": "explicação detalhada da resposta correta"
-        }
-        
-        Certifique-se de que a pergunta seja educativa e apropriada para católicos de todas as idades.`;
-
-        try {
-          console.log('🔄 Fazendo requisição para API...');
-          
-          const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              contents: [{
-                parts: [{
-                  text: prompt
-                }]
-              }]
-            })
-          });
-
-          console.log(`📊 Status da resposta: ${response.status}`);
-          console.log(`📊 Status text: ${response.statusText}`);
-
-          if (!response.ok) {
-            const errorText = await response.text();
-            console.error(`❌ Erro da API:`, {
-              status: response.status,
-              statusText: response.statusText,
-              body: errorText
-            });
-            
-            // Log detalhado do erro para debug
-            if (response.status === 429) {
-              console.error('🚫 ERRO 429: Quota excedida ou muitas requisições');
-            } else if (response.status === 403) {
-              console.error('🚫 ERRO 403: API key inválida ou sem permissão');
-            } else if (response.status === 400) {
-              console.error('🚫 ERRO 400: Requisição malformada');
-            }
-            
-            throw new Error(`API Error: ${response.status} - ${errorText}`);
-          }
-
-          const data = await response.json();
-          console.log('✅ Resposta da API recebida:', data);
-          
-          const generatedText = data.candidates[0].content.parts[0].text;
-          console.log('📝 Texto gerado:', generatedText);
-          
-          // Extract JSON from the response
-          const jsonMatch = generatedText.match(/\{[\s\S]*\}/);
-          if (jsonMatch) {
-            const parsedQuestion = JSON.parse(jsonMatch[0]);
-            console.log('✅ Pergunta parseada:', parsedQuestion);
-            
-            if (!usedQuestions.has(parsedQuestion.question)) {
-              allQuestions.push(parsedQuestion);
-              setUsedQuestions(prev => new Set([...prev, parsedQuestion.question]));
-              console.log(`✅ Pergunta ${i + 1} adicionada com sucesso`);
-            } else {
-              console.log('⚠️ Pergunta já foi usada, mas continuando...');
-              allQuestions.push(parsedQuestion); // Adiciona mesmo assim para não travar
-            }
-          } else {
-            console.error('❌ Não foi possível extrair JSON da resposta:', generatedText);
-            throw new Error('Resposta da API não contém JSON válido');
-          }
-          
-        } catch (error) {
-          console.error(`❌ Erro ao gerar pergunta ${i + 1}:`, error);
-          throw error; // Re-throw para ser capturado pelo catch principal
-        }
-
-        // Add delay between questions to avoid rate limiting
-        if (i < pattern.length - 1) {
-          console.log('⏳ Aguardando 1 segundo antes da próxima pergunta...');
-          await new Promise(resolve => setTimeout(resolve, 1000));
-        }
-      }
-      
-      if (allQuestions.length > 0) {
-        setQuestions(allQuestions);
-        console.log(`✅ ${allQuestions.length} perguntas carregadas com sucesso para a fase ${phase}`);
-        toast.success(`${allQuestions.length} perguntas carregadas para a fase ${phase}!`);
+      if (phaseQuestions.length > 0) {
+        setQuestions(phaseQuestions);
+        console.log(`✅ ${phaseQuestions.length} perguntas carregadas com sucesso para a fase ${phase}`);
+        toast.success(`${phaseQuestions.length} perguntas carregadas para a fase ${phase}!`);
       } else {
-        throw new Error('Nenhuma pergunta foi gerada');
+        throw new Error('Nenhuma pergunta foi carregada');
       }
       
     } catch (error) {
-      console.error('❌ ERRO GERAL na geração de perguntas:', error);
-      toast.error('Erro ao carregar perguntas. Usando perguntas de fallback...');
-      
-      // Fallback: use predefined questions if API fails
-      const fallbackQuestions: Question[] = [
-        {
-          question: "Qual é o padroeiro do Brasil?",
-          options: ["São Pedro", "Nossa Senhora Aparecida", "São Francisco", "Santo Antônio"],
-          correctAnswer: 1,
-          explanation: "Nossa Senhora Aparecida é a padroeira do Brasil, proclamada pelo Papa Pio XI em 1930."
-        },
-        {
-          question: "Quantos sacramentos existem na Igreja Católica?",
-          options: ["5", "6", "7", "8"],
-          correctAnswer: 2,
-          explanation: "São sete os sacramentos: Batismo, Confirmação, Eucaristia, Penitência, Unção dos Enfermos, Ordem e Matrimônio."
-        },
-        {
-          question: "Em que ano foi realizado o Concílio Vaticano II?",
-          options: ["1960-1963", "1962-1965", "1965-1968", "1958-1961"],
-          correctAnswer: 1,
-          explanation: "O Concílio Vaticano II foi realizado entre 1962 e 1965, sendo um dos mais importantes concílios da Igreja Católica."
-        }
-      ];
-      
-      setQuestions(fallbackQuestions);
-      setDifficultyPattern(['Fácil', 'Fácil', 'Médio']);
-      console.log('⚠️ Usando perguntas de fallback');
+      console.error('❌ ERRO ao carregar perguntas:', error);
+      toast.error('Erro ao carregar perguntas.');
     } finally {
       setLoading(false);
-      setIsGenerating(false);
-      console.log('=== GERAÇÃO DE PERGUNTAS FINALIZADA ===\n');
+      console.log('=== CARREGAMENTO DE PERGUNTAS FINALIZADO ===\n');
     }
-  }, [isGenerating, generateDifficultyPattern, getTopicsForDifficulty, usedQuestions, apiKey]);
+  }, [generateDifficultyPattern]);
 
-  // Generate questions only when needed
+  // Load questions when phase changes
   useEffect(() => {
-    console.log(`useEffect monitoramento - Fase: ${currentPhase}, Questions: ${questions.length}, isGenerating: ${isGenerating}`);
+    console.log(`useEffect monitoramento - Fase: ${currentPhase}, Questions: ${questions.length}`);
     
-    if (!isGenerating && questions.length === 0) {
-      console.log('🚀 Disparando geração de perguntas...');
-      generateQuestions(currentPhase);
+    if (questions.length === 0) {
+      console.log('🚀 Disparando carregamento de perguntas...');
+      loadQuestions(currentPhase);
     }
-  }, [currentPhase, generateQuestions, isGenerating, questions.length]);
+  }, [currentPhase, loadQuestions, questions.length]);
 
   // Update current difficulty based on the question being shown
   useEffect(() => {
