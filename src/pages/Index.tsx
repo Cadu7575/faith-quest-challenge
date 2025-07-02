@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import LoadingScreen from '../components/LoadingScreen';
 import AvatarSelection from '../components/AvatarSelection';
 import QuizGame from '../components/QuizGame';
@@ -60,10 +60,12 @@ const Index = () => {
     setGameState('playing');
   };
 
-  const handleProgressUpdate = (progress: GameProgress) => {
+  // Memoize the progress update function to prevent infinite loops
+  const handleProgressUpdate = useCallback((progress: GameProgress) => {
+    console.log('Progress update called:', progress);
     setGameProgress(progress);
     localStorage.setItem('quiz-progress', JSON.stringify(progress));
-  };
+  }, []);
 
   if (gameState === 'loading') {
     return <LoadingScreen onComplete={handleLoadingComplete} />;

@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback } from 'react';
+
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { toast } from 'sonner';
 
 interface Avatar {
@@ -47,17 +48,25 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
     'AIzaSyCHGe5lPFUUF0LpHSm9kOvKcdQu0lHjFDY'
   ];
 
-  // Update progress in parent component whenever state changes
-  useEffect(() => {
+  // Memoize the progress object to prevent unnecessary re-renders
+  const gameProgress = useMemo(() => ({
+    avatar,
+    currentPhase,
+    score,
+    currentQuestion
+  }), [avatar, currentPhase, score, currentQuestion]);
+
+  // Update progress in parent component with a ref to prevent loops
+  const updateProgress = useCallback(() => {
     if (onProgressUpdate) {
-      onProgressUpdate({
-        avatar,
-        currentPhase,
-        score,
-        currentQuestion
-      });
+      onProgressUpdate(gameProgress);
     }
-  }, [currentPhase, score, currentQuestion, avatar, onProgressUpdate]);
+  }, [onProgressUpdate, gameProgress]);
+
+  // Only update progress when game state actually changes
+  useEffect(() => {
+    updateProgress();
+  }, [updateProgress]);
 
   // Function to generate a mixed difficulty pattern for 10 questions
   const generateDifficultyPattern = useCallback(() => {
@@ -114,15 +123,22 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
   }, []);
 
   const generateQuestions = useCallback(async (phase: number) => {
-    if (isGenerating) return;
+    console.log(`Iniciando geração de perguntas para fase ${phase}, isGenerating: ${isGenerating}`);
+    
+    if (isGenerating) {
+      console.log('Já está gerando perguntas, pulando...');
+      return;
+    }
     
     setIsGenerating(true);
     setLoading(true);
+    console.log('Estado de geração definido como true');
     
     try {
       // Generate difficulty pattern for this phase
       const pattern = generateDifficultyPattern();
       setDifficultyPattern(pattern);
+      console.log('Padrão de dificuldade gerado:', pattern);
       
       const allQuestions: Question[] = [];
       
@@ -131,6 +147,8 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
         const difficulty = pattern[i];
         const topics = getTopicsForDifficulty(difficulty);
         const randomTopic = topics[Math.floor(Math.random() * topics.length)];
+        
+        console.log(`Gerando pergunta ${i + 1}/10 - Dificuldade: ${difficulty}, Tópico: ${randomTopic}`);
         
         const prompt = `Gere exatamente 1 pergunta de múltipla escolha sobre ${randomTopic} para a fase ${phase} de um jogo católico. 
         Dificuldade: ${difficulty}.
@@ -156,6 +174,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
         while (!questionGenerated && attempts < maxAttempts) {
           try {
             const currentApiKey = apiKeys[currentApiKeyIndex];
+            console.log(`Tentativa ${attempts + 1} com API key index ${currentApiKeyIndex}`);
             
             const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${currentApiKey}`, {
               method: 'POST',
@@ -172,26 +191,38 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
             });
 
             if (!response.ok) {
-              throw new Error(`API Error: ${response.status}`);
+              const errorText = await response.text();
+              console.error(`API Error ${response.status}:`, errorText);
+              throw new Error(`API Error: ${response.status} - ${errorText}`);
             }
 
             const data = await response.json();
+            console.log('Resposta da API recebida:', data);
+            
             const generatedText = data.candidates[0].content.parts[0].text;
             
             // Extract JSON from the response
             const jsonMatch = generatedText.match(/\{[\s\S]*\}/);
             if (jsonMatch) {
               const parsedQuestion = JSON.parse(jsonMatch[0]);
+              console.log('Pergunta parseada:', parsedQuestion);
               
               if (!usedQuestions.has(parsedQuestion.question)) {
                 allQuestions.push(parsedQuestion);
                 setUsedQuestions(prev => new Set([...prev, parsedQuestion.question]));
                 questionGenerated = true;
+                console.log(`Pergunta ${i + 1} gerada com sucesso`);
+              } else {
+                console.log('Pergunta já foi usada, tentando novamente...');
               }
+            } else {
+              console.error('Não foi possível extrair JSON da resposta:', generatedText);
             }
             
             // Add delay between requests to avoid rate limiting
-            await new Promise(resolve => setTimeout(resolve, 200));
+            if (!questionGenerated) {
+              await new Promise(resolve => setTimeout(resolve, 1000));
+            }
             
           } catch (error) {
             console.error(`Erro com API key ${currentApiKeyIndex}:`, error);
@@ -202,19 +233,26 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
             
             if (attempts < maxAttempts) {
               console.log(`Tentando com próxima API key (${currentApiKeyIndex})...`);
-              await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1 second before retry
+              await new Promise(resolve => setTimeout(resolve, 2000)); // Wait 2 seconds before retry
             }
           }
         }
 
         if (!questionGenerated) {
+          console.error(`Falha ao gerar pergunta ${i + 1} após ${maxAttempts} tentativas`);
           throw new Error('Todas as API keys falharam');
+        }
+
+        // Add delay between questions
+        if (i < pattern.length - 1) {
+          await new Promise(resolve => setTimeout(resolve, 500));
         }
       }
       
       if (allQuestions.length > 0) {
         setQuestions(allQuestions);
-        console.log(`${allQuestions.length} perguntas carregadas para a fase ${phase} com padrão misto de dificuldade`);
+        console.log(`${allQuestions.length} perguntas carregadas com sucesso para a fase ${phase}`);
+        toast.success(`${allQuestions.length} perguntas carregadas para a fase ${phase}!`);
       } else {
         throw new Error('Nenhuma pergunta nova foi gerada');
       }
@@ -246,15 +284,19 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
       
       setQuestions(fallbackQuestions);
       setDifficultyPattern(['Fácil', 'Fácil', 'Médio']);
+    } finally {
+      setLoading(false);
+      setIsGenerating(false);
+      console.log('Geração de perguntas finalizada');
     }
-    
-    setLoading(false);
-    setIsGenerating(false);
   }, [isGenerating, generateDifficultyPattern, getTopicsForDifficulty, currentApiKeyIndex, usedQuestions, apiKeys]);
 
-  // Only generate questions when phase changes and not already generating
+  // Generate questions only when needed
   useEffect(() => {
+    console.log(`useEffect chamado - Fase: ${currentPhase}, Questions length: ${questions.length}, isGenerating: ${isGenerating}`);
+    
     if (!isGenerating && questions.length === 0) {
+      console.log('Iniciando geração de perguntas...');
       generateQuestions(currentPhase);
     }
   }, [currentPhase, generateQuestions, isGenerating, questions.length]);
