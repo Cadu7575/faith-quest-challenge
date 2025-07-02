@@ -1,4 +1,5 @@
 
+
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 
@@ -286,7 +287,7 @@ const QuizGame = ({ avatar }: QuizGameProps) => {
           <div className="flex items-center gap-4">
             <div className="relative">
               <img 
-                src="/lovable-uploads/a6371fe2-8d4e-4de4-835f-970a32b7024a.png" 
+                src="/lovable-uploads/ebf9a6d5-503e-4a4a-813b-cab50ba45b0e.png" 
                 alt="Carlo Acutis" 
                 className="w-12 h-12 rounded-full border-2 border-blue-300"
                 style={{
@@ -450,3 +451,4 @@ const QuizGame = ({ avatar }: QuizGameProps) => {
 };
 
 export default QuizGame;
+
