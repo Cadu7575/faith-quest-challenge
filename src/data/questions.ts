@@ -100,7 +100,7 @@ export const easyQuestions: Question[] = [
     question: "Qual é o nome do pai terreno de Jesus?",
     options: ["José", "João", "Pedro", "André"],
     correctAnswer: 0,
-    explanation: "José foi o pai terreno de Jesus, esposo de Maria Santíssima."
+    explanation: "José foi o pai terreno de Jesus, esposa de Maria Santíssima."
   },
   {
     question: "Em que idade Jesus começou sua vida pública?",
@@ -911,7 +911,7 @@ export const mediumQuestions: Question[] = [
   }
 ];
 
-export const difficultQuestions: Question[] = [
+export const hardQuestions: Question[] = [
   {
     question: "Qual foi o tema central do Concílio de Trento (1545-1563)?",
     options: ["Reforma protestante", "Questões marianas", "Liturgia", "Missões"],
@@ -985,10 +985,10 @@ export const difficultQuestions: Question[] = [
     explanation: "A Controvérsia de Auxiliis debateu a relação entre graça divina e livre arbítrio."
   },
   {
-    question: "Qual teólogo desenvolveu a teoria da dupla predestinação?",
+    question: "Qual teólogo desenvolveu a teoria do probabilismo?",
     options: ["João Calvino", "Martinho Lutero", "Ulrico Zuínglio", "John Knox"],
     correctAnswer: 0,
-    explanation: "João Calvino desenvolveu a controvertida teoria da dupla predestinação."
+    explanation: "João Calvino desenvolveu a controvertida teoria do probabilismo."
   },
   {
     question: "Em que concílio foi definida a processão do Espírito Santo?",
@@ -1094,7 +1094,7 @@ export const getRandomQuestions = (difficulty: 'Fácil' | 'Médio' | 'Difícil',
       questionPool = [...mediumQuestions];
       break;
     case 'Difícil':
-      questionPool = [...difficultQuestions];
+      questionPool = [...hardQuestions];
       break;
     default:
       questionPool = [...easyQuestions];
@@ -1106,15 +1106,52 @@ export const getRandomQuestions = (difficulty: 'Fácil' | 'Médio' | 'Difícil',
 };
 
 // Função para obter perguntas seguindo um padrão de dificuldade
-export const getQuestionsForPattern = (pattern: ('Fácil' | 'Médio' | 'Difícil')[]): Question[] => {
-  const questions: Question[] = [];
+export const getQuestionsForPattern = (
+  pattern: ('Fácil' | 'Médio' | 'Difícil')[],
+  usedQuestions: UsedQuestions = { easy: [], medium: [], hard: [] }
+): (Question & { originalIndex: number })[] => {
+  const result: (Question & { originalIndex: number })[] = [];
   
-  pattern.forEach(difficulty => {
-    const randomQuestions = getRandomQuestions(difficulty, 1);
-    if (randomQuestions.length > 0) {
-      questions.push(randomQuestions[0]);
+  console.log('🎯 Selecionando perguntas para o padrão:', pattern);
+  console.log('📝 Perguntas já utilizadas:', usedQuestions);
+  
+  pattern.forEach((difficulty, patternIndex) => {
+    let questionPool: Question[];
+    let usedIndexes: number[];
+    
+    if (difficulty === 'Fácil') {
+      questionPool = easyQuestions;
+      usedIndexes = usedQuestions.easy;
+    } else if (difficulty === 'Médio') {
+      questionPool = mediumQuestions;
+      usedIndexes = usedQuestions.medium;
+    } else {
+      questionPool = hardQuestions;
+      usedIndexes = usedQuestions.hard;
+    }
+    
+    // Get available questions (not used yet)
+    const availableIndexes = questionPool
+      .map((_, index) => index)
+      .filter(index => !usedIndexes.includes(index));
+    
+    console.log(`${difficulty}: ${availableIndexes.length} perguntas disponíveis de ${questionPool.length} total`);
+    
+    // If no questions available, reset the used questions for this difficulty
+    if (availableIndexes.length === 0) {
+      console.log(`⚠️ Todas as perguntas ${difficulty.toLowerCase()} foram utilizadas. Resetando...`);
+      const randomIndex = Math.floor(Math.random() * questionPool.length);
+      const selectedQuestion = questionPool[randomIndex];
+      result.push({ ...selectedQuestion, originalIndex: randomIndex });
+    } else {
+      // Select a random question from available ones
+      const randomAvailableIndex = Math.floor(Math.random() * availableIndexes.length);
+      const selectedIndex = availableIndexes[randomAvailableIndex];
+      const selectedQuestion = questionPool[selectedIndex];
+      result.push({ ...selectedQuestion, originalIndex: selectedIndex });
     }
   });
   
-  return questions;
+  console.log(`✅ ${result.length} perguntas selecionadas sem repetição`);
+  return result;
 };

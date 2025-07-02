@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { toast } from 'sonner';
 import { getQuestionsForPattern } from '../data/questions';
@@ -21,6 +20,11 @@ interface GameProgress {
   currentPhase: number;
   score: number;
   currentQuestion: number;
+  usedQuestions?: {
+    easy: number[];
+    medium: number[];
+    hard: number[];
+  };
 }
 
 interface QuizGameProps {
@@ -40,14 +44,20 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
   const [avatarAnimation, setAvatarAnimation] = useState<'idle' | 'correct' | 'wrong'>('idle');
   const [currentDifficulty, setCurrentDifficulty] = useState<'Fácil' | 'Médio' | 'Difícil'>('Fácil');
   const [difficultyPattern, setDifficultyPattern] = useState<('Fácil' | 'Médio' | 'Difícil')[]>([]);
+  const [usedQuestions, setUsedQuestions] = useState<{
+    easy: number[];
+    medium: number[];
+    hard: number[];
+  }>(initialProgress?.usedQuestions || { easy: [], medium: [], hard: [] });
 
   // Memoize the progress object to prevent unnecessary re-renders
   const gameProgress = useMemo(() => ({
     avatar,
     currentPhase,
     score,
-    currentQuestion
-  }), [avatar, currentPhase, score, currentQuestion]);
+    currentQuestion,
+    usedQuestions
+  }), [avatar, currentPhase, score, currentQuestion, usedQuestions]);
 
   // Update progress in parent component with a ref to prevent loops
   const updateProgress = useCallback(() => {
@@ -78,6 +88,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
   const loadQuestions = useCallback((phase: number) => {
     console.log(`=== CARREGANDO PERGUNTAS ===`);
     console.log(`Fase: ${phase}`);
+    console.log('Perguntas já utilizadas:', usedQuestions);
     
     setLoading(true);
     
@@ -87,12 +98,31 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
       setDifficultyPattern(pattern);
       console.log('✅ Padrão de dificuldade gerado:', pattern);
       
-      // Get questions based on the pattern
-      const phaseQuestions = getQuestionsForPattern(pattern);
+      // Get questions based on the pattern, avoiding used questions
+      const phaseQuestions = getQuestionsForPattern(pattern, usedQuestions);
       
       if (phaseQuestions.length > 0) {
         setQuestions(phaseQuestions);
+        
+        // Update used questions list
+        const newUsedQuestions = { ...usedQuestions };
+        phaseQuestions.forEach((_, index) => {
+          const difficulty = pattern[index];
+          const questionIndex = phaseQuestions[index].originalIndex;
+          
+          if (difficulty === 'Fácil') {
+            newUsedQuestions.easy.push(questionIndex);
+          } else if (difficulty === 'Médio') {
+            newUsedQuestions.medium.push(questionIndex);
+          } else {
+            newUsedQuestions.hard.push(questionIndex);
+          }
+        });
+        
+        setUsedQuestions(newUsedQuestions);
+        
         console.log(`✅ ${phaseQuestions.length} perguntas carregadas com sucesso para a fase ${phase}`);
+        console.log('Novas perguntas utilizadas:', newUsedQuestions);
         toast.success(`${phaseQuestions.length} perguntas carregadas para a fase ${phase}!`);
       } else {
         throw new Error('Nenhuma pergunta foi carregada');
@@ -105,7 +135,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
       setLoading(false);
       console.log('=== CARREGAMENTO DE PERGUNTAS FINALIZADO ===\n');
     }
-  }, [generateDifficultyPattern]);
+  }, [generateDifficultyPattern, usedQuestions]);
 
   // Load questions when phase changes
   useEffect(() => {
@@ -177,7 +207,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
           <p className="text-white">Carregando perguntas da fase {currentPhase}...</p>
-          <p className="text-blue-300 text-sm mt-2">Preparando mix de dificuldades...</p>
+          <p className="text-blue-300 text-sm mt-2">Evitando perguntas repetidas...</p>
         </div>
       </div>
     );
