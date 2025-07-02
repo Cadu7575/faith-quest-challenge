@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 
@@ -40,6 +39,12 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
   const [avatarAnimation, setAvatarAnimation] = useState<'idle' | 'correct' | 'wrong'>('idle');
   const [currentDifficulty, setCurrentDifficulty] = useState<'Fácil' | 'Médio' | 'Difícil'>('Fácil');
   const [difficultyPattern, setDifficultyPattern] = useState<('Fácil' | 'Médio' | 'Difícil')[]>([]);
+  const [currentApiKeyIndex, setCurrentApiKeyIndex] = useState(0);
+
+  // Array de chaves API para rotação
+  const apiKeys = [
+    'AIzaSyCzZYJc8PNmfKsSIuajC4K-JbqwQHhc500'
+  ];
 
   // Update progress in parent component whenever state changes
   useEffect(() => {
@@ -140,36 +145,62 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
         
         Certifique-se de que a pergunta seja educativa e apropriada para católicos de todas as idades.`;
 
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyCBOdpOuYHal7QRi2se-_u9bwjidAVUBsY`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            contents: [{
-              parts: [{
-                text: prompt
-              }]
-            }]
-          })
-        });
+        let questionGenerated = false;
+        let attempts = 0;
+        const maxAttempts = apiKeys.length;
 
-        if (!response.ok) {
-          throw new Error(`API Error: ${response.status}`);
+        while (!questionGenerated && attempts < maxAttempts) {
+          try {
+            const currentApiKey = apiKeys[currentApiKeyIndex];
+            
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${currentApiKey}`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                contents: [{
+                  parts: [{
+                    text: prompt
+                  }]
+                }]
+              })
+            });
+
+            if (!response.ok) {
+              throw new Error(`API Error: ${response.status}`);
+            }
+
+            const data = await response.json();
+            const generatedText = data.candidates[0].content.parts[0].text;
+            
+            // Extract JSON from the response
+            const jsonMatch = generatedText.match(/\{[\s\S]*\}/);
+            if (jsonMatch) {
+              const parsedQuestion = JSON.parse(jsonMatch[0]);
+              
+              if (!usedQuestions.has(parsedQuestion.question)) {
+                allQuestions.push(parsedQuestion);
+                setUsedQuestions(prev => new Set([...prev, parsedQuestion.question]));
+                questionGenerated = true;
+              }
+            }
+          } catch (error) {
+            console.error(`Erro com API key ${currentApiKeyIndex}:`, error);
+            
+            // Rotate to next API key
+            setCurrentApiKeyIndex((prev) => (prev + 1) % apiKeys.length);
+            attempts++;
+            
+            if (attempts < maxAttempts) {
+              console.log(`Tentando com próxima API key (${currentApiKeyIndex})...`);
+              await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1 second before retry
+            }
+          }
         }
 
-        const data = await response.json();
-        const generatedText = data.candidates[0].content.parts[0].text;
-        
-        // Extract JSON from the response
-        const jsonMatch = generatedText.match(/\{[\s\S]*\}/);
-        if (jsonMatch) {
-          const parsedQuestion = JSON.parse(jsonMatch[0]);
-          
-          if (!usedQuestions.has(parsedQuestion.question)) {
-            allQuestions.push(parsedQuestion);
-            setUsedQuestions(prev => new Set([...prev, parsedQuestion.question]));
-          }
+        if (!questionGenerated) {
+          throw new Error('Todas as API keys falharam');
         }
       }
       
