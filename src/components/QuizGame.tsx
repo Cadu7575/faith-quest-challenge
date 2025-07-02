@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 
@@ -64,7 +63,9 @@ const QuizGame = ({ avatar }: QuizGameProps) => {
       
       Certifique-se de que as perguntas sejam educativas e apropriadas para católicos de todas as idades.`;
 
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyCKFcRpG7OB7gh8wKy6-tpZsfmh-DEgZbY`, {
+      console.log('Enviando requisição para Gemini API...');
+
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyCKFcRpG7OB7gh8wKy6-tpZsfmh-DEgZbY`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -78,13 +79,32 @@ const QuizGame = ({ avatar }: QuizGameProps) => {
         })
       });
 
+      console.log('Resposta recebida:', response.status);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Erro da API:', errorData);
+        throw new Error(`API Error: ${response.status} - ${errorData.error?.message || 'Erro desconhecido'}`);
+      }
+
       const data = await response.json();
+      console.log('Dados recebidos:', data);
+
+      if (!data.candidates || !data.candidates[0] || !data.candidates[0].content) {
+        throw new Error('Formato de resposta inválido da API');
+      }
+
       const generatedText = data.candidates[0].content.parts[0].text;
+      console.log('Texto gerado:', generatedText);
       
       // Extract JSON from the response
       const jsonMatch = generatedText.match(/\{[\s\S]*\}/);
       if (jsonMatch) {
         const parsedData = JSON.parse(jsonMatch[0]);
+        
+        if (!parsedData.questions || !Array.isArray(parsedData.questions)) {
+          throw new Error('Formato de perguntas inválido');
+        }
         
         // Filter out used questions
         const newQuestions = parsedData.questions.filter((q: Question) => 
@@ -97,16 +117,45 @@ const QuizGame = ({ avatar }: QuizGameProps) => {
           newQuestions.forEach((q: Question) => {
             setUsedQuestions(prev => new Set([...prev, q.question]));
           });
+          console.log(`${newQuestions.length} perguntas carregadas para a fase ${phase}`);
         } else {
           // If all questions were used, clear the set and try again
+          console.log('Todas as perguntas já foram usadas, limpando histórico...');
           setUsedQuestions(new Set());
           await generateQuestions(phase);
           return;
         }
+      } else {
+        throw new Error('Não foi possível extrair JSON da resposta');
       }
     } catch (error) {
       console.error('Error generating questions:', error);
-      toast.error('Erro ao carregar perguntas. Tente novamente.');
+      toast.error('Erro ao carregar perguntas. Tentando novamente...');
+      
+      // Fallback: use predefined questions if API fails
+      const fallbackQuestions: Question[] = [
+        {
+          question: "Qual é o padroeiro do Brasil?",
+          options: ["São Pedro", "Nossa Senhora Aparecida", "São Francisco", "Santo Antônio"],
+          correctAnswer: 1,
+          explanation: "Nossa Senhora Aparecida é a padroeira do Brasil, proclamada pelo Papa Pio XI em 1930."
+        },
+        {
+          question: "Quantos sacramentos existem na Igreja Católica?",
+          options: ["5", "6", "7", "8"],
+          correctAnswer: 2,
+          explanation: "São sete os sacramentos: Batismo, Confirmação, Eucaristia, Penitência, Unção dos Enfermos, Ordem e Matrimônio."
+        },
+        {
+          question: "Qual é a oração mais importante do cristianismo?",
+          options: ["Ave Maria", "Pai Nosso", "Credo", "Glória"],
+          correctAnswer: 1,
+          explanation: "O Pai Nosso é a oração que Jesus Cristo ensinou aos seus discípulos, sendo considerada a oração fundamental do cristianismo."
+        }
+      ];
+      
+      setQuestions(fallbackQuestions);
+      console.log('Usando perguntas de fallback');
     }
     setLoading(false);
   };
