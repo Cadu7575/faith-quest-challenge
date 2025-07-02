@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 
@@ -283,12 +284,21 @@ const QuizGame = ({ avatar }: QuizGameProps) => {
       <div className="bg-slate-800/80 backdrop-blur-lg border-b border-slate-700">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <img 
-              src="/lovable-uploads/a6371fe2-8d4e-4de4-835f-970a32b7024a.png" 
-              alt="Logo" 
-              className="w-12 h-12 rounded-full"
-            />
-            <h1 className="text-xl font-bold text-white">Quiz Católico</h1>
+            <div className="relative">
+              <img 
+                src="/lovable-uploads/a6371fe2-8d4e-4de4-835f-970a32b7024a.png" 
+                alt="Carlo Acutis" 
+                className="w-12 h-12 rounded-full border-2 border-blue-300"
+                style={{
+                  filter: 'drop-shadow(0 0 8px rgba(59, 130, 246, 0.5))',
+                  backgroundColor: 'transparent'
+                }}
+              />
+            </div>
+            <div className="flex flex-col">
+              <h1 className="text-lg font-bold text-white">Paróquia N.S. Aparecida</h1>
+              <p className="text-sm text-blue-300">Grupo de Jovens Carlo Acutis</p>
+            </div>
           </div>
           
           <div className="flex flex-col items-center gap-2">
