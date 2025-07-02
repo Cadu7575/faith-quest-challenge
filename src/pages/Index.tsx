@@ -1,14 +1,43 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import { useState } from 'react';
+import LoadingScreen from '../components/LoadingScreen';
+import AvatarSelection from '../components/AvatarSelection';
+import QuizGame from '../components/QuizGame';
+
+type GameState = 'loading' | 'avatar-selection' | 'playing';
+
+interface Avatar {
+  gender: 'boy' | 'girl';
+  skinColor: string;
+  name: string;
+}
 
 const Index = () => {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
-  );
+  const [gameState, setGameState] = useState<GameState>('loading');
+  const [avatar, setAvatar] = useState<Avatar | null>(null);
+
+  const handleLoadingComplete = () => {
+    setGameState('avatar-selection');
+  };
+
+  const handleAvatarComplete = (selectedAvatar: Avatar) => {
+    setAvatar(selectedAvatar);
+    setGameState('playing');
+  };
+
+  if (gameState === 'loading') {
+    return <LoadingScreen onComplete={handleLoadingComplete} />;
+  }
+
+  if (gameState === 'avatar-selection') {
+    return <AvatarSelection onComplete={handleAvatarComplete} />;
+  }
+
+  if (gameState === 'playing' && avatar) {
+    return <QuizGame avatar={avatar} />;
+  }
+
+  return null;
 };
 
 export default Index;
