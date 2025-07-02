@@ -307,7 +307,7 @@ const QuizGame = ({ avatar }: QuizGameProps) => {
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-start gap-8">
-            {/* Score and Avatar Section */}
+            {/* Avatar Section */}
             <div className="flex flex-col items-center gap-6 min-w-[120px]">
               {/* Animated Avatar */}
               <div className={`transition-all duration-300 ${
@@ -333,33 +333,11 @@ const QuizGame = ({ avatar }: QuizGameProps) => {
                 </div>
               </div>
               
-              <div className="text-center">
-                <div className="text-3xl font-bold text-blue-600">{score}</div>
-                <div className="text-sm text-gray-600">Pontos</div>
-              </div>
             </div>
 
             {/* Questions Section */}
             <div className="flex-1">
               <div className="bg-white rounded-2xl shadow-lg p-8">
-                {/* Difficulty and Category Tags */}
-                <div className="flex items-center gap-3 mb-6">
-                  <span className="px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
-                    📚 Geral
-                  </span>
-                  <span className={`px-4 py-2 rounded-full text-sm font-medium ${
-                    getDifficulty(currentPhase) === 'Fácil' 
-                      ? 'bg-green-100 text-green-700' 
-                      : getDifficulty(currentPhase) === 'Médio' 
-                        ? 'bg-yellow-100 text-yellow-700' 
-                        : getDifficulty(currentPhase) === 'Difícil' 
-                          ? 'bg-orange-100 text-orange-700' 
-                          : 'bg-red-100 text-red-700'
-                  }`}>
-                    • {getDifficulty(currentPhase)}
-                  </span>
-                </div>
-                
                 <h2 className="text-2xl font-bold text-gray-800 mb-8 leading-relaxed">
                   {currentQ.question}
                 </h2>
@@ -414,6 +392,14 @@ const QuizGame = ({ avatar }: QuizGameProps) => {
                     </button>
                   </div>
                 )}
+              </div>
+            </div>
+
+            {/* Score Section */}
+            <div className="flex flex-col items-center gap-6 min-w-[120px]">
+              <div className="text-center">
+                <div className="text-3xl font-bold text-blue-600">{score}</div>
+                <div className="text-sm text-gray-600">Pontos</div>
               </div>
             </div>
           </div>
