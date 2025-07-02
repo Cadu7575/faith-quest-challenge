@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 
@@ -28,14 +27,15 @@ const QuizGame = ({ avatar }: QuizGameProps) => {
   const [showExplanation, setShowExplanation] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [usedQuestions, setUsedQuestions] = useState<Set<string>>(new Set());
+  const [avatarAnimation, setAvatarAnimation] = useState<'idle' | 'correct' | 'wrong'>('idle');
 
   // Function to determine difficulty based on phase
   const getDifficulty = (phase: number) => {
-    if (phase <= 20) return 'muito fácil';
-    if (phase <= 40) return 'fácil';
-    if (phase <= 60) return 'média';
-    if (phase <= 80) return 'difícil';
-    return 'muito difícil';
+    if (phase <= 20) return 'Fácil';
+    if (phase <= 40) return 'Fácil';
+    if (phase <= 60) return 'Médio';
+    if (phase <= 80) return 'Difícil';
+    return 'Muito Difícil';
   };
 
   // Function to get more specific topics as phases progress
@@ -225,12 +225,19 @@ const QuizGame = ({ avatar }: QuizGameProps) => {
     
     if (answerIndex === currentQ.correctAnswer) {
       setScore(prev => prev + 1);
+      setAvatarAnimation('correct');
       toast.success('Resposta correta! +1 ponto');
     } else {
+      setAvatarAnimation('wrong');
       toast.error('Resposta incorreta!');
     }
     
     setShowExplanation(true);
+    
+    // Reset animation after 2 seconds
+    setTimeout(() => {
+      setAvatarAnimation('idle');
+    }, 2000);
   };
 
   const handleNextQuestion = () => {
@@ -238,6 +245,7 @@ const QuizGame = ({ avatar }: QuizGameProps) => {
       setCurrentQuestion(prev => prev + 1);
       setSelectedAnswer(null);
       setShowExplanation(false);
+      setAvatarAnimation('idle');
     } else {
       // End of phase
       if (currentPhase < 100) {
@@ -245,6 +253,7 @@ const QuizGame = ({ avatar }: QuizGameProps) => {
         setCurrentQuestion(0);
         setSelectedAnswer(null);
         setShowExplanation(false);
+        setAvatarAnimation('idle');
         toast.success(`Fase ${currentPhase} concluída! Avançando para a fase ${currentPhase + 1}`);
       } else {
         toast.success(`Parabéns! Você completou todas as 100 fases com ${score} pontos! Você é um verdadeiro mestre da fé católica!`);
@@ -294,14 +303,8 @@ const QuizGame = ({ avatar }: QuizGameProps) => {
             </div>
             
             <div className="text-center">
-              <div className="text-2xl font-bold text-yellow-400">{score}</div>
-              <div className="text-xs text-yellow-200">pontos</div>
-            </div>
-            
-            <div className="text-center">
-              <div className="text-lg font-bold text-blue-400">Fase {currentPhase}/100</div>
+              <div className="text-3xl font-bold text-blue-400">Fase {currentPhase}/100</div>
               <div className="text-xs text-blue-200">{currentQuestion + 1}/10</div>
-              <div className="text-xs text-purple-300">{getDifficulty(currentPhase)}</div>
             </div>
           </div>
         </div>
@@ -326,75 +329,115 @@ const QuizGame = ({ avatar }: QuizGameProps) => {
       {/* Game Content */}
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-slate-800/80 backdrop-blur-lg rounded-2xl p-8">
-            <div className="mb-6">
-              <div className="flex justify-between items-center mb-4">
-                <span className="text-blue-300 font-semibold">
-                  Pergunta {currentQuestion + 1} de {questions.length}
-                </span>
-                <div className="w-64 bg-slate-700 rounded-full h-2">
-                  <div 
-                    className="bg-gradient-to-r from-green-500 to-blue-500 h-2 rounded-full transition-all duration-300"
-                    style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
-                  />
-                </div>
+          <div className="flex items-start gap-8">
+            {/* Score and Avatar Section */}
+            <div className="flex flex-col items-center gap-4">
+              <div className="text-center">
+                <div className="text-3xl font-bold text-yellow-400">{score}</div>
+                <div className="text-sm text-yellow-200">pontos</div>
               </div>
               
-              <h2 className="text-2xl font-bold text-white mb-6">
-                {currentQ.question}
-              </h2>
-            </div>
-
-            <div className="grid gap-4 mb-6">
-              {currentQ.options.map((option, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleAnswerSelect(index)}
-                  disabled={selectedAnswer !== null}
-                  className={`p-4 rounded-xl text-left transition-all ${
-                    selectedAnswer === null
-                      ? 'bg-slate-700 hover:bg-slate-600 text-white'
-                      : selectedAnswer === index
-                        ? index === currentQ.correctAnswer
-                          ? 'bg-green-600 text-white'
-                          : 'bg-red-600 text-white'
-                        : index === currentQ.correctAnswer
-                          ? 'bg-green-600 text-white'
-                          : 'bg-slate-700 text-gray-400'
+              {/* Animated Avatar */}
+              <div className={`transition-all duration-300 ${
+                avatarAnimation === 'correct' 
+                  ? 'animate-bounce scale-110' 
+                  : avatarAnimation === 'wrong' 
+                    ? 'animate-pulse scale-90' 
+                    : ''
+              }`}>
+                <div 
+                  className={`w-20 h-20 rounded-full flex items-center justify-center text-2xl border-4 ${
+                    avatarAnimation === 'correct' 
+                      ? 'border-green-400 bg-green-100' 
+                      : avatarAnimation === 'wrong' 
+                        ? 'border-red-400 bg-red-100' 
+                        : 'border-slate-600'
                   }`}
+                  style={{ backgroundColor: avatarAnimation === 'idle' ? avatar.skinColor : undefined }}
                 >
-                  <span className="font-semibold mr-3">
-                    {String.fromCharCode(65 + index)}.
-                  </span>
-                  {option}
-                </button>
-              ))}
+                  {avatarAnimation === 'correct' ? '😊' : 
+                   avatarAnimation === 'wrong' ? '😔' : 
+                   avatar.gender === 'boy' ? '👦' : '👧'}
+                </div>
+              </div>
             </div>
 
-            {showExplanation && (
-              <div className="bg-blue-900/50 border border-blue-700 rounded-xl p-6 mb-6">
-                <h3 className="text-lg font-semibold text-blue-200 mb-2">
-                  Explicação:
-                </h3>
-                <p className="text-blue-100">{currentQ.explanation}</p>
+            {/* Questions Section */}
+            <div className="flex-1 bg-slate-800/80 backdrop-blur-lg rounded-2xl p-8">
+              <div className="mb-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                    getDifficulty(currentPhase) === 'Fácil' 
+                      ? 'bg-green-600 text-green-100' 
+                      : getDifficulty(currentPhase) === 'Médio' 
+                        ? 'bg-yellow-600 text-yellow-100' 
+                        : getDifficulty(currentPhase) === 'Difícil' 
+                          ? 'bg-orange-600 text-orange-100' 
+                          : 'bg-red-600 text-red-100'
+                  }`}>
+                    {getDifficulty(currentPhase)}
+                  </span>
+                  <span className="text-blue-300 font-semibold">
+                    Pergunta {currentQuestion + 1} de {questions.length}
+                  </span>
+                </div>
+                
+                <h2 className="text-2xl font-bold text-white mb-6">
+                  {currentQ.question}
+                </h2>
               </div>
-            )}
 
-            {showExplanation && (
-              <div className="text-center">
-                <button
-                  onClick={handleNextQuestion}
-                  className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all"
-                >
-                  {currentQuestion < questions.length - 1 
-                    ? 'Próxima Pergunta' 
-                    : currentPhase < 100 
-                      ? 'Próxima Fase' 
-                      : 'Finalizar Quiz'
-                  }
-                </button>
+              <div className="grid gap-4 mb-6">
+                {currentQ.options.map((option, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleAnswerSelect(index)}
+                    disabled={selectedAnswer !== null}
+                    className={`p-4 rounded-xl text-left transition-all ${
+                      selectedAnswer === null
+                        ? 'bg-slate-700 hover:bg-slate-600 text-white'
+                        : selectedAnswer === index
+                          ? index === currentQ.correctAnswer
+                            ? 'bg-green-600 text-white'
+                            : 'bg-red-600 text-white'
+                          : index === currentQ.correctAnswer
+                            ? 'bg-green-600 text-white'
+                            : 'bg-slate-700 text-gray-400'
+                    }`}
+                  >
+                    <span className="font-semibold mr-3">
+                      {String.fromCharCode(65 + index)}.
+                    </span>
+                    {option}
+                  </button>
+                ))}
               </div>
-            )}
+
+              {showExplanation && (
+                <div className="bg-blue-900/50 border border-blue-700 rounded-xl p-6 mb-6">
+                  <h3 className="text-lg font-semibold text-blue-200 mb-2">
+                    Explicação:
+                  </h3>
+                  <p className="text-blue-100">{currentQ.explanation}</p>
+                </div>
+              )}
+
+              {showExplanation && (
+                <div className="text-center">
+                  <button
+                    onClick={handleNextQuestion}
+                    className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all"
+                  >
+                    {currentQuestion < questions.length - 1 
+                      ? 'Próxima Pergunta' 
+                      : currentPhase < 100 
+                        ? 'Próxima Fase' 
+                        : 'Finalizar Quiz'
+                    }
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
