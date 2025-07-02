@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 
@@ -28,26 +29,76 @@ const QuizGame = ({ avatar }: QuizGameProps) => {
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [usedQuestions, setUsedQuestions] = useState<Set<string>>(new Set());
 
+  // Function to determine difficulty based on phase
+  const getDifficulty = (phase: number) => {
+    if (phase <= 20) return 'muito fácil';
+    if (phase <= 40) return 'fácil';
+    if (phase <= 60) return 'média';
+    if (phase <= 80) return 'difícil';
+    return 'muito difícil';
+  };
+
+  // Function to get more specific topics as phases progress
+  const getTopicsForPhase = (phase: number) => {
+    const basicTopics = [
+      'santos católicos básicos e suas vidas',
+      'história básica da Igreja Católica',
+      'milagres eucarísticos famosos',
+      'doutrina católica fundamental'
+    ];
+
+    const intermediateTopics = [
+      'papas históricos e pontificado',
+      'sacramentos católicos em detalhe',
+      'orações tradicionais e liturgia',
+      'festividades litúrgicas do ano',
+      'mártires católicos através da história',
+      'aparições marianas reconhecidas'
+    ];
+
+    const advancedTopics = [
+      'concílios ecumênicos e decisões dogmáticas',
+      'teologia católica avançada',
+      'santos doutores da Igreja',
+      'história das ordens religiosas',
+      'encíclicas papais importantes',
+      'patrística e Padres da Igreja',
+      'mariologia e dogmas marianos',
+      'escatologia católica',
+      'liturgia e ritos orientais',
+      'canonização e beatificação'
+    ];
+
+    const expertTopics = [
+      'teologia moral complexa',
+      'filosofia escolástica',
+      'direito canônico',
+      'exegese bíblica católica',
+      'santos místicos e experiências espirituais',
+      'heresias históricas e refutações',
+      'relações Igreja-Estado na história',
+      'desenvolvimento da doutrina social',
+      'arquitetura e arte sacra',
+      'música litúrgica tradicional'
+    ];
+
+    if (phase <= 20) return basicTopics;
+    if (phase <= 40) return intermediateTopics;
+    if (phase <= 80) return advancedTopics;
+    return expertTopics;
+  };
+
   const generateQuestions = async (phase: number) => {
     setLoading(true);
     try {
-      const topics = [
-        'santos católicos e suas vidas',
-        'história da Igreja Católica',
-        'milagres eucarísticos',
-        'doutrina católica',
-        'papas e pontificado',
-        'sacramentos católicos',
-        'orações tradicionais',
-        'festividades litúrgicas',
-        'mártires católicos',
-        'aparições marianas'
-      ];
-
+      const topics = getTopicsForPhase(phase);
       const randomTopic = topics[Math.floor(Math.random() * topics.length)];
+      const difficulty = getDifficulty(phase);
       
       const prompt = `Gere exatamente 10 perguntas de múltipla escolha sobre ${randomTopic} para a fase ${phase} de um jogo católico. 
-      Dificuldade: ${phase <= 3 ? 'fácil' : phase <= 6 ? 'média' : 'difícil'}.
+      Dificuldade: ${difficulty}.
+      ${phase > 50 ? 'Inclua detalhes históricos específicos, datas importantes e conhecimento aprofundado.' : ''}
+      ${phase > 80 ? 'Faça perguntas que requerem conhecimento especializado e análise teológica profunda.' : ''}
       
       Formato JSON:
       {
@@ -63,7 +114,7 @@ const QuizGame = ({ avatar }: QuizGameProps) => {
       
       Certifique-se de que as perguntas sejam educativas e apropriadas para católicos de todas as idades.`;
 
-      console.log('Enviando requisição para Gemini API...');
+      console.log(`Gerando perguntas para fase ${phase} - Dificuldade: ${difficulty}`);
 
       const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyCBOdpOuYHal7QRi2se-_u9bwjidAVUBsY`, {
         method: 'POST',
@@ -119,9 +170,11 @@ const QuizGame = ({ avatar }: QuizGameProps) => {
           });
           console.log(`${newQuestions.length} perguntas carregadas para a fase ${phase}`);
         } else {
-          // If all questions were used, clear the set and try again
-          console.log('Todas as perguntas já foram usadas, limpando histórico...');
-          setUsedQuestions(new Set());
+          // If all questions were used, clear some of the set and try again
+          console.log('Muitas perguntas já foram usadas, limpando parte do histórico...');
+          const usedArray = Array.from(usedQuestions);
+          const keepRecent = usedArray.slice(-500); // Keep only last 500 questions
+          setUsedQuestions(new Set(keepRecent));
           await generateQuestions(phase);
           return;
         }
@@ -187,14 +240,14 @@ const QuizGame = ({ avatar }: QuizGameProps) => {
       setShowExplanation(false);
     } else {
       // End of phase
-      if (currentPhase < 10) {
+      if (currentPhase < 100) {
         setCurrentPhase(prev => prev + 1);
         setCurrentQuestion(0);
         setSelectedAnswer(null);
         setShowExplanation(false);
         toast.success(`Fase ${currentPhase} concluída! Avançando para a fase ${currentPhase + 1}`);
       } else {
-        toast.success(`Parabéns! Você completou todas as fases com ${score} pontos!`);
+        toast.success(`Parabéns! Você completou todas as 100 fases com ${score} pontos! Você é um verdadeiro mestre da fé católica!`);
       }
     }
   };
@@ -205,6 +258,7 @@ const QuizGame = ({ avatar }: QuizGameProps) => {
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
           <p className="text-white">Carregando perguntas da fase {currentPhase}...</p>
+          <p className="text-blue-300 text-sm mt-2">Dificuldade: {getDifficulty(currentPhase)}</p>
         </div>
       </div>
     );
@@ -245,9 +299,26 @@ const QuizGame = ({ avatar }: QuizGameProps) => {
             </div>
             
             <div className="text-center">
-              <div className="text-lg font-bold text-blue-400">Fase {currentPhase}</div>
+              <div className="text-lg font-bold text-blue-400">Fase {currentPhase}/100</div>
               <div className="text-xs text-blue-200">{currentQuestion + 1}/10</div>
+              <div className="text-xs text-purple-300">{getDifficulty(currentPhase)}</div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Progress Bar for Overall Game */}
+      <div className="bg-slate-800/60 p-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-sm text-blue-300">Progresso Geral</span>
+            <span className="text-sm text-blue-300">{currentPhase}/100 fases</span>
+          </div>
+          <div className="w-full bg-slate-700 rounded-full h-3">
+            <div 
+              className="bg-gradient-to-r from-blue-500 to-purple-500 h-3 rounded-full transition-all duration-500"
+              style={{ width: `${(currentPhase / 100) * 100}%` }}
+            />
           </div>
         </div>
       </div>
@@ -263,7 +334,7 @@ const QuizGame = ({ avatar }: QuizGameProps) => {
                 </span>
                 <div className="w-64 bg-slate-700 rounded-full h-2">
                   <div 
-                    className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-300"
+                    className="bg-gradient-to-r from-green-500 to-blue-500 h-2 rounded-full transition-all duration-300"
                     style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
                   />
                 </div>
@@ -317,7 +388,7 @@ const QuizGame = ({ avatar }: QuizGameProps) => {
                 >
                   {currentQuestion < questions.length - 1 
                     ? 'Próxima Pergunta' 
-                    : currentPhase < 10 
+                    : currentPhase < 100 
                       ? 'Próxima Fase' 
                       : 'Finalizar Quiz'
                   }
