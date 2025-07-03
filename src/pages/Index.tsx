@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useCallback } from 'react';
 import LoadingScreen from '../components/LoadingScreen';
 import AvatarSelection from '../components/AvatarSelection';
@@ -79,6 +80,7 @@ const Index = () => {
     }
   };
 
+  // Remove the outer gradient background since it's now in Layout
   if (gameState === 'loading') {
     return <LoadingScreen onComplete={handleLoadingComplete} />;
   }
