@@ -35,9 +35,9 @@ const Layout = ({ children }: LayoutProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-pink-900">
+    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-pink-900 relative">
       {/* Header with Hamburger Menu */}
-      <header className="bg-black/20 backdrop-blur-sm border-b border-white/10">
+      <header className="bg-black/20 backdrop-blur-sm border-b border-white/10 relative z-40">
         <div className="max-w-6xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -70,12 +70,32 @@ const Layout = ({ children }: LayoutProps) => {
             </div>
           </div>
         </div>
+      </header>
 
-        {/* Mobile Menu Overlay */}
-        {isMenuOpen && (
-          <div className="absolute top-full left-0 right-0 bg-black/90 backdrop-blur-sm z-50">
-            <nav className="max-w-6xl mx-auto px-4 py-4">
-              <div className="space-y-2">
+      {/* Mobile Menu Overlay - Fixed positioning */}
+      {isMenuOpen && (
+        <div className="fixed inset-0 z-50">
+          {/* Backdrop */}
+          <div 
+            className="absolute inset-0 bg-black/50" 
+            onClick={() => setIsMenuOpen(false)}
+          />
+          
+          {/* Menu Panel */}
+          <div className="absolute top-0 left-0 w-80 h-full bg-black/95 backdrop-blur-sm border-r border-white/10">
+            <div className="p-4">
+              {/* Close button */}
+              <div className="flex justify-end mb-4">
+                <button
+                  onClick={toggleMenu}
+                  className="p-2 rounded-md bg-white/10 hover:bg-white/20 transition-colors"
+                >
+                  <X className="w-6 h-6 text-white" />
+                </button>
+              </div>
+              
+              {/* Menu items */}
+              <nav className="space-y-2">
                 {menuItems.map((item) => {
                   const Icon = item.icon;
                   const isActive = location.pathname === item.path;
@@ -92,11 +112,11 @@ const Layout = ({ children }: LayoutProps) => {
                     </button>
                   );
                 })}
-              </div>
-            </nav>
+              </nav>
+            </div>
           </div>
-        )}
-      </header>
+        </div>
+      )}
 
       {/* Main Content */}
       <main className="relative">
