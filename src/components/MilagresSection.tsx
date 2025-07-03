@@ -1,5 +1,4 @@
-
-import { Church } from 'lucide-react';
+import { Church, ExternalLink } from 'lucide-react';
 
 const milagres = [
   {
@@ -184,6 +183,11 @@ const milagres = [
   }
 ];
 
+const handleLerMais = (titulo: string) => {
+  const searchQuery = encodeURIComponent(`${titulo} milagre eucarístico católico`);
+  window.open(`https://www.google.com/search?q=${searchQuery}`, '_blank');
+};
+
 const MilagresSection = () => {
   return (
     <div className="space-y-6">
@@ -217,7 +221,16 @@ const MilagresSection = () => {
                 </span>
               ))}
             </div>
-            <p className="text-sm text-blue-400 font-medium">Local: {milagre.local}</p>
+            <div className="flex justify-between items-center">
+              <p className="text-sm text-blue-400 font-medium">Local: {milagre.local}</p>
+              <button
+                onClick={() => handleLerMais(milagre.titulo)}
+                className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+              >
+                <ExternalLink className="w-4 h-4" />
+                Ler mais
+              </button>
+            </div>
           </div>
         ))}
       </div>
