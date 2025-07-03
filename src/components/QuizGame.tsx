@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { toast } from 'sonner';
 import { useSupabaseQuestions } from '../hooks/useSupabaseQuestions';
@@ -140,41 +141,19 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
         console.log(`- Médias: ${newUsedQuestions.medium.length}`);
         console.log(`- Difíceis: ${newUsedQuestions.hard.length}`);
         
-        toast.success(`Fase ${phase} carregada com ${phaseQuestions.length} perguntas!`);
+        toast.success(`${phaseQuestions.length} perguntas carregadas da base de dados!`);
       } else {
         throw new Error('Nenhuma pergunta foi carregada do Supabase');
       }
       
     } catch (error) {
       console.error('❌ ERRO ao carregar perguntas do Supabase:', error);
-      toast.error('Erro ao carregar perguntas. Tentando novamente...');
-      
-      // Tentar resetar tudo e carregar novamente
-      try {
-        console.log('🔄 Tentando reset completo...');
-        await supabaseQuestions.resetUsedQuestions();
-        setUsedQuestions({ easy: [], medium: [], hard: [] });
-        
-        // Tentar carregar novamente com reset
-        const pattern = generateDifficultyPattern();
-        const phaseQuestions = await questionService.getQuestionsForPattern(pattern, { easy: [], medium: [], hard: [] });
-        
-        if (phaseQuestions.length > 0) {
-          setQuestions(phaseQuestions);
-          setDifficultyPattern(pattern);
-          toast.success('Perguntas carregadas após reset!');
-        } else {
-          toast.error('Não foi possível carregar perguntas mesmo após reset.');
-        }
-      } catch (retryError) {
-        console.error('❌ Erro mesmo após retry:', retryError);
-        toast.error('Erro crítico ao carregar perguntas. Verifique sua conexão.');
-      }
+      toast.error('Erro ao carregar perguntas do banco de dados.');
     } finally {
       setLoading(false);
       console.log('=== CARREGAMENTO DE PERGUNTAS FINALIZADO ===\n');
     }
-  }, [generateDifficultyPattern, usedQuestions, questionService, supabaseQuestions]);
+  }, [generateDifficultyPattern, usedQuestions, questionService]);
 
   // Load questions when phase changes
   useEffect(() => {
