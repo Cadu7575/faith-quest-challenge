@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Menu, X, Gamepad2, Book } from 'lucide-react';
+import { Menu, X, Gamepad2, Book, Search } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 interface LayoutProps {
@@ -16,6 +16,7 @@ const Layout = ({ children }: LayoutProps) => {
 
   const menuItems = [
     { path: '/curiosidades', label: 'Curiosidades da Fé', icon: Book },
+    { path: '/exploracao', label: 'Exploração Católica', icon: Search },
     { path: '/quiz', label: 'Quiz Católico', icon: Gamepad2 },
   ];
 
