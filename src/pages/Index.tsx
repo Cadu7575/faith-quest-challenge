@@ -17,11 +17,6 @@ interface GameProgress {
   currentPhase: number;
   score: number;
   currentQuestion: number;
-  usedQuestions?: {
-    easy: string[];
-    medium: string[];
-    hard: string[];
-  };
 }
 
 const Index = () => {
@@ -58,12 +53,7 @@ const Index = () => {
       avatar: selectedAvatar,
       currentPhase: 1,
       score: 0,
-      currentQuestion: 0,
-      usedQuestions: {
-        easy: [],
-        medium: [],
-        hard: []
-      }
+      currentQuestion: 0
     };
     setGameProgress(initialProgress);
     localStorage.setItem('quiz-progress', JSON.stringify(initialProgress));
