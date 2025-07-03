@@ -12,7 +12,7 @@ const SearchBar = ({ onSearch, placeholder = "Buscar santos, milagres, curiosida
 
   const handleSearch = (value: string) => {
     setQuery(value);
-    onSearch(value);
+    onSearch(value.toLowerCase());
   };
 
   const clearSearch = () => {
@@ -29,7 +29,7 @@ const SearchBar = ({ onSearch, placeholder = "Buscar santos, milagres, curiosida
           value={query}
           onChange={(e) => handleSearch(e.target.value)}
           placeholder={placeholder}
-          className="w-full pl-10 pr-10 py-3 bg-slate-800/80 backdrop-blur-lg border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full pl-10 pr-10 py-3 bg-slate-800/80 backdrop-blur-lg border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
         />
         {query && (
           <button
@@ -40,6 +40,11 @@ const SearchBar = ({ onSearch, placeholder = "Buscar santos, milagres, curiosida
           </button>
         )}
       </div>
+      {query && (
+        <div className="mt-2 text-sm text-slate-400 text-center">
+          Buscando por: "{query}"
+        </div>
+      )}
     </div>
   );
 };

@@ -12,6 +12,7 @@ interface Section {
   icon: React.ComponentType<any>;
   component: React.ReactNode;
   keywords: string[];
+  content: string;
 }
 
 const ExploraCatolica = () => {
@@ -24,21 +25,24 @@ const ExploraCatolica = () => {
       title: 'Santos',
       icon: Heart,
       component: <SantosSection />,
-      keywords: ['santos', 'francisco', 'teresinha', 'padre pio', 'estigmas', 'pobreza', 'missões']
+      keywords: ['santos', 'francisco', 'teresinha', 'padre pio', 'estigmas', 'pobreza', 'missões', 'teresa', 'joão', 'agostinho', 'tomás', 'catarina', 'bento', 'jerônimo', 'mônica', 'josé', 'rita', 'bosco', 'bernadette', 'vicente', 'faustina', 'maximiliano', 'calcutá', 'xavier', 'inácio', 'luís', 'cecília', 'sebastião', 'lucia', 'pedro', 'paulo', 'joão evangelista', 'madalena', 'joão batista'],
+      content: 'santos católicos história vida biografias milagres canonização beatificação virtudes oração intercessão devoção fé católica igreja cristianismo'
     },
     {
       id: 'carlo-acutis',
       title: 'Beato Carlo Acutis',
       icon: Sparkles,
       component: <CarloAcutisSection />,
-      keywords: ['carlo acutis', 'jovem', 'tecnologia', 'internet', 'eucaristia', 'programação', 'beato']
+      keywords: ['carlo acutis', 'jovem', 'tecnologia', 'internet', 'eucaristia', 'programação', 'beato', 'computador', 'site', 'milagres eucarísticos'],
+      content: 'carlo acutis jovem santo tecnologia internet programação eucaristia beato católico moderno computador website'
     },
     {
       id: 'milagres',
       title: 'Milagres Eucarísticos',
       icon: Church,
       component: <MilagresSection />,
-      keywords: ['milagres', 'eucaristia', 'lanciano', 'bolsena', 'buenos aires', 'sangue', 'carne', 'transubstanciação']
+      keywords: ['milagres', 'eucaristia', 'lanciano', 'bolsena', 'buenos aires', 'sangue', 'carne', 'transubstanciação', 'santarém', 'orvieto', 'ferrara', 'alatri', 'offida', 'cascia', 'gruaro', 'walldürn', 'daroca', 'bordeaux', 'faverney', 'tumaco', 'siena', 'alcalá', 'ávila', 'macerata', 'patierno', 'rimini', 'mogoro', 'fiecht', 'éttiswil', 'blanot', 'cebollinos', 'poznań', 'tixtla', 'sokolka', 'legnica'],
+      content: 'milagres eucarísticos hóstia consagrada sangue carne transformação científico análise laboratório fé católica presença real cristo eucaristia missa'
     }
   ];
 
@@ -65,7 +69,8 @@ const ExploraCatolica = () => {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(section =>
         section.title.toLowerCase().includes(query) ||
-        section.keywords.some(keyword => keyword.toLowerCase().includes(query))
+        section.keywords.some(keyword => keyword.toLowerCase().includes(query)) ||
+        section.content.toLowerCase().includes(query)
       );
     }
 
@@ -78,16 +83,19 @@ const ExploraCatolica = () => {
       <div className="bg-slate-800/60 p-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-6">
-            <h1 className="text-3xl font-bold text-white mb-2">
+            <h1 className="text-4xl font-bold text-white mb-2">
               Exploração da Fé Católica
             </h1>
-            <p className="text-slate-300">
+            <p className="text-slate-300 text-lg">
               Descubra santos, milagres e a rica história da Igreja Católica
             </p>
           </div>
           
           {/* Search Bar */}
-          <SearchBar onSearch={setSearchQuery} />
+          <SearchBar 
+            onSearch={setSearchQuery} 
+            placeholder="Buscar por santos, milagres, nomes, locais, eventos..."
+          />
           
           {/* Filters */}
           <div className="flex flex-wrap justify-center gap-2 mt-6">
@@ -109,6 +117,18 @@ const ExploraCatolica = () => {
               </button>
             ))}
           </div>
+
+          {/* Search Results Info */}
+          {searchQuery && (
+            <div className="mt-4 text-center">
+              <p className="text-slate-300">
+                {filteredSections.length === 0 
+                  ? 'Nenhum resultado encontrado' 
+                  : `${filteredSections.length} seção(ões) encontrada(s)`
+                }
+              </p>
+            </div>
+          )}
         </div>
       </div>
 
@@ -117,15 +137,18 @@ const ExploraCatolica = () => {
         {filteredSections.length === 0 ? (
           <div className="text-center py-12">
             <Book className="w-16 h-16 text-slate-400 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-white mb-2">Nenhum resultado encontrado</h3>
-            <p className="text-slate-400">
+            <h3 className="text-xl font-semibold text-white mb-4">Nenhum resultado encontrado</h3>
+            <p className="text-slate-400 mb-4">
               Tente usar termos diferentes ou remover alguns filtros.
+            </p>
+            <p className="text-slate-300 text-sm">
+              Sugestões: "Francisco", "Lanciano", "Eucaristia", "Milagres", "Santos"
             </p>
           </div>
         ) : (
           <div className="space-y-12">
             {filteredSections.map((section) => (
-              <div key={section.id} className="bg-slate-800/40 backdrop-blur-lg rounded-lg p-6">
+              <div key={section.id} className="bg-slate-800/40 backdrop-blur-lg rounded-lg p-6 border border-slate-600/30">
                 {section.component}
               </div>
             ))}
@@ -134,17 +157,17 @@ const ExploraCatolica = () => {
 
         {/* Quick Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-          <div className="bg-slate-800/80 backdrop-blur-lg rounded-lg p-6 text-center">
+          <div className="bg-slate-800/80 backdrop-blur-lg rounded-lg p-6 text-center border border-slate-600/30">
             <Heart className="w-8 h-8 text-red-400 mx-auto mb-2" />
-            <h3 className="text-xl font-semibold text-white mb-2">10,000+</h3>
-            <p className="text-slate-400">Santos Canonizados</p>
+            <h3 className="text-xl font-semibold text-white mb-2">30+</h3>
+            <p className="text-slate-400">Santos Destacados</p>
           </div>
-          <div className="bg-slate-800/80 backdrop-blur-lg rounded-lg p-6 text-center">
+          <div className="bg-slate-800/80 backdrop-blur-lg rounded-lg p-6 text-center border border-slate-600/30">
             <Church className="w-8 h-8 text-yellow-400 mx-auto mb-2" />
-            <h3 className="text-xl font-semibold text-white mb-2">130+</h3>
+            <h3 className="text-xl font-semibold text-white mb-2">30+</h3>
             <p className="text-slate-400">Milagres Eucarísticos</p>
           </div>
-          <div className="bg-slate-800/80 backdrop-blur-lg rounded-lg p-6 text-center">
+          <div className="bg-slate-800/80 backdrop-blur-lg rounded-lg p-6 text-center border border-slate-600/30">
             <Book className="w-8 h-8 text-blue-400 mx-auto mb-2" />
             <h3 className="text-xl font-semibold text-white mb-2">2000+</h3>
             <p className="text-slate-400">Anos de História</p>
