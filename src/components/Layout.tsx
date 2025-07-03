@@ -12,7 +12,7 @@ const Layout = ({ children }: LayoutProps) => {
   const navigate = useNavigate();
 
   const menuItems = [
-    { path: '/', label: 'Quiz Católico', icon: Gamepad2 },
+    { path: '/quiz', label: 'Quiz Católico', icon: Gamepad2 },
     { path: '/curiosidades', label: 'Curiosidades da Fé', icon: Menu },
   ];
 
