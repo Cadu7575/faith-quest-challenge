@@ -41,7 +41,22 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
   const [avatarAnimation, setAvatarAnimation] = useState<'idle' | 'correct' | 'wrong'>('idle');
   const [currentDifficulty, setCurrentDifficulty] = useState<'Fácil' | 'Médio' | 'Difícil'>('Fácil');
   const [difficultyPattern, setDifficultyPattern] = useState<('Fácil' | 'Médio' | 'Difícil')[]>([]);
-  const { saveScore } = useLeaderboard();
+  const { saveScore, leaderboard } = useLeaderboard();
+
+  // Calculate player's rank
+  const playerRank = useMemo(() => {
+    if (!leaderboard.length) return '🏆 1º';
+    
+    const playerEntry = leaderboard.find(entry => entry.player_name === avatar.name);
+    if (!playerEntry) return '🏆 Novo';
+    
+    const rank = leaderboard.findIndex(entry => entry.player_name === avatar.name) + 1;
+    
+    if (rank === 1) return '🥇 1º';
+    if (rank === 2) return '🥈 2º'; 
+    if (rank === 3) return '🥉 3º';
+    return `🏆 ${rank}º`;
+  }, [leaderboard, avatar.name]);
 
   // Memoize the progress object to prevent unnecessary re-renders
   const gameProgress = useMemo(() => ({
@@ -248,7 +263,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
                 </button>
               )}
             </div>
-            <span className="text-sm text-blue-300">({currentQuestion + 1}/10)</span>
+            <span className="text-sm text-yellow-300 font-semibold">{playerRank}</span>
           </div>
           <div className="w-full bg-slate-700 rounded-full h-3">
             <div 
