@@ -41,6 +41,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
   const [avatarAnimation, setAvatarAnimation] = useState<'idle' | 'correct' | 'wrong'>('idle');
   const [currentDifficulty, setCurrentDifficulty] = useState<'Fácil' | 'Médio' | 'Difícil'>('Fácil');
   const [difficultyPattern, setDifficultyPattern] = useState<('Fácil' | 'Médio' | 'Difícil')[]>([]);
+  const [usedQuestions, setUsedQuestions] = useState<Set<string>>(new Set());
   const { saveScore, leaderboard } = useLeaderboard();
 
   // Calculate player's rank
@@ -104,25 +105,35 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
       setDifficultyPattern(pattern);
       console.log('✅ Padrão de dificuldade gerado:', pattern);
       
-      // Get questions based on the pattern
-      const phaseQuestions = getQuestionsForPattern(pattern);
+      // Get questions based on the pattern, excluding used ones
+      const phaseQuestions = getQuestionsForPattern(pattern, usedQuestions);
       
       if (phaseQuestions.length > 0) {
         setQuestions(phaseQuestions);
+        
+        // Add new questions to used questions set
+        const newUsedQuestions = new Set(usedQuestions);
+        phaseQuestions.forEach(q => newUsedQuestions.add(q.question));
+        setUsedQuestions(newUsedQuestions);
+        
         console.log(`✅ ${phaseQuestions.length} perguntas carregadas com sucesso para a fase ${phase}`);
-        toast.success(`${phaseQuestions.length} perguntas carregadas para a fase ${phase}!`);
+        toast.success(`${phaseQuestions.length} perguntas carregadas para a fase ${phase}!`, {
+          duration: 2000
+        });
       } else {
         throw new Error('Nenhuma pergunta foi carregada');
       }
       
     } catch (error) {
       console.error('❌ ERRO ao carregar perguntas:', error);
-      toast.error('Erro ao carregar perguntas.');
+      toast.error('Erro ao carregar perguntas.', {
+        duration: 2000
+      });
     } finally {
       setLoading(false);
       console.log('=== CARREGAMENTO DE PERGUNTAS FINALIZADO ===\n');
     }
-  }, [generateDifficultyPattern]);
+  }, [generateDifficultyPattern, usedQuestions]);
 
   // Load questions when phase changes
   useEffect(() => {
@@ -153,13 +164,17 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
       const newScore = score + points;
       setScore(newScore);
       setAvatarAnimation('correct');
-      toast.success(`Resposta correta! +${points} ponto${points > 1 ? 's' : ''}`);
+      toast.success(`Resposta correta! +${points} ponto${points > 1 ? 's' : ''}`, {
+        duration: 2000
+      });
       
       // Salvar pontuação após cada pergunta correta
       saveScore(avatar.name, newScore, currentPhase);
     } else {
       setAvatarAnimation('wrong');
-      toast.error('Resposta incorreta!');
+      toast.error('Resposta incorreta!', {
+        duration: 2000
+      });
     }
     
     setShowExplanation(true);
@@ -185,11 +200,15 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
         setShowExplanation(false);
         setAvatarAnimation('idle');
         setQuestions([]); // Clear questions to trigger new generation
-        toast.success(`Fase ${currentPhase} concluída! Avançando para a fase ${currentPhase + 1}`);
+        toast.success(`Fase ${currentPhase} concluída! Avançando para a fase ${currentPhase + 1}`, {
+          duration: 2000
+        });
       } else {
         // Game completed - save score to leaderboard
         saveScore(avatar.name, score, currentPhase);
-        toast.success(`Parabéns! Você completou todas as 100 fases com ${score} pontos! Você é um verdadeiro mestre da fé católica!`);
+        toast.success(`Parabéns! Você completou todas as 100 fases com ${score} pontos! Você é um verdadeiro mestre da fé católica!`, {
+          duration: 4000
+        });
       }
     }
   };
