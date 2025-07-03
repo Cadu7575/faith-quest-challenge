@@ -9,36 +9,30 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      questions: {
+      leaderboard: {
         Row: {
-          category: string
-          correct_answer: number
           created_at: string
-          difficulty: string
-          explanation: string
           id: string
-          options: string[]
-          question: string
+          phases_completed: number
+          player_name: string
+          score: number
+          updated_at: string
         }
         Insert: {
-          category: string
-          correct_answer: number
           created_at?: string
-          difficulty: string
-          explanation: string
           id?: string
-          options: string[]
-          question: string
+          phases_completed?: number
+          player_name: string
+          score?: number
+          updated_at?: string
         }
         Update: {
-          category?: string
-          correct_answer?: number
           created_at?: string
-          difficulty?: string
-          explanation?: string
           id?: string
-          options?: string[]
-          question?: string
+          phases_completed?: number
+          player_name?: string
+          score?: number
+          updated_at?: string
         }
         Relationships: []
       }

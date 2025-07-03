@@ -1,7 +1,7 @@
-
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { toast } from 'sonner';
 import { getQuestionsForPattern } from '../data/questions';
+import { useLeaderboard } from '../hooks/useLeaderboard';
 
 interface Avatar {
   gender: 'boy' | 'girl';
@@ -27,9 +27,10 @@ interface QuizGameProps {
   avatar: Avatar;
   initialProgress?: GameProgress;
   onProgressUpdate?: (progress: GameProgress) => void;
+  onViewLeaderboard?: () => void;
 }
 
-const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) => {
+const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard }: QuizGameProps) => {
   const [currentPhase, setCurrentPhase] = useState(initialProgress?.currentPhase || 1);
   const [currentQuestion, setCurrentQuestion] = useState(initialProgress?.currentQuestion || 0);
   const [score, setScore] = useState(initialProgress?.score || 0);
@@ -40,6 +41,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
   const [avatarAnimation, setAvatarAnimation] = useState<'idle' | 'correct' | 'wrong'>('idle');
   const [currentDifficulty, setCurrentDifficulty] = useState<'Fácil' | 'Médio' | 'Difícil'>('Fácil');
   const [difficultyPattern, setDifficultyPattern] = useState<('Fácil' | 'Médio' | 'Difícil')[]>([]);
+  const { saveScore } = useLeaderboard();
 
   // Memoize the progress object to prevent unnecessary re-renders
   const gameProgress = useMemo(() => ({
@@ -166,6 +168,8 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
         setQuestions([]); // Clear questions to trigger new generation
         toast.success(`Fase ${currentPhase} concluída! Avançando para a fase ${currentPhase + 1}`);
       } else {
+        // Game completed - save score to leaderboard
+        saveScore(avatar.name, score, currentPhase);
         toast.success(`Parabéns! Você completou todas as 100 fases com ${score} pontos! Você é um verdadeiro mestre da fé católica!`);
       }
     }
@@ -210,14 +214,24 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
             </div>
           </div>
           
-          <div className="flex flex-col items-center gap-2">
-            <div 
-              className="w-12 h-12 rounded-full flex items-center justify-center text-lg"
-              style={{ backgroundColor: avatar.skinColor }}
-            >
-              {avatar.gender === 'boy' ? '👦' : '👧'}
+          <div className="flex items-center gap-4">
+            {onViewLeaderboard && (
+              <button
+                onClick={onViewLeaderboard}
+                className="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg transition-colors"
+              >
+                🏆 Ranking
+              </button>
+            )}
+            <div className="flex flex-col items-center gap-2">
+              <div 
+                className="w-12 h-12 rounded-full flex items-center justify-center text-lg"
+                style={{ backgroundColor: avatar.skinColor }}
+              >
+                {avatar.gender === 'boy' ? '👦' : '👧'}
+              </div>
+              <span className="text-white font-semibold text-sm">{avatar.name}</span>
             </div>
-            <span className="text-white font-semibold text-sm">{avatar.name}</span>
           </div>
         </div>
       </div>

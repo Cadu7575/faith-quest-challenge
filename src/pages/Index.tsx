@@ -1,10 +1,10 @@
-
 import { useState, useEffect, useCallback } from 'react';
 import LoadingScreen from '../components/LoadingScreen';
 import AvatarSelection from '../components/AvatarSelection';
 import QuizGame from '../components/QuizGame';
+import Leaderboard from '../components/Leaderboard';
 
-type GameState = 'loading' | 'avatar-selection' | 'playing';
+type GameState = 'loading' | 'avatar-selection' | 'playing' | 'leaderboard';
 
 interface Avatar {
   gender: 'boy' | 'girl';
@@ -67,16 +67,32 @@ const Index = () => {
     localStorage.setItem('quiz-progress', JSON.stringify(progress));
   }, []);
 
+  const handleViewLeaderboard = () => {
+    setGameState('leaderboard');
+  };
+
+  const handleBackToGame = () => {
+    if (gameProgress && avatar) {
+      setGameState('playing');
+    } else {
+      setGameState('avatar-selection');
+    }
+  };
+
   if (gameState === 'loading') {
     return <LoadingScreen onComplete={handleLoadingComplete} />;
   }
 
   if (gameState === 'avatar-selection') {
-    return <AvatarSelection onComplete={handleAvatarComplete} />;
+    return <AvatarSelection onComplete={handleAvatarComplete} onViewLeaderboard={handleViewLeaderboard} />;
+  }
+
+  if (gameState === 'leaderboard') {
+    return <Leaderboard onBack={handleBackToGame} />;
   }
 
   if (gameState === 'playing' && avatar && gameProgress) {
-    return <QuizGame avatar={avatar} initialProgress={gameProgress} onProgressUpdate={handleProgressUpdate} />;
+    return <QuizGame avatar={avatar} initialProgress={gameProgress} onProgressUpdate={handleProgressUpdate} onViewLeaderboard={handleViewLeaderboard} />;
   }
 
   return null;
