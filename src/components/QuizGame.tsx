@@ -1,6 +1,8 @@
+
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { toast } from 'sonner';
-import { getQuestionsForPattern } from '../data/questions';
+import { useSupabaseQuestions } from '../hooks/useSupabaseQuestions';
+import { QuestionService } from '../services/questionService';
 
 interface Avatar {
   gender: 'boy' | 'girl';
@@ -9,10 +11,14 @@ interface Avatar {
 }
 
 interface Question {
+  id: string;
   question: string;
   options: string[];
-  correctAnswer: number;
+  correct_answer: number;
   explanation: string;
+  difficulty: string;
+  category: string;
+  originalIndex?: number;
 }
 
 interface GameProgress {
@@ -21,9 +27,9 @@ interface GameProgress {
   score: number;
   currentQuestion: number;
   usedQuestions?: {
-    easy: number[];
-    medium: number[];
-    hard: number[];
+    easy: string[];
+    medium: string[];
+    hard: string[];
   };
 }
 
@@ -45,10 +51,14 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
   const [currentDifficulty, setCurrentDifficulty] = useState<'Fácil' | 'Médio' | 'Difícil'>('Fácil');
   const [difficultyPattern, setDifficultyPattern] = useState<('Fácil' | 'Médio' | 'Difícil')[]>([]);
   const [usedQuestions, setUsedQuestions] = useState<{
-    easy: number[];
-    medium: number[];
-    hard: number[];
+    easy: string[];
+    medium: string[];
+    hard: string[];
   }>(initialProgress?.usedQuestions || { easy: [], medium: [], hard: [] });
+
+  // Hook do Supabase
+  const supabaseQuestions = useSupabaseQuestions();
+  const questionService = useMemo(() => new QuestionService(supabaseQuestions), [supabaseQuestions]);
 
   // Memoize the progress object to prevent unnecessary re-renders
   const gameProgress = useMemo(() => ({
@@ -85,9 +95,8 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
     return randomPattern as ('Fácil' | 'Médio' | 'Difícil')[];
   }, []);
 
-  const loadQuestions = useCallback((phase: number) => {
-    console.log(`=== CARREGANDO PERGUNTAS ===`);
-    console.log(`Fase: ${phase}`);
+  const loadQuestions = useCallback(async (phase: number) => {
+    console.log(`=== CARREGANDO PERGUNTAS DA FASE ${phase} (SUPABASE) ===`);
     console.log('Perguntas já utilizadas:', usedQuestions);
     
     setLoading(true);
@@ -98,51 +107,60 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
       setDifficultyPattern(pattern);
       console.log('✅ Padrão de dificuldade gerado:', pattern);
       
-      // Get questions based on the pattern, avoiding used questions
-      const phaseQuestions = getQuestionsForPattern(pattern, usedQuestions);
+      // Get questions from Supabase using the service
+      const phaseQuestions = await questionService.getQuestionsForPattern(pattern, usedQuestions);
       
       if (phaseQuestions.length > 0) {
         setQuestions(phaseQuestions);
         
         // Update used questions list
         const newUsedQuestions = { ...usedQuestions };
-        phaseQuestions.forEach((_, index) => {
+        phaseQuestions.forEach((question, index) => {
           const difficulty = pattern[index];
-          const questionIndex = phaseQuestions[index].originalIndex;
           
           if (difficulty === 'Fácil') {
-            newUsedQuestions.easy.push(questionIndex);
+            if (!newUsedQuestions.easy.includes(question.id)) {
+              newUsedQuestions.easy.push(question.id);
+            }
           } else if (difficulty === 'Médio') {
-            newUsedQuestions.medium.push(questionIndex);
+            if (!newUsedQuestions.medium.includes(question.id)) {
+              newUsedQuestions.medium.push(question.id);
+            }
           } else {
-            newUsedQuestions.hard.push(questionIndex);
+            if (!newUsedQuestions.hard.includes(question.id)) {
+              newUsedQuestions.hard.push(question.id);
+            }
           }
         });
         
         setUsedQuestions(newUsedQuestions);
         
-        console.log(`✅ ${phaseQuestions.length} perguntas carregadas com sucesso para a fase ${phase}`);
-        console.log('Novas perguntas utilizadas:', newUsedQuestions);
-        toast.success(`${phaseQuestions.length} perguntas carregadas para a fase ${phase}!`);
+        console.log(`✅ ${phaseQuestions.length} perguntas do Supabase carregadas para a fase ${phase}`);
+        console.log('Estatísticas das perguntas utilizadas:');
+        console.log(`- Fáceis: ${newUsedQuestions.easy.length}`);
+        console.log(`- Médias: ${newUsedQuestions.medium.length}`);
+        console.log(`- Difíceis: ${newUsedQuestions.hard.length}`);
+        
+        toast.success(`${phaseQuestions.length} perguntas carregadas da base de dados!`);
       } else {
-        throw new Error('Nenhuma pergunta foi carregada');
+        throw new Error('Nenhuma pergunta foi carregada do Supabase');
       }
       
     } catch (error) {
-      console.error('❌ ERRO ao carregar perguntas:', error);
-      toast.error('Erro ao carregar perguntas.');
+      console.error('❌ ERRO ao carregar perguntas do Supabase:', error);
+      toast.error('Erro ao carregar perguntas do banco de dados.');
     } finally {
       setLoading(false);
       console.log('=== CARREGAMENTO DE PERGUNTAS FINALIZADO ===\n');
     }
-  }, [generateDifficultyPattern, usedQuestions]);
+  }, [generateDifficultyPattern, usedQuestions, questionService]);
 
   // Load questions when phase changes
   useEffect(() => {
     console.log(`useEffect monitoramento - Fase: ${currentPhase}, Questions: ${questions.length}`);
     
     if (questions.length === 0) {
-      console.log('🚀 Disparando carregamento de perguntas...');
+      console.log('🚀 Disparando carregamento de perguntas do Supabase...');
       loadQuestions(currentPhase);
     }
   }, [currentPhase, loadQuestions, questions.length]);
@@ -160,7 +178,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
     setSelectedAnswer(answerIndex);
     const currentQ = questions[currentQuestion];
     
-    if (answerIndex === currentQ.correctAnswer) {
+    if (answerIndex === currentQ.correct_answer) {
       // Different points based on difficulty
       const points = currentDifficulty === 'Fácil' ? 1 : currentDifficulty === 'Médio' ? 2 : 3;
       setScore(prev => prev + points);
@@ -201,13 +219,14 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
     }
   };
 
-  if (loading) {
+  if (loading || supabaseQuestions.loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
           <p className="text-white">Carregando perguntas da fase {currentPhase}...</p>
-          <p className="text-blue-300 text-sm mt-2">Evitando perguntas repetidas...</p>
+          <p className="text-blue-300 text-sm mt-2">Conectando com o banco de dados...</p>
+          <p className="text-green-300 text-xs mt-1">🎯 Selecionando perguntas aleatoriamente</p>
         </div>
       </div>
     );
@@ -316,6 +335,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
                   </span>
                   <span className="text-blue-300 text-sm">Fase {currentPhase}</span>
                   <span className="text-slate-400 text-sm">({currentQuestion + 1}/10)</span>
+                  <span className="text-green-400 text-xs">📊 Supabase</span>
                 </div>
                 
                 <h2 className="text-xl font-bold text-white text-center">
@@ -340,10 +360,10 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
                     selectedAnswer === null
                       ? 'bg-slate-700 hover:bg-slate-600 text-white'
                       : selectedAnswer === index
-                        ? index === currentQ.correctAnswer
+                        ? index === currentQ.correct_answer
                           ? 'bg-green-600 text-white'
                           : 'bg-red-600 text-white'
-                        : index === currentQ.correctAnswer
+                        : index === currentQ.correct_answer
                           ? 'bg-green-600 text-white'
                           : 'bg-slate-700 text-gray-400'
                   }`}
@@ -362,6 +382,13 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate }: QuizGameProps) 
                   Explicação:
                 </h3>
                 <p className="text-blue-100">{currentQ.explanation}</p>
+                {currentQ.category && (
+                  <div className="mt-3">
+                    <span className="inline-block px-2 py-1 bg-blue-800 text-blue-200 rounded text-sm">
+                      📚 {currentQ.category}
+                    </span>
+                  </div>
+                )}
               </div>
             )}
 

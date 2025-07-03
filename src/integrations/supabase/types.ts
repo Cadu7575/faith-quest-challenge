@@ -9,13 +9,64 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      questions: {
+        Row: {
+          category: string
+          correct_answer: number
+          created_at: string
+          difficulty: string
+          explanation: string
+          id: string
+          options: string[]
+          question: string
+        }
+        Insert: {
+          category: string
+          correct_answer: number
+          created_at?: string
+          difficulty: string
+          explanation: string
+          id?: string
+          options: string[]
+          question: string
+        }
+        Update: {
+          category?: string
+          correct_answer?: number
+          created_at?: string
+          difficulty?: string
+          explanation?: string
+          id?: string
+          options?: string[]
+          question?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_random_questions: {
+        Args: {
+          difficulty_level: string
+          exclude_ids?: string[]
+          question_count?: number
+        }
+        Returns: {
+          id: string
+          question: string
+          options: string[]
+          correct_answer: number
+          explanation: string
+          difficulty: string
+          category: string
+        }[]
+      }
+      reset_used_questions: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
