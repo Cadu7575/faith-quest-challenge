@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { toast } from 'sonner';
 import { getQuestionsForPattern } from '../data/questions';
@@ -220,14 +219,6 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
           </div>
           
           <div className="flex items-center gap-4">
-            {onViewLeaderboard && (
-              <button
-                onClick={onViewLeaderboard}
-                className="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg transition-colors"
-              >
-                🏆 Ranking
-              </button>
-            )}
             <div className="flex flex-col items-center gap-2">
               <div 
                 className="w-12 h-12 rounded-full flex items-center justify-center text-lg"
@@ -245,8 +236,19 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
       <div className="bg-slate-800/60 p-4">
         <div className="max-w-4xl mx-auto">
           <div className="flex justify-between items-center mb-2">
-            <span className="text-sm text-blue-300">Progresso Geral</span>
-            <span className="text-sm text-blue-300">{currentPhase}/100 fases</span>
+            <div className="flex items-center gap-4">
+              <span className="text-sm text-blue-300">Progresso Geral</span>
+              <span className="text-sm text-blue-300">Fase {currentPhase}/100</span>
+              {onViewLeaderboard && (
+                <button
+                  onClick={onViewLeaderboard}
+                  className="px-3 py-1 bg-yellow-600 hover:bg-yellow-700 text-white text-sm font-semibold rounded-lg transition-colors flex items-center gap-1"
+                >
+                  🏆 Ranking
+                </button>
+              )}
+            </div>
+            <span className="text-sm text-blue-300">({currentQuestion + 1}/10)</span>
           </div>
           <div className="w-full bg-slate-700 rounded-full h-3">
             <div 
@@ -303,8 +305,6 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
                   }`}>
                     {currentDifficulty}
                   </span>
-                  <span className="text-blue-300 text-sm">Fase {currentPhase}</span>
-                  <span className="text-slate-400 text-sm">({currentQuestion + 1}/10)</span>
                 </div>
                 
                 <h2 className="text-xl font-bold text-white text-center">
