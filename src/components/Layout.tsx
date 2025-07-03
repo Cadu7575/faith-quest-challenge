@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
-import { Menu, X, Gamepad2 } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Menu, X, Gamepad2, Book } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -12,8 +12,8 @@ const Layout = ({ children }: LayoutProps) => {
   const navigate = useNavigate();
 
   const menuItems = [
+    { path: '/curiosidades', label: 'Curiosidades da Fé', icon: Book },
     { path: '/quiz', label: 'Quiz Católico', icon: Gamepad2 },
-    { path: '/curiosidades', label: 'Curiosidades da Fé', icon: Menu },
   ];
 
   const toggleMenu = () => {
@@ -42,6 +42,17 @@ const Layout = ({ children }: LayoutProps) => {
                   <Menu className="w-6 h-6 text-white" />
                 )}
               </button>
+              <div className="relative">
+                <img 
+                  src="/lovable-uploads/ebf9a6d5-503e-4a4a-813b-cab50ba45b0e.png" 
+                  alt="Carlo Acutis" 
+                  className="w-8 h-8 rounded-full border-2 border-blue-300"
+                  style={{
+                    filter: 'drop-shadow(0 0 8px rgba(59, 130, 246, 0.5))',
+                    backgroundColor: 'transparent'
+                  }}
+                />
+              </div>
               <h1 className="text-xl font-bold text-white">Quiz Católico</h1>
             </div>
           </div>
