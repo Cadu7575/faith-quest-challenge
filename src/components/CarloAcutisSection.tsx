@@ -1,5 +1,10 @@
 
-import { Sparkles, Computer, Heart, Star } from 'lucide-react';
+import { Sparkles, Computer, Heart, Star, ExternalLink } from 'lucide-react';
+
+const handleLerMais = () => {
+  const searchQuery = encodeURIComponent('Carlo Acutis beato santo jovem tecnologia biografia');
+  window.open(`https://www.google.com/search?q=${searchQuery}`, '_blank');
+};
 
 const CarloAcutisSection = () => {
   return (
@@ -32,10 +37,19 @@ const CarloAcutisSection = () => {
           Sua frase famosa: "A Eucaristia é a minha autoestrada para o céu" mostra sua profunda devoção 
           ao Santíssimo Sacramento.
         </p>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 mb-4">
           <span className="px-3 py-1 bg-blue-600 text-white text-sm rounded-full">Tecnologia</span>
           <span className="px-3 py-1 bg-purple-600 text-white text-sm rounded-full">Evangelização</span>
           <span className="px-3 py-1 bg-red-600 text-white text-sm rounded-full">Eucaristia</span>
+        </div>
+        <div className="flex justify-end">
+          <button
+            onClick={handleLerMais}
+            className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+          >
+            <ExternalLink className="w-4 h-4" />
+            Ler mais
+          </button>
         </div>
       </div>
 

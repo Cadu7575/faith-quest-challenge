@@ -1,5 +1,4 @@
-
-import { Heart } from 'lucide-react';
+import { Heart, ExternalLink } from 'lucide-react';
 
 const santos = [
   {
@@ -184,6 +183,11 @@ const santos = [
   }
 ];
 
+const handleLerMais = (nome: string) => {
+  const searchQuery = encodeURIComponent(`${nome} santo católico biografia`);
+  window.open(`https://www.google.com/search?q=${searchQuery}`, '_blank');
+};
+
 const SantosSection = () => {
   return (
     <div className="space-y-6">
@@ -215,7 +219,16 @@ const SantosSection = () => {
                 </span>
               ))}
             </div>
-            <p className="text-sm text-blue-400 font-medium">Festa: {santo.festa}</p>
+            <div className="flex justify-between items-center">
+              <p className="text-sm text-blue-400 font-medium">Festa: {santo.festa}</p>
+              <button
+                onClick={() => handleLerMais(santo.nome)}
+                className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+              >
+                <ExternalLink className="w-4 h-4" />
+                Ler mais
+              </button>
+            </div>
           </div>
         ))}
       </div>
