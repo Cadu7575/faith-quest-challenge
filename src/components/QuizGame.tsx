@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { toast } from 'sonner';
 import { getQuestionsForPattern } from '../data/questions';
@@ -135,9 +136,13 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
     if (answerIndex === currentQ.correctAnswer) {
       // Different points based on difficulty
       const points = currentDifficulty === 'Fácil' ? 1 : currentDifficulty === 'Médio' ? 2 : 3;
-      setScore(prev => prev + points);
+      const newScore = score + points;
+      setScore(newScore);
       setAvatarAnimation('correct');
       toast.success(`Resposta correta! +${points} ponto${points > 1 ? 's' : ''}`);
+      
+      // Salvar pontuação após cada pergunta correta
+      saveScore(avatar.name, newScore, currentPhase);
     } else {
       setAvatarAnimation('wrong');
       toast.error('Resposta incorreta!');

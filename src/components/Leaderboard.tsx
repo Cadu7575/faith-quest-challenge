@@ -1,6 +1,5 @@
-
 import { useState, useEffect } from 'react';
-import { supabase } from '../integrations/supabase/client';
+import { useLeaderboard } from '../hooks/useLeaderboard';
 import { 
   Table, 
   TableBody, 
@@ -9,48 +8,18 @@ import {
   TableHeader, 
   TableRow 
 } from './ui/table';
-import { Trophy, Medal, Award, ArrowLeft } from 'lucide-react';
-
-interface LeaderboardEntry {
-  id: string;
-  player_name: string;
-  score: number;
-  phases_completed: number;
-  created_at: string;
-}
+import { Trophy, Medal, Award, ArrowLeft, RefreshCw } from 'lucide-react';
 
 interface LeaderboardProps {
   onBack?: () => void;
 }
 
 const Leaderboard = ({ onBack }: LeaderboardProps) => {
-  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { leaderboard, loading, fetchLeaderboard } = useLeaderboard();
 
   useEffect(() => {
     fetchLeaderboard();
   }, []);
-
-  const fetchLeaderboard = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('leaderboard')
-        .select('*')
-        .order('score', { ascending: false })
-        .limit(50);
-
-      if (error) {
-        console.error('Erro ao buscar leaderboard:', error);
-        return;
-      }
-
-      setLeaderboard(data || []);
-    } catch (error) {
-      console.error('Erro ao buscar leaderboard:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const getRankIcon = (position: number) => {
     switch (position) {
@@ -81,28 +50,38 @@ const Leaderboard = ({ onBack }: LeaderboardProps) => {
       {/* Header */}
       <div className="bg-slate-800/80 backdrop-blur-lg border-b border-slate-700">
         <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center gap-4">
-            {onBack && (
-              <button
-                onClick={onBack}
-                className="p-2 text-blue-300 hover:text-white transition-colors"
-              >
-                <ArrowLeft className="w-6 h-6" />
-              </button>
-            )}
-            <img 
-              src="/lovable-uploads/ebf9a6d5-503e-4a4a-813b-cab50ba45b0e.png" 
-              alt="Carlo Acutis" 
-              className="w-12 h-12 rounded-full border-2 border-blue-300"
-              style={{
-                filter: 'drop-shadow(0 0 8px rgba(59, 130, 246, 0.5))',
-                backgroundColor: 'transparent'
-              }}
-            />
-            <div className="flex flex-col">
-              <h1 className="text-2xl font-bold text-white">Ranking de Jogadores</h1>
-              <p className="text-blue-300">Paróquia N.S. Aparecida - Grupo de Jovens Carlo Acutis</p>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              {onBack && (
+                <button
+                  onClick={onBack}
+                  className="p-2 text-blue-300 hover:text-white transition-colors"
+                >
+                  <ArrowLeft className="w-6 h-6" />
+                </button>
+              )}
+              <img 
+                src="/lovable-uploads/ebf9a6d5-503e-4a4a-813b-cab50ba45b0e.png" 
+                alt="Carlo Acutis" 
+                className="w-12 h-12 rounded-full border-2 border-blue-300"
+                style={{
+                  filter: 'drop-shadow(0 0 8px rgba(59, 130, 246, 0.5))',
+                  backgroundColor: 'transparent'
+                }}
+              />
+              <div className="flex flex-col">
+                <h1 className="text-2xl font-bold text-white">Ranking de Jogadores</h1>
+                <p className="text-blue-300">Paróquia N.S. Aparecida - Grupo de Jovens Carlo Acutis</p>
+              </div>
             </div>
+            
+            <button
+              onClick={fetchLeaderboard}
+              className="p-2 text-blue-300 hover:text-white transition-colors"
+              title="Atualizar ranking"
+            >
+              <RefreshCw className="w-6 h-6" />
+            </button>
           </div>
         </div>
       </div>

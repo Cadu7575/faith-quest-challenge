@@ -1,10 +1,42 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '../integrations/supabase/client';
 import { toast } from 'sonner';
 
+interface LeaderboardEntry {
+  id: string;
+  player_name: string;
+  score: number;
+  phases_completed: number;
+  created_at: string;
+}
+
 export const useLeaderboard = () => {
   const [saving, setSaving] = useState(false);
+  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchLeaderboard = async () => {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('leaderboard')
+        .select('*')
+        .order('score', { ascending: false })
+        .limit(50);
+
+      if (error) {
+        console.error('Erro ao buscar leaderboard:', error);
+        return;
+      }
+
+      setLeaderboard(data || []);
+    } catch (error) {
+      console.error('Erro ao buscar leaderboard:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const saveScore = async (playerName: string, score: number, phasesCompleted: number) => {
     setSaving(true);
@@ -24,25 +56,24 @@ export const useLeaderboard = () => {
       }
 
       if (existingPlayer) {
-        // Atualizar apenas se a nova pontuação for maior
+        // Sempre atualizar a pontuação (mesmo que seja menor)
+        const { error: updateError } = await supabase
+          .from('leaderboard')
+          .update({ 
+            score, 
+            phases_completed: phasesCompleted,
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', existingPlayer.id);
+
+        if (updateError) {
+          console.error('Erro ao atualizar pontuação:', updateError);
+          throw updateError;
+        }
+
+        // Mostrar toast apenas se melhorou a pontuação
         if (score > existingPlayer.score) {
-          const { error: updateError } = await supabase
-            .from('leaderboard')
-            .update({ 
-              score, 
-              phases_completed: phasesCompleted,
-              updated_at: new Date().toISOString()
-            })
-            .eq('id', existingPlayer.id);
-
-          if (updateError) {
-            console.error('Erro ao atualizar pontuação:', updateError);
-            throw updateError;
-          }
-
-          toast.success('Nova melhor pontuação salva no ranking!');
-        } else {
-          toast.info('Pontuação salva, mas não é sua melhor ainda!');
+          toast.success('Nova melhor pontuação!');
         }
       } else {
         // Criar nova entrada
@@ -59,9 +90,11 @@ export const useLeaderboard = () => {
           throw insertError;
         }
 
-        toast.success('Pontuação salva no ranking!');
+        toast.success('Entrada no ranking criada!');
       }
 
+      // Atualizar o leaderboard após salvar
+      await fetchLeaderboard();
       console.log('Pontuação salva com sucesso!');
     } catch (error) {
       console.error('Erro ao salvar pontuação:', error);
@@ -71,5 +104,9 @@ export const useLeaderboard = () => {
     }
   };
 
-  return { saveScore, saving };
+  useEffect(() => {
+    fetchLeaderboard();
+  }, []);
+
+  return { saveScore, saving, leaderboard, loading, fetchLeaderboard };
 };
