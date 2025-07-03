@@ -30,10 +30,10 @@ export class QuestionService {
     usedQuestions: UsedQuestions
   ): Promise<Question[]> {
     const questions: Question[] = [];
-    const newUsedQuestions = { ...usedQuestions };
+    let currentUsedQuestions = { ...usedQuestions };
 
     console.log('🎯 Iniciando busca de perguntas para padrão:', pattern);
-    console.log('📊 Perguntas já utilizadas:', usedQuestions);
+    console.log('📊 Perguntas já utilizadas:', currentUsedQuestions);
 
     for (let i = 0; i < pattern.length; i++) {
       const difficulty = pattern[i];
@@ -41,36 +41,37 @@ export class QuestionService {
 
       // Definir IDs a excluir baseado na dificuldade
       if (difficulty === 'Fácil') {
-        excludeIds = newUsedQuestions.easy;
+        excludeIds = [...currentUsedQuestions.easy];
       } else if (difficulty === 'Médio') {
-        excludeIds = newUsedQuestions.medium;
+        excludeIds = [...currentUsedQuestions.medium];
       } else if (difficulty === 'Difícil') {
-        excludeIds = newUsedQuestions.hard;
+        excludeIds = [...currentUsedQuestions.hard];
       }
 
       console.log(`🔍 Buscando pergunta ${i + 1}/${pattern.length} - Dificuldade: ${difficulty}`);
+      console.log(`📝 Excluindo ${excludeIds.length} perguntas já utilizadas`);
       
       let questionData = await this.supabaseHook.getRandomQuestions(difficulty, excludeIds, 1);
 
       // Se não encontrou perguntas, tentar reset automático
       if (questionData.length === 0) {
-        console.log(`⚠️ Pool de perguntas ${difficulty} esgotado. Executando reset automático...`);
+        console.log(`⚠️ Pool de perguntas ${difficulty} pode estar esgotado. Tentando reset...`);
         
         const resetSuccess = await this.supabaseHook.resetUsedQuestions();
         
         if (resetSuccess) {
           // Limpar o pool da dificuldade específica
           if (difficulty === 'Fácil') {
-            newUsedQuestions.easy = [];
+            currentUsedQuestions.easy = [];
           } else if (difficulty === 'Médio') {
-            newUsedQuestions.medium = [];
+            currentUsedQuestions.medium = [];
           } else if (difficulty === 'Difícil') {
-            newUsedQuestions.hard = [];
+            currentUsedQuestions.hard = [];
           }
 
-          console.log(`🔄 Reset executado. Tentando buscar pergunta novamente...`);
+          console.log(`🔄 Reset executado. Tentando buscar pergunta novamente sem exclusões...`);
           
-          // Tentar buscar novamente após o reset
+          // Tentar buscar novamente após o reset, sem exclusões
           questionData = await this.supabaseHook.getRandomQuestions(difficulty, [], 1);
         }
       }
@@ -85,22 +86,32 @@ export class QuestionService {
 
         // Adicionar à lista de perguntas usadas
         if (difficulty === 'Fácil') {
-          newUsedQuestions.easy.push(question.id);
+          currentUsedQuestions.easy.push(question.id);
         } else if (difficulty === 'Médio') {
-          newUsedQuestions.medium.push(question.id);
+          currentUsedQuestions.medium.push(question.id);
         } else if (difficulty === 'Difícil') {
-          newUsedQuestions.hard.push(question.id);
+          currentUsedQuestions.hard.push(question.id);
         }
 
         console.log(`✅ Pergunta adicionada: ${question.question.substring(0, 50)}...`);
       } else {
         console.error(`❌ Não foi possível obter pergunta para dificuldade: ${difficulty}`);
-        throw new Error(`Não foi possível carregar pergunta de dificuldade: ${difficulty}`);
+        
+        // Em vez de lançar erro, vamos tentar continuar com outras perguntas
+        console.log(`🚨 Tentando continuar sem esta pergunta...`);
+        
+        // Adicionar uma pergunta placeholder ou pular esta posição
+        // Por enquanto, vamos pular e continuar
+        continue;
       }
     }
 
+    if (questions.length === 0) {
+      throw new Error(`Não foi possível carregar nenhuma pergunta do banco de dados`);
+    }
+
     console.log(`🎉 Total de ${questions.length} perguntas carregadas com sucesso!`);
-    console.log('📈 Novo estado das perguntas utilizadas:', newUsedQuestions);
+    console.log('📈 Novo estado das perguntas utilizadas:', currentUsedQuestions);
 
     return questions;
   }
