@@ -20,6 +20,11 @@ const Layout = ({ children }: LayoutProps) => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const handleMenuClick = (path: string) => {
+    navigate(path);
+    setIsMenuOpen(false);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-pink-900">
       {/* Header with Hamburger Menu */}
@@ -50,15 +55,14 @@ const Layout = ({ children }: LayoutProps) => {
                 {menuItems.map((item) => {
                   const Icon = item.icon;
                   return (
-                    <Link
+                    <button
                       key={item.path}
-                      to={item.path}
-                      onClick={() => setIsMenuOpen(false)}
-                      className="flex items-center gap-3 px-4 py-3 rounded-md text-white hover:bg-white/10 transition-colors"
+                      onClick={() => handleMenuClick(item.path)}
+                      className="w-full flex items-center gap-3 px-4 py-3 rounded-md text-white hover:bg-white/10 transition-colors text-left"
                     >
                       <Icon className="w-5 h-5" />
                       <span className="font-medium">{item.label}</span>
-                    </Link>
+                    </button>
                   );
                 })}
               </div>
