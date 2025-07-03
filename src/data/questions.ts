@@ -1,3 +1,4 @@
+
 interface Question {
   question: string;
   options: string[];
@@ -197,23 +198,27 @@ const hardQuestions: Question[] = [
 export const getQuestionsForPattern = (pattern: ('Fácil' | 'Médio' | 'Difícil')[], usedQuestions: Set<string> = new Set()): Question[] => {
   const selectedQuestions: Question[] = [];
   
+  // Create a copy of used questions to track within this selection
+  const localUsedQuestions = new Set(usedQuestions);
+  
   for (const difficulty of pattern) {
     let availableQuestions: Question[] = [];
     
     switch (difficulty) {
       case 'Fácil':
-        availableQuestions = easyQuestions.filter(q => !usedQuestions.has(q.question));
+        availableQuestions = easyQuestions.filter(q => !localUsedQuestions.has(q.question));
         break;
       case 'Médio':
-        availableQuestions = mediumQuestions.filter(q => !usedQuestions.has(q.question));
+        availableQuestions = mediumQuestions.filter(q => !localUsedQuestions.has(q.question));
         break;
       case 'Difícil':
-        availableQuestions = hardQuestions.filter(q => !usedQuestions.has(q.question));
+        availableQuestions = hardQuestions.filter(q => !localUsedQuestions.has(q.question));
         break;
     }
     
-    // If no unused questions available for this difficulty, use all questions as fallback
+    // If no unused questions available for this difficulty, reset for this difficulty only
     if (availableQuestions.length === 0) {
+      console.log(`Resetando perguntas ${difficulty} - todas já foram usadas`);
       switch (difficulty) {
         case 'Fácil':
           availableQuestions = easyQuestions;
@@ -229,9 +234,19 @@ export const getQuestionsForPattern = (pattern: ('Fácil' | 'Médio' | 'Difícil
     
     if (availableQuestions.length > 0) {
       const randomIndex = Math.floor(Math.random() * availableQuestions.length);
-      selectedQuestions.push(availableQuestions[randomIndex]);
+      const selectedQuestion = availableQuestions[randomIndex];
+      selectedQuestions.push(selectedQuestion);
+      
+      // Add to local tracking to prevent duplicates within the same pattern
+      localUsedQuestions.add(selectedQuestion.question);
     }
   }
   
   return selectedQuestions;
+};
+
+// Function to reset used questions when we run out
+export const shouldResetUsedQuestions = (usedQuestions: Set<string>): boolean => {
+  const totalQuestions = easyQuestions.length + mediumQuestions.length + hardQuestions.length;
+  return usedQuestions.size >= totalQuestions * 0.8; // Reset when 80% have been used
 };
