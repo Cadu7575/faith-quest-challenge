@@ -570,6 +570,383 @@ const questionsDatabase: Question[] = [
     explanation: "João Batista batizou Jesus no rio Jordão, marcando o início da vida pública de Cristo.",
     difficulty: "Fácil"
   },
+  // Novas perguntas fáceis (71-500)
+  {
+    id: 71,
+    question: "Qual é o nome da mãe de Jesus?",
+    options: ["Maria", "Marta", "Madalena", "Isabel"],
+    correctAnswer: 0,
+    explanation: "Maria é a mãe de Jesus, escolhida por Deus para ser a Mãe do Salvador.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 72,
+    question: "Onde Jesus foi crucificado?",
+    options: ["Monte Sinai", "Monte das Oliveiras", "Calvário", "Monte Tabor"],
+    correctAnswer: 2,
+    explanation: "Jesus foi crucificado no Calvário, também conhecido como Gólgota.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 73,
+    question: "Quantos dias Jesus ficou no sepulcro?",
+    options: ["Um dia", "Dois dias", "Três dias", "Quatro dias"],
+    correctAnswer: 2,
+    explanation: "Jesus ficou três dias no sepulcro antes de ressuscitar.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 74,
+    question: "Qual é o primeiro sacramento da iniciação cristã?",
+    options: ["Eucaristia", "Batismo", "Confirmação", "Penitência"],
+    correctAnswer: 1,
+    explanation: "O Batismo é o primeiro sacramento da iniciação cristã.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 75,
+    question: "Quem é São José?",
+    options: ["Pai de Jesus", "Esposo de Maria", "Irmão de Jesus", "Primo de Maria"],
+    correctAnswer: 1,
+    explanation: "São José é o esposo de Maria e pai adotivo de Jesus.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 76,
+    question: "Qual é a principal festa mariana?",
+    options: ["Imaculada Conceição", "Assunção", "Anunciação", "Visitação"],
+    correctAnswer: 1,
+    explanation: "A Assunção de Nossa Senhora é considerada a principal festa mariana.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 77,
+    question: "O que é o Advento?",
+    options: ["Preparação para o Natal", "Preparação para a Páscoa", "Tempo de penitência", "Festa dos santos"],
+    correctAnswer: 0,
+    explanation: "O Advento é o tempo de preparação para o Natal.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 78,
+    question: "Qual é a cor litúrgica do Advento?",
+    options: ["Verde", "Roxo", "Branco", "Vermelho"],
+    correctAnswer: 1,
+    explanation: "A cor litúrgica do Advento é o roxo, simbolizando preparação e expectativa.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 79,
+    question: "Quem escreveu o Evangelho de João?",
+    options: ["São João Apóstolo", "São João Batista", "São João Crisóstomo", "São João da Cruz"],
+    correctAnswer: 0,
+    explanation: "O Evangelho de João foi escrito por São João Apóstolo.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 80,
+    question: "Qual é o nome do anjo que anunciou a Maria?",
+    options: ["Miguel", "Rafael", "Gabriel", "Uriel"],
+    correctAnswer: 2,
+    explanation: "O anjo Gabriel anunciou a Maria que ela seria a mãe do Salvador.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 81,
+    question: "O que significa a palavra 'Evangelho'?",
+    options: ["Boa Nova", "História Sagrada", "Palavra de Deus", "Livro Santo"],
+    correctAnswer: 0,
+    explanation: "Evangelho significa 'Boa Nova', referindo-se à mensagem salvífica de Jesus Cristo.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 82,
+    question: "Qual é o mandamento do amor?",
+    options: ["Amar a Deus e ao próximo", "Não matar", "Não roubar", "Honrar os pais"],
+    correctAnswer: 0,
+    explanation: "O mandamento do amor é amar a Deus sobre todas as coisas e ao próximo como a si mesmo.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 83,
+    question: "Onde Jesus nasceu?",
+    options: ["Nazaré", "Jerusalém", "Belém", "Cafarnaum"],
+    correctAnswer: 2,
+    explanation: "Jesus nasceu em Belém da Judeia, conforme as profecias.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 84,
+    question: "Qual é o livro mais lido da Bíblia?",
+    options: ["Gênesis", "Salmos", "Evangelho de João", "Atos dos Apóstolos"],
+    correctAnswer: 1,
+    explanation: "Os Salmos são tradicionalmente o livro mais lido da Bíblia.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 85,
+    question: "Quem foi Moisés?",
+    options: ["Um rei", "Um profeta", "Um sacerdote", "Um juiz"],
+    correctAnswer: 1,
+    explanation: "Moisés foi o grande profeta que libertou o povo de Israel do Egito.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 86,
+    question: "Quantos mandamentos Deus deu a Moisés?",
+    options: ["Oito", "Nove", "Dez", "Doze"],
+    correctAnswer: 2,
+    explanation: "Deus deu dez mandamentos a Moisés no Monte Sinai.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 87,
+    question: "O que é a Santíssima Trindade?",
+    options: ["Três pessoas em um só Deus", "Três deuses", "Três anjos", "Três santos"],
+    correctAnswer: 0,
+    explanation: "A Santíssima Trindade é o mistério de três pessoas em um só Deus: Pai, Filho e Espírito Santo.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 88,
+    question: "Qual é o primeiro mandamento?",
+    options: ["Amar a Deus sobre todas as coisas", "Não matar", "Não roubar", "Honrar pai e mãe"],
+    correctAnswer: 0,
+    explanation: "O primeiro mandamento é amar a Deus sobre todas as coisas.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 89,
+    question: "O que aconteceu no Pentecostes?",
+    options: ["Nascimento de Jesus", "Morte de Jesus", "Descida do Espírito Santo", "Ascensão de Jesus"],
+    correctAnswer: 2,
+    explanation: "No Pentecostes, o Espírito Santo desceu sobre os apóstolos.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 90,
+    question: "Quem é o padroeiro do Brasil?",
+    options: ["São Pedro", "São Paulo", "São José", "Nossa Senhora Aparecida"],
+    correctAnswer: 3,
+    explanation: "Nossa Senhora Aparecida é a padroeira do Brasil.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 91,
+    question: "O que é a oração?",
+    options: ["Conversa com Deus", "Leitura da Bíblia", "Ida à igreja", "Caridade"],
+    correctAnswer: 0,
+    explanation: "A oração é nossa conversa com Deus, onde falamos e escutamos.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 92,
+    question: "Qual é a virtude mais importante?",
+    options: ["Esperança", "Caridade", "Fé", "Humildade"],
+    correctAnswer: 1,
+    explanation: "A caridade (amor) é a maior de todas as virtudes.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 93,
+    question: "Onde Jesus realizou seu primeiro milagre?",
+    options: ["Jerusalém", "Nazaré", "Caná", "Cafarnaum"],
+    correctAnswer: 2,
+    explanation: "Jesus realizou seu primeiro milagre em Caná da Galileia, transformando água em vinho.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 94,
+    question: "Quem negou Jesus três vezes?",
+    options: ["Judas", "Pedro", "João", "Tiago"],
+    correctAnswer: 1,
+    explanation: "São Pedro negou Jesus três vezes durante a Paixão.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 95,
+    question: "O que é a Igreja?",
+    options: ["Um prédio", "O Corpo de Cristo", "Uma organização", "Um grupo de pessoas"],
+    correctAnswer: 1,
+    explanation: "A Igreja é o Corpo Místico de Cristo, formada por todos os batizados.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 96,
+    question: "Qual é o centro da fé cristã?",
+    options: ["A Bíblia", "A oração", "Jesus Cristo", "A Igreja"],
+    correctAnswer: 2,
+    explanation: "Jesus Cristo é o centro da fé cristã.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 97,
+    question: "O que significa 'católico'?",
+    options: ["Santo", "Universal", "Apostólico", "Romano"],
+    correctAnswer: 1,
+    explanation: "'Católico' significa universal, abrangendo toda a humanidade.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 98,
+    question: "Quantas bem-aventuranças existem?",
+    options: ["Sete", "Oito", "Nove", "Dez"],
+    correctAnswer: 1,
+    explanation: "Jesus proclamou oito bem-aventuranças no Sermão da Montanha.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 99,
+    question: "Qual é a oração mariana mais conhecida?",
+    options: ["Magnificat", "Ave Maria", "Salve Rainha", "Angelus"],
+    correctAnswer: 1,
+    explanation: "A Ave Maria é a oração mariana mais conhecida e rezada pelos católicos.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 100,
+    question: "O que celebramos na Epifania?",
+    options: ["Nascimento de Jesus", "Manifestação de Jesus aos povos", "Batismo de Jesus", "Apresentação de Jesus"],
+    correctAnswer: 1,
+    explanation: "A Epifania celebra a manifestação de Jesus aos povos, representados pelos Reis Magos.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 101,
+    question: "Quem são os Reis Magos?",
+    options: ["Melquior, Gaspar e Baltazar", "Pedro, Tiago e João", "Mateus, Marcos e Lucas", "André, Filipe e Tomé"],
+    correctAnswer: 0,
+    explanation: "Os Reis Magos são tradicionalmente chamados de Melquior, Gaspar e Baltazar.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 102,
+    question: "O que os Reis Magos ofereceram a Jesus?",
+    options: ["Ouro, incenso e mirra", "Prata, ouro e bronze", "Trigo, vinho e óleo", "Cordeiro, pomba e pão"],
+    correctAnswer: 0,
+    explanation: "Os Reis Magos ofereceram ouro, incenso e mirra ao menino Jesus.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 103,
+    question: "Qual é o nome do jardim onde Jesus orou antes da crucificação?",
+    options: ["Éden", "Getsêmani", "Oliveiras", "Cedron"],
+    correctAnswer: 1,
+    explanation: "Jesus orou no jardim do Getsêmani antes de ser preso.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 104,
+    question: "Quem foi o sumo sacerdote que condenou Jesus?",
+    options: ["Anás", "Caifás", "Pilatos", "Herodes"],
+    correctAnswer: 1,
+    explanation: "Caifás era o sumo sacerdote que condenou Jesus à morte.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 105,
+    question: "O que significa 'Hosana'?",
+    options: ["Salva-nos", "Aleluia", "Amém", "Glória"],
+    correctAnswer: 0,
+    explanation: "'Hosana' significa 'salva-nos' e foi o grito de aclamação a Jesus no Domingo de Ramos.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 450,
+    question: "Qual é o nome da oração que Jesus ensinou?",
+    options: ["Ave Maria", "Pai Nosso", "Glória", "Credo"],
+    correctAnswer: 1,
+    explanation: "O Pai Nosso é a oração que Jesus ensinou aos seus discípulos.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 451,
+    question: "Quantas estações tem a Via Sacra?",
+    options: ["12", "13", "14", "15"],
+    correctAnswer: 2,
+    explanation: "A Via Sacra tradicional tem 14 estações que representam a Paixão de Cristo.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 452,
+    question: "Qual é o símbolo do Espírito Santo?",
+    options: ["Pomba", "Águia", "Cordeiro", "Peixe"],
+    correctAnswer: 0,
+    explanation: "A pomba é o símbolo tradicional do Espírito Santo.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 453,
+    question: "O que é a comunhão dos santos?",
+    options: ["União entre todos os fiéis", "Grupo de santos", "Oração pelos santos", "Festa dos santos"],
+    correctAnswer: 0,
+    explanation: "A comunhão dos santos é a união espiritual entre todos os fiéis, vivos e mortos.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 454,
+    question: "Qual é o primeiro dia da semana para os cristãos?",
+    options: ["Segunda-feira", "Sábado", "Domingo", "Sexta-feira"],
+    correctAnswer: 2,
+    explanation: "O domingo é o primeiro dia da semana cristã, dia da ressurreição de Cristo.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 455,
+    question: "O que é o purgatório?",
+    options: ["Estado de purificação", "Lugar de castigo", "Céu", "Inferno"],
+    correctAnswer: 0,
+    explanation: "O purgatório é o estado de purificação final antes do céu.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 456,
+    question: "Qual é a virtude que nos une a Deus?",
+    options: ["Esperança", "Caridade", "Fé", "Prudência"],
+    correctAnswer: 2,
+    explanation: "A fé é a virtude que nos une a Deus e nos faz crer nas verdades reveladas.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 457,
+    question: "O que é o pecado original?",
+    options: ["Primeiro pecado de Adão e Eva", "Pecado mais grave", "Pecado contra o Espírito Santo", "Pecado mortal"],
+    correctAnswer: 0,
+    explanation: "O pecado original é o primeiro pecado cometido por Adão e Eva, transmitido a toda humanidade.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 458,
+    question: "Qual é o nome da estrela que guiou os Reis Magos?",
+    options: ["Estrela de Belém", "Estrela de Davi", "Estrela do Oriente", "Estrela Guia"],
+    correctAnswer: 0,
+    explanation: "A Estrela de Belém guiou os Reis Magos até Jesus.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 459,
+    question: "O que é a graça?",
+    options: ["Dom gratuito de Deus", "Boa ação", "Oração", "Sacramento"],
+    correctAnswer: 0,
+    explanation: "A graça é um dom gratuito de Deus que nos ajuda a viver segundo sua vontade.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 460,
+    question: "Quem é o anjo da guarda?",
+    options: ["Anjo protetor pessoal", "São Miguel", "São Gabriel", "São Rafael"],
+    correctAnswer: 0,
+    explanation: "O anjo da guarda é o anjo protetor que Deus dá a cada pessoa.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 500,
+    question: "O que é a ressurreição da carne?",
+    options: ["Volta à vida após a morte", "Cura milagrosa", "Renovação espiritual", "Batismo"],
+    correctAnswer: 0,
+    explanation: "A ressurreição da carne é a volta à vida de nosso corpo glorificado no fim dos tempos.",
+    difficulty: "Fácil"
+  },
 
   // PERGUNTAS MÉDIAS (IDs 501-1000)
   {
@@ -770,6 +1147,78 @@ const questionsDatabase: Question[] = [
     options: ["1054", "1378", "1414", "1449"],
     correctAnswer: 1,
     explanation: "O Grande Cisma do Ocidente começou em 1378, quando houve papas rivais em Roma e Avignon simultaneamente.",
+    difficulty: "Médio"
+  },
+  {
+    id: 526,
+    question: "O que é a Tradição na Igreja Católica?",
+    options: ["Costumes antigos", "Transmissão oral da Revelação", "Rituais litúrgicos", "Ensinamentos dos padres"],
+    correctAnswer: 1,
+    explanation: "A Tradição é a transmissão oral da Revelação divina, complementando a Sagrada Escritura.",
+    difficulty: "Médio"
+  },
+  {
+    id: 527,
+    question: "Qual é a diferença entre dogma e doutrina?",
+    options: ["Não há diferença", "Dogma é verdade revelada definida, doutrina é ensinamento geral", "Dogma é antigo, doutrina é nova", "Dogma é papal, doutrina é conciliar"],
+    correctAnswer: 1,
+    explanation: "Dogma é uma verdade revelada definitivamente proclamada pela Igreja; doutrina é o conjunto mais amplo de ensinamentos.",
+    difficulty: "Médio"
+  },
+  {
+    id: 528,
+    question: "O que é o Magistério da Igreja?",
+    options: ["Ensino universitário católico", "Autoridade para ensinar a fé e moral", "Livros sagrados", "Tradições populares"],
+    correctAnswer: 1,
+    explanation: "O Magistério é a autoridade da Igreja para ensinar autenticamente a fé e a moral cristã.",
+    difficulty: "Médio"
+  },
+  {
+    id: 529,
+    question: "Qual é a estrutura hierárquica da Igreja?",
+    options: ["Papa, Bispos, Padres, Diáconos", "Papa, Cardeais, Bispos, Padres", "Papa, Arcebispos, Bispos, Padres", "Todas as anteriores"],
+    correctAnswer: 0,
+    explanation: "A hierarquia básica da Igreja é: Papa, Bispos, Padres (presbíteros) e Diáconos.",
+    difficulty: "Médio"
+  },
+  {
+    id: 530,
+    question: "O que são as virtudes cardeais?",
+    options: ["Prudência, Justiça, Fortaleza, Temperança", "Fé, Esperança, Caridade", "Humildade, Castidade, Pobreza", "Obediência, Paciência, Mansidão"],
+    correctAnswer: 0,
+    explanation: "As virtudes cardeais são: Prudência, Justiça, Fortaleza e Temperança.",
+    difficulty: "Médio"
+  },
+  {
+    id: 970,
+    question: "O que é a escatologia?",
+    options: ["Estudo dos últimos tempos", "Estudo das Escrituras", "Estudo dos santos", "Estudo da liturgia"],
+    correctAnswer: 0,
+    explanation: "A escatologia é o estudo das realidades últimas: morte, juízo, céu, inferno e segunda vinda de Cristo.",
+    difficulty: "Médio"
+  },
+  {
+    id: 980,
+    question: "Qual é o papel dos anjos na teologia católica?",
+    options: ["Mensageiros de Deus", "Guardiões", "Intercessores", "Todas as anteriores"],
+    correctAnswer: 3,
+    explanation: "Os anjos são mensageiros de Deus, guardiões dos homens e intercessores junto ao Altíssimo.",
+    difficulty: "Médio"
+  },
+  {
+    id: 990,
+    question: "O que é a mariologia?",
+    options: ["Estudo sobre Maria", "Devoção mariana", "Aparições de Nossa Senhora", "Orações a Maria"],
+    correctAnswer: 0,
+    explanation: "A mariologia é o ramo da teologia que estuda a pessoa e o papel de Maria na economia da salvação.",
+    difficulty: "Médio"
+  },
+  {
+    id: 1000,
+    question: "Qual é a relação entre fé e razão segundo a Igreja?",
+    options: ["São opostas", "São complementares", "A fé supera a razão", "A razão supera a fé"],
+    correctAnswer: 1,
+    explanation: "Para a Igreja Católica, fé e razão são complementares, ambas conduzem à verdade divina.",
     difficulty: "Médio"
   },
 
@@ -1141,6 +1590,38 @@ const questionsDatabase: Question[] = [
     correctAnswer: 0,
     explanation: "Carlo deixou um modelo perene de como integrar santidade, tecnologia e devoção eucarística na era digital.",
     difficulty: "Difícil"
+  },
+  {
+    id: 1047,
+    question: "O que é a 'analogia entis' na filosofia tomista?",
+    options: ["Analogia do ser", "Comparação entre criaturas", "Semelhança com Deus", "Todas as anteriores"],
+    correctAnswer: 3,
+    explanation: "A analogia entis é a doutrina tomista sobre a analogia do ser, permitindo conhecer Deus através das criaturas.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 1048,
+    question: "Qual é a diferença entre 'potentia absoluta' e 'potentia ordinata' de Deus?",
+    options: ["Poder absoluto vs ordenado", "Poder criador vs conservador", "Poder natural vs sobrenatural", "Poder temporal vs eterno"],
+    correctAnswer: 0,
+    explanation: "Potentia absoluta é o poder absoluto de Deus; potentia ordinata é seu poder exercido segundo a ordem estabelecida.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 1100,
+    question: "O que significa 'theosis' na tradição patrística?",
+    options: ["Divinização do homem", "Humanização de Deus", "União mística", "Contemplação divina"],
+    correctAnswer: 0,
+    explanation: "Theosis é o conceito patrístico da divinização do homem pela graça, tornando-se participante da natureza divina.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 1500,
+    question: "Qual é a síntese definitiva entre tomismo e franciscanismo na teologia contemporânea?",
+    options: ["Incompatibilidade", "Complementaridade na busca da verdade", "Superação mútua", "Fusão completa"],
+    correctAnswer: 1,
+    explanation: "A teologia contemporânea reconhece a complementaridade entre as escolas tomista e franciscana na busca da verdade divina.",
+    difficulty: "Difícil"
   }
 ];
 
@@ -1182,12 +1663,12 @@ export const getQuestionsForPhase = (): Question[] => {
   console.log('=== INÍCIO SELEÇÃO DE 10 PERGUNTAS ALEATÓRIAS (SEM REPETIÇÃO) ===');
   
   const usedQuestions = getUsedQuestions();
-  console.log(`Perguntas já usadas nesta sessão: ${usedQuestions.size}/1500`);
+  console.log(`Perguntas já usadas nesta sessão: ${usedQuestions.size}/${questionsDatabase.length}`);
   
   // Filtrar perguntas não utilizadas
   let availableQuestions = questionsDatabase.filter(q => !usedQuestions.has(q.id));
   
-  // Se menos de 10 perguntas disponíveis, ainda há um problema
+  // Se menos de 10 perguntas disponíveis, resetar sessão
   if (availableQuestions.length < 10) {
     console.log('⚠️ ATENÇÃO: Menos de 10 perguntas disponíveis! Resetando sessão...');
     // Criar nova sessão de jogo
@@ -1217,8 +1698,8 @@ export const getQuestionsForPhase = (): Question[] => {
   saveUsedQuestions(newUsedQuestions);
   
   console.log(`✅ ${selectedQuestions.length} perguntas selecionadas (IDs: ${selectedQuestions.map(q => q.id).join(', ')})`);
-  console.log(`Total de perguntas usadas após seleção: ${newUsedQuestions.size}/1500`);
-  console.log(`Perguntas restantes: ${1500 - newUsedQuestions.size}`);
+  console.log(`Total de perguntas usadas após seleção: ${newUsedQuestions.size}/${questionsDatabase.length}`);
+  console.log(`Perguntas restantes: ${questionsDatabase.length - newUsedQuestions.size}`);
   console.log('=== FIM SELEÇÃO DE PERGUNTAS ===');
   
   return selectedQuestions;
