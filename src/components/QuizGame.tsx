@@ -1,7 +1,6 @@
-
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { toast } from 'sonner';
-import { getQuestionsForPhase } from '../data/questions';
+import { getQuestionsForPhase, getQuestionStats } from '../data/questions';
 import { useLeaderboard } from '../hooks/useLeaderboard';
 
 interface Avatar {
@@ -82,6 +81,11 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
   const loadQuestions = useCallback((phase: number) => {
     console.log(`=== CARREGANDO 10 PERGUNTAS PARA FASE ${phase} ===`);
     
+    // Mostrar estatísticas antes de carregar
+    const stats = getQuestionStats();
+    console.log(`📊 ESTATÍSTICAS: ${stats.usedQuestions}/${stats.totalQuestions} usadas, ${stats.remainingQuestions} restantes`);
+    console.log(`🔑 Sessão: ${stats.sessionId}`);
+    
     setLoading(true);
     
     try {
@@ -89,9 +93,25 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
       const phaseQuestions = getQuestionsForPhase();
       
       if (phaseQuestions.length > 0) {
+        // Verificar se não há IDs duplicados
+        const ids = phaseQuestions.map(q => q.id);
+        const uniqueIds = new Set(ids);
+        
+        if (ids.length !== uniqueIds.size) {
+          console.error('❌ ERRO: Perguntas duplicadas detectadas!', ids);
+          toast.error('Erro: perguntas duplicadas detectadas!');
+          return;
+        }
+        
         setQuestions(phaseQuestions);
         console.log(`✅ ${phaseQuestions.length} perguntas carregadas com sucesso para a fase ${phase}`);
-        toast.success(`10 perguntas aleatórias carregadas para a fase ${phase}!`, {
+        console.log(`📝 IDs das perguntas: [${ids.join(', ')}]`);
+        
+        // Mostrar estatísticas após carregar
+        const newStats = getQuestionStats();
+        console.log(`📊 NOVA ESTATÍSTICA: ${newStats.usedQuestions}/${newStats.totalQuestions} usadas, ${newStats.remainingQuestions} restantes`);
+        
+        toast.success(`10 perguntas únicas carregadas para a fase ${phase}!`, {
           duration: 2000
         });
       } else {
@@ -185,8 +205,8 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-          <p className="text-white">Carregando 10 perguntas aleatórias da fase {currentPhase}...</p>
-          <p className="text-blue-300 text-sm mt-2">Sem repetições garantidas!</p>
+          <p className="text-white">Carregando 10 perguntas únicas da fase {currentPhase}...</p>
+          <p className="text-blue-300 text-sm mt-2">Sistema anti-repetição ativo!</p>
         </div>
       </div>
     );

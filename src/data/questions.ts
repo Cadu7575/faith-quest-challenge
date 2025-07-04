@@ -1144,9 +1144,21 @@ const questionsDatabase: Question[] = [
   }
 ];
 
-// Função para obter perguntas usadas do localStorage
+// Função para gerenciar sessão de jogo única
+const getGameSession = (): string => {
+  let sessionId = sessionStorage.getItem('quiz-game-session');
+  if (!sessionId) {
+    sessionId = `game-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    sessionStorage.setItem('quiz-game-session', sessionId);
+  }
+  return sessionId;
+};
+
+// Função para obter perguntas usadas da sessão atual
 const getUsedQuestions = (): Set<number> => {
-  const saved = localStorage.getItem('quiz-used-questions');
+  const sessionId = getGameSession();
+  const key = `quiz-used-questions-${sessionId}`;
+  const saved = localStorage.getItem(key);
   if (saved) {
     try {
       const array = JSON.parse(saved);
@@ -1158,30 +1170,44 @@ const getUsedQuestions = (): Set<number> => {
   return new Set();
 };
 
-// Função para salvar perguntas usadas no localStorage
+// Função para salvar perguntas usadas da sessão atual
 const saveUsedQuestions = (usedQuestions: Set<number>) => {
-  localStorage.setItem('quiz-used-questions', JSON.stringify([...usedQuestions]));
+  const sessionId = getGameSession();
+  const key = `quiz-used-questions-${sessionId}`;
+  localStorage.setItem(key, JSON.stringify([...usedQuestions]));
 };
 
 // Função principal para obter 10 perguntas aleatórias sem repetição
 export const getQuestionsForPhase = (): Question[] => {
-  console.log('=== INÍCIO SELEÇÃO DE 10 PERGUNTAS ALEATÓRIAS ===');
+  console.log('=== INÍCIO SELEÇÃO DE 10 PERGUNTAS ALEATÓRIAS (SEM REPETIÇÃO) ===');
   
   const usedQuestions = getUsedQuestions();
-  console.log(`Perguntas já usadas: ${usedQuestions.size}`);
+  console.log(`Perguntas já usadas nesta sessão: ${usedQuestions.size}/1500`);
   
   // Filtrar perguntas não utilizadas
   let availableQuestions = questionsDatabase.filter(q => !usedQuestions.has(q.id));
   
-  // Se menos de 10 perguntas disponíveis, resetar o sistema
+  // Se menos de 10 perguntas disponíveis, ainda há um problema
   if (availableQuestions.length < 10) {
-    console.log('⚠️ Resetando perguntas - menos de 10 disponíveis');
-    localStorage.removeItem('quiz-used-questions');
+    console.log('⚠️ ATENÇÃO: Menos de 10 perguntas disponíveis! Resetando sessão...');
+    // Criar nova sessão de jogo
+    const newSessionId = `game-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    sessionStorage.setItem('quiz-game-session', newSessionId);
+    // Limpar perguntas usadas da sessão anterior
+    const oldKey = `quiz-used-questions-${getGameSession()}`;
+    localStorage.removeItem(oldKey);
+    // Todas as perguntas ficam disponíveis novamente
     availableQuestions = questionsDatabase;
   }
   
-  // Embaralhar as perguntas disponíveis
-  const shuffled = [...availableQuestions].sort(() => Math.random() - 0.5);
+  console.log(`Perguntas disponíveis para seleção: ${availableQuestions.length}`);
+  
+  // Embaralhar as perguntas disponíveis usando algoritmo Fisher-Yates
+  const shuffled = [...availableQuestions];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
   
   // Selecionar as primeiras 10
   const selectedQuestions = shuffled.slice(0, 10);
@@ -1190,15 +1216,29 @@ export const getQuestionsForPhase = (): Question[] => {
   const newUsedQuestions = new Set([...usedQuestions, ...selectedQuestions.map(q => q.id)]);
   saveUsedQuestions(newUsedQuestions);
   
-  console.log(`✅ ${selectedQuestions.length} perguntas selecionadas aleatoriamente`);
-  console.log(`Total de perguntas usadas após seleção: ${newUsedQuestions.size}`);
+  console.log(`✅ ${selectedQuestions.length} perguntas selecionadas (IDs: ${selectedQuestions.map(q => q.id).join(', ')})`);
+  console.log(`Total de perguntas usadas após seleção: ${newUsedQuestions.size}/1500`);
+  console.log(`Perguntas restantes: ${1500 - newUsedQuestions.size}`);
   console.log('=== FIM SELEÇÃO DE PERGUNTAS ===');
   
   return selectedQuestions;
 };
 
-// Função para resetar perguntas usadas manualmente
+// Função para resetar perguntas usadas manualmente (para debug)
 export const resetUsedQuestions = () => {
-  localStorage.removeItem('quiz-used-questions');
+  const sessionId = getGameSession();
+  const key = `quiz-used-questions-${sessionId}`;
+  localStorage.removeItem(key);
   console.log('🔄 Todas as perguntas usadas foram resetadas manualmente');
+};
+
+// Função para verificar estatísticas de uso
+export const getQuestionStats = () => {
+  const usedQuestions = getUsedQuestions();
+  return {
+    totalQuestions: questionsDatabase.length,
+    usedQuestions: usedQuestions.size,
+    remainingQuestions: questionsDatabase.length - usedQuestions.size,
+    sessionId: getGameSession()
+  };
 };
