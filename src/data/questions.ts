@@ -7,1719 +7,991 @@ interface Question {
   difficulty: 'Fácil' | 'Médio' | 'Difícil';
 }
 
-// Banco de dados com 1500 perguntas únicas sobre fé católica
-const questionsDatabase: Question[] = [
-  // PERGUNTAS FÁCEIS (IDs 1-500)
+// Perguntas Fáceis
+const easyQuestions: Question[] = [
   {
     id: 1,
-    question: "Qual é o sacramento que nos une a Cristo e à Igreja?",
-    options: ["Batismo", "Confirmação", "Eucaristia", "Matrimônio"],
-    correctAnswer: 0,
-    explanation: "O Batismo é o sacramento que nos lava do pecado original e nos torna membros do Corpo de Cristo, que é a Igreja.",
+    question: "Quem é o fundador da Igreja Católica?",
+    options: ["São Paulo", "São Pedro", "Jesus Cristo", "Santo Agostinho"],
+    correctAnswer: 2,
+    explanation: "Jesus Cristo é o fundador da Igreja Católica. Ele estabeleceu sua Igreja sobre os apóstolos, com Pedro como líder.",
     difficulty: "Fácil"
   },
   {
     id: 2,
-    question: "Quem foi o primeiro Papa da Igreja Católica?",
-    options: ["São Pedro", "São Paulo", "Santo Agostinho", "São Francisco"],
-    correctAnswer: 0,
-    explanation: "São Pedro foi escolhido por Jesus para ser a pedra sobre a qual a Igreja seria construída, tornando-se o primeiro Papa.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 3,
-    question: "Qual oração Jesus nos ensinou?",
-    options: ["Ave Maria", "Pai Nosso", "Credo", "Salve Rainha"],
-    correctAnswer: 1,
-    explanation: "O Pai Nosso é a oração que Jesus ensinou aos seus discípulos, contendo as principais petições para a vida cristã.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 4,
-    question: "O que celebramos no Domingo de Ramos?",
-    options: ["A Última Ceia", "A entrada de Jesus em Jerusalém", "A ressurreição de Lázaro", "O nascimento de Jesus"],
-    correctAnswer: 1,
-    explanation: "No Domingo de Ramos, celebramos a entrada triunfal de Jesus em Jerusalém, aclamado pelo povo com ramos de oliveira.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 5,
-    question: "Qual é o mandamento mais importante?",
-    options: ["Amar a Deus sobre todas as coisas", "Não matar", "Guardar domingos e festas", "Honrar pai e mãe"],
-    correctAnswer: 0,
-    explanation: "Amar a Deus sobre todas as coisas é o primeiro e mais importante mandamento, pois dele derivam todos os outros.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 6,
-    question: "Quem traiu Jesus?",
-    options: ["Judas", "Pedro", "João", "Tiago"],
-    correctAnswer: 0,
-    explanation: "Judas Iscariotes foi o discípulo que traiu Jesus por trinta moedas de prata.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 7,
-    question: "O que é a Quaresma?",
-    options: ["Um tempo de preparação para o Natal", "Um tempo de preparação para a Páscoa", "Um tempo de festas religiosas", "Um tempo de descanso"],
-    correctAnswer: 1,
-    explanation: "A Quaresma é um período de 40 dias de preparação para a Páscoa, marcado por oração, penitência e caridade.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 8,
-    question: "Qual é o significado da cor litúrgica verde?",
-    options: ["Esperança", "Alegria", "Penitência", "Martírio"],
-    correctAnswer: 0,
-    explanation: "A cor verde é usada no tempo comum e simboliza a esperança e o crescimento na fé.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 9,
-    question: "O que é a Bíblia?",
-    options: ["Um livro de história", "A Palavra de Deus", "Um livro de poesias", "Um livro de contos"],
-    correctAnswer: 1,
-    explanation: "A Bíblia é a Palavra de Deus revelada aos homens, contendo o Antigo e o Novo Testamento.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 10,
-    question: "Quantos são os Evangelhos?",
-    options: ["Dois", "Três", "Quatro", "Cinco"],
-    correctAnswer: 2,
-    explanation: "Os Evangelhos são quatro: Mateus, Marcos, Lucas e João, cada um apresentando a vida, os ensinamentos, a morte e a ressurreição de Jesus.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 11,
-    question: "Em que ano nasceu Carlo Acutis?",
-    options: ["1990", "1991", "1992", "1993"],
-    correctAnswer: 1,
-    explanation: "Carlo Acutis nasceu em 3 de maio de 1991, em Londres, mas cresceu em Milão, Itália.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 12,
-    question: "Com quantos anos Carlo Acutis morreu?",
-    options: ["13 anos", "14 anos", "15 anos", "16 anos"],
-    correctAnswer: 2,
-    explanation: "Carlo Acutis morreu aos 15 anos, em 12 de outubro de 2006, devido a uma leucemia fulminante.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 13,
-    question: "Qual era a paixão de Carlo Acutis?",
-    options: ["Futebol", "Música", "Informática", "Pintura"],
-    correctAnswer: 2,
-    explanation: "Carlo Acutis tinha uma grande paixão pela informática e utilizava seus conhecimentos para evangelizar através da internet.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 14,
-    question: "O que Carlo Acutis criou sobre milagres eucarísticos?",
-    options: ["Um livro", "Uma exposição", "Um filme", "Uma música"],
-    correctAnswer: 1,
-    explanation: "Carlo Acutis criou uma exposição sobre milagres eucarísticos que percorreu o mundo todo, documentando centenas de milagres.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 15,
-    question: "Onde está sepultado Carlo Acutis?",
-    options: ["Roma", "Londres", "Milão", "Assis"],
-    correctAnswer: 3,
-    explanation: "Carlo Acutis está sepultado em Assis, na Igreja de Santa Maria Maior, um local que ele amava muito.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 16,
-    question: "Qual santo é conhecido como o 'Poverello de Assis'?",
-    options: ["Santo Antônio", "São Francisco de Assis", "São Bento", "São Domingos"],
-    correctAnswer: 1,
-    explanation: "São Francisco de Assis é conhecido como o 'Poverello' devido à sua vida de pobreza radical e simplicidade.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 17,
-    question: "Qual santa recebeu as chagas de Cristo?",
-    options: ["Santa Teresa", "Santa Rita", "Santa Catarina de Siena", "Santa Faustina"],
-    correctAnswer: 2,
-    explanation: "Santa Catarina de Siena recebeu as chagas de Cristo, tornando-se uma das poucas santas estigmatizadas da Igreja.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 18,
-    question: "Quem é a padroeira do Brasil?",
-    options: ["Santa Terezinha", "Nossa Senhora Aparecida", "Santa Rita", "Nossa Senhora de Fátima"],
-    correctAnswer: 1,
-    explanation: "Nossa Senhora Aparecida é a padroeira do Brasil, venerada especialmente no Santuário Nacional em Aparecida-SP.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 19,
-    question: "O que é um milagre eucarístico?",
-    options: ["Uma oração especial", "Um fenômeno sobrenatural na Eucaristia", "Uma festa litúrgica", "Um tipo de missa"],
-    correctAnswer: 1,
-    explanation: "Um milagre eucarístico é um fenômeno sobrenatural onde o pão e o vinho consagrados se transformam visivelmente em carne e sangue.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 20,
-    question: "Onde aconteceu o famoso milagre eucarístico de Lanciano?",
-    options: ["França", "Espanha", "Itália", "Portugal"],
-    correctAnswer: 2,
-    explanation: "O milagre eucarístico de Lanciano aconteceu na Itália, no século VIII, e as relíquias ainda são veneradas hoje.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 21,
-    question: "Qual é o primeiro livro da Bíblia?",
-    options: ["Êxodo", "Gênesis", "Levítico", "Números"],
-    correctAnswer: 1,
-    explanation: "Gênesis é o primeiro livro da Bíblia e conta a história da criação do mundo.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 22,
-    question: "Em que cidade Jesus nasceu?",
-    options: ["Nazaré", "Jerusalém", "Belém", "Cafarnaum"],
-    correctAnswer: 2,
-    explanation: "Jesus nasceu em Belém, conforme as profecias do Antigo Testamento.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 23,
-    question: "Quantos apóstolos Jesus escolheu?",
-    options: ["Dez", "Onze", "Doze", "Treze"],
-    correctAnswer: 2,
-    explanation: "Jesus escolheu doze apóstolos para serem seus principais discípulos.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 24,
-    question: "Qual é o sinal dos cristãos?",
-    options: ["A estrela", "A cruz", "O peixe", "O círculo"],
-    correctAnswer: 1,
-    explanation: "A cruz é o principal sinal dos cristãos, lembrando a morte e ressurreição de Jesus.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 25,
-    question: "O que é a Eucaristia?",
-    options: ["Uma oração", "A Comunhão", "Um cântico", "Uma leitura"],
-    correctAnswer: 1,
-    explanation: "A Eucaristia é a Comunhão, onde recebemos o Corpo e Sangue de Cristo.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 26,
-    question: "Quando celebramos o Natal?",
-    options: ["25 de dezembro", "1º de janeiro", "31 de dezembro", "24 de dezembro"],
-    correctAnswer: 0,
-    explanation: "O Natal é celebrado no dia 25 de dezembro, comemorando o nascimento de Jesus.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 27,
-    question: "Qual é a cor litúrgica do Natal?",
-    options: ["Verde", "Roxo", "Branco", "Vermelho"],
-    correctAnswer: 2,
-    explanation: "O branco é a cor litúrgica do Natal, simbolizando alegria e pureza.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 28,
-    question: "Quem é o atual Papa?",
-    options: ["Bento XVI", "Francisco", "João Paulo II", "Paulo VI"],
-    correctAnswer: 1,
-    explanation: "O Papa Francisco é o atual pontífice da Igreja Católica, eleito em 2013.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 29,
-    question: "O que significa 'Amém'?",
-    options: ["Assim seja", "Obrigado", "Por favor", "Desculpe"],
-    correctAnswer: 0,
-    explanation: "'Amém' significa 'assim seja' e expressa nossa concordância e fé nas palavras pronunciadas.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 30,
-    question: "Qual foi o primeiro milagre de Jesus?",
-    options: ["Multiplicação dos pães", "Cura de um cego", "Transformação da água em vinho", "Ressurreição de Lázaro"],
-    correctAnswer: 2,
-    explanation: "O primeiro milagre de Jesus foi a transformação da água em vinho nas bodas de Caná.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 31,
-    question: "Qual santo é conhecido por sua devoção aos pobres e fundou a ordem franciscana?",
-    options: ["Santo Agostinho", "São Francisco de Assis", "São Bento", "São Domingos"],
-    correctAnswer: 1,
-    explanation: "São Francisco de Assis dedicou sua vida aos pobres e fundou a ordem franciscana, vivendo em pobreza radical.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 32,
-    question: "Qual santa é conhecida como a 'Florzinha de Jesus'?",
-    options: ["Santa Rita", "Santa Terezinha do Menino Jesus", "Santa Bernadete", "Santa Lúcia"],
-    correctAnswer: 1,
-    explanation: "Santa Terezinha do Menino Jesus é carinhosamente chamada de 'Florzinha de Jesus' devido à sua simplicidade e pureza.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 33,
-    question: "Quem é o padroeiro dos animais?",
-    options: ["São Francisco de Assis", "Santo Antônio", "São Bento", "São José"],
-    correctAnswer: 0,
-    explanation: "São Francisco de Assis é o padroeiro dos animais devido ao seu amor pela criação de Deus.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 34,
-    question: "Qual santa é invocada para causas impossíveis?",
-    options: ["Santa Terezinha", "Santa Rita", "Santa Lúcia", "Santa Cecília"],
-    correctAnswer: 1,
-    explanation: "Santa Rita de Cássia é conhecida como a santa das causas impossíveis e desesperadas.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 35,
-    question: "Quem é o padroeiro dos trabalhadores?",
-    options: ["São Pedro", "São Paulo", "São José", "São João"],
-    correctAnswer: 2,
-    explanation: "São José, pai adotivo de Jesus e carpinteiro, é o padroeiro dos trabalhadores.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 36,
-    question: "Em que século aconteceu o milagre eucarístico de Lanciano?",
-    options: ["Século VI", "Século VII", "Século VIII", "Século IX"],
-    correctAnswer: 2,
-    explanation: "O milagre eucarístico de Lanciano aconteceu no século VIII, aproximadamente no ano 700.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 37,
-    question: "O que acontece num milagre eucarístico?",
-    options: ["A hóstia brilha", "A hóstia se transforma em carne", "A hóstia levita", "A hóstia multiplica"],
-    correctAnswer: 1,
-    explanation: "Nos milagres eucarísticos, a hóstia consagrada se transforma visivelmente em carne humana, confirmando a presença real de Cristo.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 38,
-    question: "Onde aconteceu o milagre eucarístico de Bolsena?",
-    options: ["França", "Espanha", "Itália", "Alemanha"],
-    correctAnswer: 2,
-    explanation: "O milagre eucarístico de Bolsena aconteceu na Itália, em 1263, e levou à instituição da festa de Corpus Christi.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 39,
-    question: "Qual Papa instituiu a festa de Corpus Christi após um milagre eucarístico?",
-    options: ["Papa Gregório VII", "Papa Urbano IV", "Papa Inocêncio III", "Papa Bonifácio VIII"],
-    correctAnswer: 1,
-    explanation: "O Papa Urbano IV instituiu a festa de Corpus Christi em 1264, após o milagre eucarístico de Bolsena.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 40,
-    question: "Quantos milagres eucarísticos Carlo Acutis documentou em sua exposição?",
-    options: ["50", "100", "136", "200"],
-    correctAnswer: 2,
-    explanation: "Carlo Acutis documentou 136 milagres eucarísticos reconhecidos pela Igreja em sua famosa exposição.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 41,
     question: "Quantos sacramentos existem na Igreja Católica?",
-    options: ["Cinco", "Seis", "Sete", "Oito"],
+    options: ["5", "6", "7", "8"],
     correctAnswer: 2,
     explanation: "A Igreja Católica reconhece sete sacramentos: Batismo, Confirmação, Eucaristia, Penitência, Unção dos Enfermos, Ordem e Matrimônio.",
     difficulty: "Fácil"
   },
   {
-    id: 42,
+    id: 3,
     question: "Qual é o primeiro sacramento que recebemos?",
-    options: ["Confirmação", "Batismo", "Eucaristia", "Penitência"],
-    correctAnswer: 1,
-    explanation: "O Batismo é o primeiro sacramento que recebemos, normalmente na infância, que nos torna filhos de Deus.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 43,
-    question: "O que celebramos na Páscoa?",
-    options: ["O nascimento de Jesus", "A ressurreição de Jesus", "A morte de Jesus", "A ascensão de Jesus"],
-    correctAnswer: 1,
-    explanation: "A Páscoa celebra a ressurreição de Jesus Cristo, o evento central da fé cristã.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 44,
-    question: "Qual é a oração mais importante dos católicos depois do Pai Nosso?",
-    options: ["Ave Maria", "Glória ao Pai", "Credo", "Salve Rainha"],
-    correctAnswer: 0,
-    explanation: "A Ave Maria é considerada a segunda oração mais importante dos católicos, sendo a saudação do anjo Gabriel a Maria.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 45,
-    question: "O que é o Rosário?",
-    options: ["Uma festa", "Uma oração", "Um livro", "Uma igreja"],
-    correctAnswer: 1,
-    explanation: "O Rosário é uma oração contemplativa que medita nos mistérios da vida de Jesus e Maria através da repetição de Ave Marias.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 46,
-    question: "Quantos mistérios do Rosário existem?",
-    options: ["15", "20", "25", "30"],
-    correctAnswer: 1,
-    explanation: "Existem 20 mistérios do Rosário: 5 gozosos, 5 dolorosos, 5 gloriosos e 5 luminosos (acrescentados pelo Papa João Paulo II).",
-    difficulty: "Fácil"
-  },
-  {
-    id: 47,
-    question: "Qual é a cor litúrgica da Quaresma?",
-    options: ["Verde", "Branco", "Roxo", "Vermelho"],
-    correctAnswer: 2,
-    explanation: "A cor litúrgica da Quaresma é o roxo, simbolizando penitência, conversão e preparação espiritual.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 48,
-    question: "O que é a Quarta-feira de Cinzas?",
-    options: ["O fim da Quaresma", "O início da Quaresma", "O meio da Quaresma", "Uma festa de santo"],
-    correctAnswer: 1,
-    explanation: "A Quarta-feira de Cinzas marca o início da Quaresma, período de 40 dias de preparação para a Páscoa.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 49,
-    question: "O que significa a imposição das cinzas?",
-    options: ["Alegria", "Penitência e conversão", "Vitória", "Celebração"],
-    correctAnswer: 1,
-    explanation: "A imposição das cinzas simboliza nossa condição de pecadores que precisam de conversão e nos lembra da nossa mortalidade.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 50,
-    question: "Qual é o tempo litúrgico após a Páscoa?",
-    options: ["Tempo Comum", "Tempo Pascal", "Advento", "Quaresma"],
-    correctAnswer: 1,
-    explanation: "O Tempo Pascal são os 50 dias que vão da Páscoa até Pentecostes, celebrando a ressurreição de Cristo.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 51,
-    question: "Carlo Acutis foi beatificado em qual ano?",
-    options: ["2018", "2019", "2020", "2021"],
-    correctAnswer: 2,
-    explanation: "Carlo Acutis foi beatificado em 10 de outubro de 2020, em Assis, tornando-se o primeiro beato nascido no século XXI.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 52,
-    question: "Qual era o lema de vida de Carlo Acutis?",
-    options: ["Viver para servir", "A Eucaristia é a minha via para o céu", "Amar sempre", "Seguir Cristo"],
-    correctAnswer: 1,
-    explanation: "O lema de Carlo Acutis era 'A Eucaristia é a minha via para o céu', demonstrando sua profunda devoção eucarística.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 53,
-    question: "Carlo Acutis participava da Missa:",
-    options: ["Uma vez por mês", "Aos domingos", "Diariamente", "Nas festas"],
-    correctAnswer: 2,
-    explanation: "Carlo Acutis participava da Missa diariamente, demonstrando sua extraordinária devoção eucarística desde pequeno.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 54,
-    question: "Qual era a atividade favorita de Carlo Acutis para evangelizar?",
-    options: ["Pregar na igreja", "Criar sites na internet", "Cantar", "Desenhar"],
-    correctAnswer: 1,
-    explanation: "Carlo Acutis usava seus conhecimentos de informática para criar sites e evangelizar através da internet, sendo pioneiro na evangelização digital.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 55,
-    question: "Em que dia Carlo Acutis morreu?",
-    options: ["10 de outubro", "12 de outubro", "15 de outubro", "20 de outubro"],
-    correctAnswer: 1,
-    explanation: "Carlo Acutis morreu em 12 de outubro de 2006, data que se tornou sua festa litúrgica.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 56,
-    question: "Qual santo é conhecido por encontrar objetos perdidos?",
-    options: ["Santo Antônio", "São Francisco", "São José", "São Pedro"],
-    correctAnswer: 0,
-    explanation: "Santo Antônio de Pádua é tradicionalmente invocado para encontrar objetos perdidos e também é o santo casamenteiro.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 57,
-    question: "Qual santa é padroeira da música?",
-    options: ["Santa Lúcia", "Santa Cecília", "Santa Águeda", "Santa Bárbara"],
-    correctAnswer: 1,
-    explanation: "Santa Cecília é a padroeira da música e dos músicos, sendo uma mártir do século III.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 58,
-    question: "Quem é o padroeiro dos estudantes?",
-    options: ["São Tomás de Aquino", "Santo Agostinho", "São Jerônimo", "São João Bosco"],
-    correctAnswer: 0,
-    explanation: "São Tomás de Aquino, o grande doutor da Igreja, é o padroeiro dos estudantes e da educação católica.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 59,
-    question: "Qual santa viu Nossa Senhora em Lourdes?",
-    options: ["Santa Bernadete", "Santa Lúcia", "Santa Jacinta", "Santa Teresa"],
-    correctAnswer: 0,
-    explanation: "Santa Bernadete Soubirous teve 18 aparições de Nossa Senhora em Lourdes, França, em 1858.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 60,
-    question: "Quem é o padroeiro da juventude?",
-    options: ["São João Bosco", "São Luís Gonzaga", "Carlo Acutis", "São Francisco de Sales"],
-    correctAnswer: 1,
-    explanation: "São Luís Gonzaga é tradicionalmente considerado o padroeiro da juventude católica.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 61,
-    question: "O que é o Domingo de Pentecostes?",
-    options: ["A descida do Espírito Santo", "A ressurreição de Jesus", "A ascensão de Maria", "O nascimento da Igreja"],
-    correctAnswer: 0,
-    explanation: "Pentecostes celebra a descida do Espírito Santo sobre os apóstolos, 50 dias após a Páscoa.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 62,
-    question: "Quantos dias durou o dilúvio bíblico?",
-    options: ["30 dias", "40 dias", "50 dias", "60 dias"],
-    correctAnswer: 1,
-    explanation: "Segundo a Bíblia, o dilúvio durou 40 dias e 40 noites, um número simbólico de purificação.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 63,
-    question: "Quem construiu a arca?",
-    options: ["Abraão", "Moisés", "Noé", "Davi"],
-    correctAnswer: 2,
-    explanation: "Noé construiu a arca por ordem de Deus para salvar sua família e os animais do dilúvio.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 64,
-    question: "Qual foi o primeiro rei de Israel?",
-    options: ["Davi", "Salomão", "Saul", "Samuel"],
-    correctAnswer: 2,
-    explanation: "Saul foi o primeiro rei de Israel, ungido pelo profeta Samuel.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 65,
-    question: "Quem matou o gigante Golias?",
-    options: ["Saul", "Davi", "Salomão", "Josué"],
-    correctAnswer: 1,
-    explanation: "Davi, ainda jovem pastor, matou o gigante Golias com uma pedra de funda.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 66,
-    question: "Qual é a primeira palavra da Bíblia?",
-    options: ["Deus", "No", "Quando", "Assim"],
-    correctAnswer: 1,
-    explanation: "A Bíblia começa com 'No princípio criou Deus os céus e a terra' (Gênesis 1:1).",
-    difficulty: "Fácil"
-  },
-  {
-    id: 67,
-    question: "Quem foi engolido por um grande peixe?",
-    options: ["Jonas", "Pedro", "João", "Tiago"],
-    correctAnswer: 0,
-    explanation: "Jonas foi engolido por um grande peixe por três dias, prefigurando a ressurreição de Cristo.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 68,
-    question: "Quantos filhos Noé teve?",
-    options: ["Dois", "Três", "Quatro", "Cinco"],
-    correctAnswer: 1,
-    explanation: "Noé teve três filhos: Sem, Cam e Jafé, que repovoaram a terra após o dilúvio.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 69,
-    question: "Qual é o último livro da Bíblia?",
-    options: ["João", "Judas", "Apocalipse", "Hebreus"],
-    correctAnswer: 2,
-    explanation: "O Apocalipse (ou Revelação) é o último livro da Bíblia, escrito por São João.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 70,
-    question: "Quem batizou Jesus?",
-    options: ["João Batista", "Pedro", "André", "Tiago"],
-    correctAnswer: 0,
-    explanation: "João Batista batizou Jesus no rio Jordão, marcando o início da vida pública de Cristo.",
-    difficulty: "Fácil"
-  },
-  // Novas perguntas fáceis (71-500)
-  {
-    id: 71,
-    question: "Qual é o nome da mãe de Jesus?",
-    options: ["Maria", "Marta", "Madalena", "Isabel"],
-    correctAnswer: 0,
-    explanation: "Maria é a mãe de Jesus, escolhida por Deus para ser a Mãe do Salvador.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 72,
-    question: "Onde Jesus foi crucificado?",
-    options: ["Monte Sinai", "Monte das Oliveiras", "Calvário", "Monte Tabor"],
-    correctAnswer: 2,
-    explanation: "Jesus foi crucificado no Calvário, também conhecido como Gólgota.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 73,
-    question: "Quantos dias Jesus ficou no sepulcro?",
-    options: ["Um dia", "Dois dias", "Três dias", "Quatro dias"],
-    correctAnswer: 2,
-    explanation: "Jesus ficou três dias no sepulcro antes de ressuscitar.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 74,
-    question: "Qual é o primeiro sacramento da iniciação cristã?",
     options: ["Eucaristia", "Batismo", "Confirmação", "Penitência"],
     correctAnswer: 1,
-    explanation: "O Batismo é o primeiro sacramento da iniciação cristã.",
+    explanation: "O Batismo é o primeiro sacramento, que nos purifica do pecado original e nos torna filhos de Deus.",
     difficulty: "Fácil"
   },
   {
-    id: 75,
-    question: "Quem é São José?",
-    options: ["Pai de Jesus", "Esposo de Maria", "Irmão de Jesus", "Primo de Maria"],
-    correctAnswer: 1,
-    explanation: "São José é o esposo de Maria e pai adotivo de Jesus.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 76,
-    question: "Qual é a principal festa mariana?",
-    options: ["Imaculada Conceição", "Assunção", "Anunciação", "Visitação"],
-    correctAnswer: 1,
-    explanation: "A Assunção de Nossa Senhora é considerada a principal festa mariana.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 77,
-    question: "O que é o Advento?",
-    options: ["Preparação para o Natal", "Preparação para a Páscoa", "Tempo de penitência", "Festa dos santos"],
-    correctAnswer: 0,
-    explanation: "O Advento é o tempo de preparação para o Natal.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 78,
-    question: "Qual é a cor litúrgica do Advento?",
-    options: ["Verde", "Roxo", "Branco", "Vermelho"],
-    correctAnswer: 1,
-    explanation: "A cor litúrgica do Advento é o roxo, simbolizando preparação e expectativa.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 79,
-    question: "Quem escreveu o Evangelho de João?",
-    options: ["São João Apóstolo", "São João Batista", "São João Crisóstomo", "São João da Cruz"],
-    correctAnswer: 0,
-    explanation: "O Evangelho de João foi escrito por São João Apóstolo.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 80,
-    question: "Qual é o nome do anjo que anunciou a Maria?",
-    options: ["Miguel", "Rafael", "Gabriel", "Uriel"],
+    id: 4,
+    question: "Em que cidade fica o Vaticano?",
+    options: ["Milão", "Nápoles", "Roma", "Florença"],
     correctAnswer: 2,
-    explanation: "O anjo Gabriel anunciou a Maria que ela seria a mãe do Salvador.",
+    explanation: "O Vaticano está localizado em Roma, Itália, e é a sede da Igreja Católica.",
     difficulty: "Fácil"
   },
   {
-    id: 81,
-    question: "O que significa a palavra 'Evangelho'?",
-    options: ["Boa Nova", "História Sagrada", "Palavra de Deus", "Livro Santo"],
+    id: 5,
+    question: "Qual é a oração principal que Jesus nos ensinou?",
+    options: ["Ave Maria", "Pai Nosso", "Glória", "Credo"],
+    correctAnswer: 1,
+    explanation: "O Pai Nosso é a oração que Jesus ensinou aos seus discípulos quando eles pediram para aprender a orar.",
+    difficulty: "Fácil"
+  }
+];
+
+// Perguntas Médias
+const mediumQuestions: Question[] = [
+  {
+    id: 101,
+    question: "Qual Papa convocou o Concílio Vaticano II?",
+    options: ["Pio XII", "João XXIII", "Paulo VI", "João Paulo II"],
+    correctAnswer: 1,
+    explanation: "O Papa João XXIII convocou o Concílio Vaticano II em 1962, que trouxe importantes renovações para a Igreja.",
+    difficulty: "Médio"
+  },
+  {
+    id: 102,
+    question: "Em que ano foi proclamado o dogma da Imaculada Conceição?",
+    options: ["1854", "1858", "1870", "1950"],
     correctAnswer: 0,
-    explanation: "Evangelho significa 'Boa Nova', referindo-se à mensagem salvífica de Jesus Cristo.",
-    difficulty: "Fácil"
+    explanation: "O dogma da Imaculada Conceição foi proclamado pelo Papa Pio IX em 8 de dezembro de 1854.",
+    difficulty: "Médio"
   },
   {
-    id: 82,
-    question: "Qual é o mandamento do amor?",
-    options: ["Amar a Deus e ao próximo", "Não matar", "Não roubar", "Honrar os pais"],
+    id: 103,
+    question: "Qual é o nome da encíclica social de Leão XIII?",
+    options: ["Quadragesimo Anno", "Rerum Novarum", "Pacem in Terris", "Populorum Progressio"],
+    correctAnswer: 1,
+    explanation: "Rerum Novarum (1891) foi a primeira grande encíclica social da Igreja, tratando da questão operária.",
+    difficulty: "Médio"
+  },
+  {
+    id: 104,
+    question: "Quantos livros tem a Bíblia Católica?",
+    options: ["66", "72", "73", "76"],
+    correctAnswer: 2,
+    explanation: "A Bíblia Católica tem 73 livros: 46 do Antigo Testamento e 27 do Novo Testamento.",
+    difficulty: "Médio"
+  },
+  {
+    id: 105,
+    question: "Qual santo é conhecido como 'Doutor da Igreja' e escreveu 'Confissões'?",
+    options: ["São Tomás de Aquino", "Santo Agostinho", "São Jerônimo", "São João Crisóstomo"],
+    correctAnswer: 1,
+    explanation: "Santo Agostinho é um dos grandes Doutores da Igreja e autor das famosas 'Confissões'.",
+    difficulty: "Médio"
+  }
+];
+
+// Perguntas Difíceis
+const hardQuestions: Question[] = [
+  {
+    id: 201,
+    question: "Em que Concílio foi definido o dogma da infalibilidade papal?",
+    options: ["Concílio de Trento", "Vaticano I", "Vaticano II", "Concílio de Niceia"],
+    correctAnswer: 1,
+    explanation: "O dogma da infalibilidade papal foi definido no Concílio Vaticano I, em 1870, durante o pontificado de Pio IX.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 202,
+    question: "Qual é o nome da constituição dogmática sobre a Igreja do Vaticano II?",
+    options: ["Gaudium et Spes", "Lumen Gentium", "Dei Verbum", "Sacrosanctum Concilium"],
+    correctAnswer: 1,
+    explanation: "Lumen Gentium é a constituição dogmática sobre a Igreja promulgada no Concílio Vaticano II.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 203,
+    question: "Quantos cânones tem o atual Código de Direito Canônico?",
+    options: ["1750", "1752", "1755", "1758"],
+    correctAnswer: 1,
+    explanation: "O Código de Direito Canônico promulgado em 1983 por João Paulo II contém 1752 cânones.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 204,
+    question: "Qual Papa instituiu a festa do Sagrado Coração de Jesus?",
+    options: ["Clemente XIV", "Pio IX", "Leão XIII", "Pio XI"],
     correctAnswer: 0,
-    explanation: "O mandamento do amor é amar a Deus sobre todas as coisas e ao próximo como a si mesmo.",
+    explanation: "O Papa Clemente XIV instituiu oficialmente a festa do Sagrado Coração de Jesus em 1765.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 205,
+    question: "Em que ano foi promulgado o Catecismo da Igreja Católica atual?",
+    options: ["1985", "1990", "1992", "1995"],
+    correctAnswer: 2,
+    explanation: "O Catecismo da Igreja Católica foi promulgado pelo Papa João Paulo II em 1992.",
+    difficulty: "Difícil"
+  }
+];
+
+// Adicionar mais 100 perguntas únicas
+const additionalQuestions: Question[] = [
+  {
+    id: 2001,
+    question: "Qual é o nome da oração que Jesus ensinou aos discípulos?",
+    options: ["Ave Maria", "Pai Nosso", "Glória ao Pai", "Credo"],
+    correctAnswer: 1,
+    explanation: "Jesus ensinou o Pai Nosso aos seus discípulos quando eles pediram para aprender a orar.",
     difficulty: "Fácil"
   },
   {
-    id: 83,
-    question: "Onde Jesus nasceu?",
+    id: 2002,
+    question: "Quantos apóstolos Jesus escolheu?",
+    options: ["10", "11", "12", "13"],
+    correctAnswer: 2,
+    explanation: "Jesus escolheu 12 apóstolos para serem seus seguidores mais próximos.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 2003,
+    question: "Em que cidade Jesus nasceu?",
     options: ["Nazaré", "Jerusalém", "Belém", "Cafarnaum"],
     correctAnswer: 2,
-    explanation: "Jesus nasceu em Belém da Judeia, conforme as profecias.",
+    explanation: "Jesus nasceu em Belém, na Judeia, conforme profetizado no Antigo Testamento.",
     difficulty: "Fácil"
   },
   {
-    id: 84,
-    question: "Qual é o livro mais lido da Bíblia?",
-    options: ["Gênesis", "Salmos", "Evangelho de João", "Atos dos Apóstolos"],
+    id: 2004,
+    question: "Quem batizou Jesus no rio Jordão?",
+    options: ["Pedro", "João Batista", "André", "Tiago"],
     correctAnswer: 1,
-    explanation: "Os Salmos são tradicionalmente o livro mais lido da Bíblia.",
+    explanation: "João Batista batizou Jesus no rio Jordão, marcando o início do ministério público de Jesus.",
     difficulty: "Fácil"
   },
   {
-    id: 85,
-    question: "Quem foi Moisés?",
-    options: ["Um rei", "Um profeta", "Um sacerdote", "Um juiz"],
+    id: 2005,
+    question: "Qual é o primeiro livro da Bíblia?",
+    options: ["Êxodo", "Levítico", "Gênesis", "Números"],
+    correctAnswer: 2,
+    explanation: "Gênesis é o primeiro livro da Bíblia, que narra a criação do mundo.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 2006,
+    question: "Quem foi o primeiro papa da Igreja Católica?",
+    options: ["Paulo", "Pedro", "João", "Tiago"],
     correctAnswer: 1,
-    explanation: "Moisés foi o grande profeta que libertou o povo de Israel do Egito.",
+    explanation: "São Pedro foi o primeiro papa, escolhido por Jesus como líder dos apóstolos.",
     difficulty: "Fácil"
   },
   {
-    id: 86,
-    question: "Quantos mandamentos Deus deu a Moisés?",
-    options: ["Oito", "Nove", "Dez", "Doze"],
+    id: 2007,
+    question: "Em que dia da semana Jesus ressuscitou?",
+    options: ["Sábado", "Domingo", "Segunda-feira", "Sexta-feira"],
+    correctAnswer: 1,
+    explanation: "Jesus ressuscitou no domingo, razão pela qual celebramos este dia como o Dia do Senhor.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 2008,
+    question: "Quantos são os mandamentos que Deus deu a Moisés?",
+    options: ["8", "9", "10", "11"],
     correctAnswer: 2,
     explanation: "Deus deu dez mandamentos a Moisés no Monte Sinai.",
     difficulty: "Fácil"
   },
   {
-    id: 87,
-    question: "O que é a Santíssima Trindade?",
-    options: ["Três pessoas em um só Deus", "Três deuses", "Três anjos", "Três santos"],
-    correctAnswer: 0,
-    explanation: "A Santíssima Trindade é o mistério de três pessoas em um só Deus: Pai, Filho e Espírito Santo.",
+    id: 2009,
+    question: "Qual é o sacramento que nos torna filhos de Deus?",
+    options: ["Crisma", "Batismo", "Eucaristia", "Confissão"],
+    correctAnswer: 1,
+    explanation: "O Batismo é o sacramento que nos purifica do pecado original e nos torna filhos de Deus.",
     difficulty: "Fácil"
   },
   {
-    id: 88,
-    question: "Qual é o primeiro mandamento?",
-    options: ["Amar a Deus sobre todas as coisas", "Não matar", "Não roubar", "Honrar pai e mãe"],
-    correctAnswer: 0,
-    explanation: "O primeiro mandamento é amar a Deus sobre todas as coisas.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 89,
-    question: "O que aconteceu no Pentecostes?",
-    options: ["Nascimento de Jesus", "Morte de Jesus", "Descida do Espírito Santo", "Ascensão de Jesus"],
+    id: 2010,
+    question: "Quem escreveu a maior parte das cartas do Novo Testamento?",
+    options: ["Pedro", "João", "Paulo", "Tiago"],
     correctAnswer: 2,
-    explanation: "No Pentecostes, o Espírito Santo desceu sobre os apóstolos.",
+    explanation: "São Paulo escreveu a maior parte das cartas do Novo Testamento.",
     difficulty: "Fácil"
   },
   {
-    id: 90,
-    question: "Quem é o padroeiro do Brasil?",
-    options: ["São Pedro", "São Paulo", "São José", "Nossa Senhora Aparecida"],
-    correctAnswer: 3,
-    explanation: "Nossa Senhora Aparecida é a padroeira do Brasil.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 91,
-    question: "O que é a oração?",
-    options: ["Conversa com Deus", "Leitura da Bíblia", "Ida à igreja", "Caridade"],
-    correctAnswer: 0,
-    explanation: "A oração é nossa conversa com Deus, onde falamos e escutamos.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 92,
-    question: "Qual é a virtude mais importante?",
-    options: ["Esperança", "Caridade", "Fé", "Humildade"],
+    id: 2011,
+    question: "Qual foi o primeiro milagre de Jesus?",
+    options: ["Multiplicação dos pães", "Transformar água em vinho", "Cura de um cego", "Ressurreição de Lázaro"],
     correctAnswer: 1,
-    explanation: "A caridade (amor) é a maior de todas as virtudes.",
-    difficulty: "Fácil"
+    explanation: "O primeiro milagre de Jesus foi transformar água em vinho nas bodas de Caná.",
+    difficulty: "Médio"
   },
   {
-    id: 93,
-    question: "Onde Jesus realizou seu primeiro milagre?",
-    options: ["Jerusalém", "Nazaré", "Caná", "Cafarnaum"],
+    id: 2012,
+    question: "Quantos anos tinha Jesus quando começou seu ministério público?",
+    options: ["25", "28", "30", "33"],
     correctAnswer: 2,
-    explanation: "Jesus realizou seu primeiro milagre em Caná da Galileia, transformando água em vinho.",
-    difficulty: "Fácil"
+    explanation: "Jesus tinha cerca de 30 anos quando começou seu ministério público.",
+    difficulty: "Médio"
   },
   {
-    id: 94,
-    question: "Quem negou Jesus três vezes?",
-    options: ["Judas", "Pedro", "João", "Tiago"],
+    id: 2013,
+    question: "Qual é o nome da mãe de João Batista?",
+    options: ["Maria", "Isabel", "Ana", "Marta"],
     correctAnswer: 1,
-    explanation: "São Pedro negou Jesus três vezes durante a Paixão.",
-    difficulty: "Fácil"
+    explanation: "Isabel era a mãe de João Batista e prima de Maria.",
+    difficulty: "Médio"
   },
   {
-    id: 95,
-    question: "O que é a Igreja?",
-    options: ["Um prédio", "O Corpo de Cristo", "Uma organização", "Um grupo de pessoas"],
-    correctAnswer: 1,
-    explanation: "A Igreja é o Corpo Místico de Cristo, formada por todos os batizados.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 96,
-    question: "Qual é o centro da fé cristã?",
-    options: ["A Bíblia", "A oração", "Jesus Cristo", "A Igreja"],
+    id: 2014,
+    question: "Em qual monte Jesus foi transfigurado?",
+    options: ["Monte Sinai", "Monte das Oliveiras", "Monte Tabor", "Monte Carmelo"],
     correctAnswer: 2,
-    explanation: "Jesus Cristo é o centro da fé cristã.",
-    difficulty: "Fácil"
+    explanation: "A Transfiguração de Jesus aconteceu no Monte Tabor.",
+    difficulty: "Médio"
   },
   {
-    id: 97,
-    question: "O que significa 'católico'?",
-    options: ["Santo", "Universal", "Apostólico", "Romano"],
-    correctAnswer: 1,
-    explanation: "'Católico' significa universal, abrangendo toda a humanidade.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 98,
-    question: "Quantas bem-aventuranças existem?",
-    options: ["Sete", "Oito", "Nove", "Dez"],
-    correctAnswer: 1,
-    explanation: "Jesus proclamou oito bem-aventuranças no Sermão da Montanha.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 99,
-    question: "Qual é a oração mariana mais conhecida?",
-    options: ["Magnificat", "Ave Maria", "Salve Rainha", "Angelus"],
-    correctAnswer: 1,
-    explanation: "A Ave Maria é a oração mariana mais conhecida e rezada pelos católicos.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 100,
-    question: "O que celebramos na Epifania?",
-    options: ["Nascimento de Jesus", "Manifestação de Jesus aos povos", "Batismo de Jesus", "Apresentação de Jesus"],
-    correctAnswer: 1,
-    explanation: "A Epifania celebra a manifestação de Jesus aos povos, representados pelos Reis Magos.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 101,
-    question: "Quem são os Reis Magos?",
-    options: ["Melquior, Gaspar e Baltazar", "Pedro, Tiago e João", "Mateus, Marcos e Lucas", "André, Filipe e Tomé"],
-    correctAnswer: 0,
-    explanation: "Os Reis Magos são tradicionalmente chamados de Melquior, Gaspar e Baltazar.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 102,
-    question: "O que os Reis Magos ofereceram a Jesus?",
-    options: ["Ouro, incenso e mirra", "Prata, ouro e bronze", "Trigo, vinho e óleo", "Cordeiro, pomba e pão"],
-    correctAnswer: 0,
-    explanation: "Os Reis Magos ofereceram ouro, incenso e mirra ao menino Jesus.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 103,
-    question: "Qual é o nome do jardim onde Jesus orou antes da crucificação?",
-    options: ["Éden", "Getsêmani", "Oliveiras", "Cedron"],
-    correctAnswer: 1,
-    explanation: "Jesus orou no jardim do Getsêmani antes de ser preso.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 104,
-    question: "Quem foi o sumo sacerdote que condenou Jesus?",
-    options: ["Anás", "Caifás", "Pilatos", "Herodes"],
-    correctAnswer: 1,
-    explanation: "Caifás era o sumo sacerdote que condenou Jesus à morte.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 105,
-    question: "O que significa 'Hosana'?",
-    options: ["Salva-nos", "Aleluia", "Amém", "Glória"],
-    correctAnswer: 0,
-    explanation: "'Hosana' significa 'salva-nos' e foi o grito de aclamação a Jesus no Domingo de Ramos.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 450,
-    question: "Qual é o nome da oração que Jesus ensinou?",
-    options: ["Ave Maria", "Pai Nosso", "Glória", "Credo"],
-    correctAnswer: 1,
-    explanation: "O Pai Nosso é a oração que Jesus ensinou aos seus discípulos.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 451,
-    question: "Quantas estações tem a Via Sacra?",
-    options: ["12", "13", "14", "15"],
+    id: 2015,
+    question: "Qual apóstolo duvidou da ressurreição de Jesus?",
+    options: ["Pedro", "João", "Tomé", "André"],
     correctAnswer: 2,
-    explanation: "A Via Sacra tradicional tem 14 estações que representam a Paixão de Cristo.",
-    difficulty: "Fácil"
+    explanation: "Tomé duvidou da ressurreição até tocar as chagas de Jesus.",
+    difficulty: "Médio"
   },
   {
-    id: 452,
-    question: "Qual é o símbolo do Espírito Santo?",
-    options: ["Pomba", "Águia", "Cordeiro", "Peixe"],
-    correctAnswer: 0,
-    explanation: "A pomba é o símbolo tradicional do Espírito Santo.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 453,
-    question: "O que é a comunhão dos santos?",
-    options: ["União entre todos os fiéis", "Grupo de santos", "Oração pelos santos", "Festa dos santos"],
-    correctAnswer: 0,
-    explanation: "A comunhão dos santos é a união espiritual entre todos os fiéis, vivos e mortos.",
-    difficulty: "Fácil"
-  },
-  {
-    id: 454,
-    question: "Qual é o primeiro dia da semana para os cristãos?",
-    options: ["Segunda-feira", "Sábado", "Domingo", "Sexta-feira"],
+    id: 2016,
+    question: "Quantos peixes foram pescados na pesca milagrosa?",
+    options: ["144", "150", "153", "160"],
     correctAnswer: 2,
-    explanation: "O domingo é o primeiro dia da semana cristã, dia da ressurreição de Cristo.",
-    difficulty: "Fácil"
+    explanation: "Foram pescados 153 peixes grandes na pesca milagrosa após a ressurreição.",
+    difficulty: "Médio"
   },
   {
-    id: 455,
-    question: "O que é o purgatório?",
-    options: ["Estado de purificação", "Lugar de castigo", "Céu", "Inferno"],
+    id: 2017,
+    question: "Qual é o nome do jardim onde Jesus foi preso?",
+    options: ["Getsêmani", "Éden", "Oliveira", "Cedron"],
     correctAnswer: 0,
-    explanation: "O purgatório é o estado de purificação final antes do céu.",
-    difficulty: "Fácil"
+    explanation: "Jesus foi preso no jardim do Getsêmani, após orar intensamente.",
+    difficulty: "Médio"
   },
   {
-    id: 456,
-    question: "Qual é a virtude que nos une a Deus?",
-    options: ["Esperança", "Caridade", "Fé", "Prudência"],
+    id: 2018,
+    question: "Quem carregou a cruz de Jesus?",
+    options: ["Pedro", "João", "Simão de Cirene", "José de Arimateia"],
     correctAnswer: 2,
-    explanation: "A fé é a virtude que nos une a Deus e nos faz crer nas verdades reveladas.",
-    difficulty: "Fácil"
+    explanation: "Simão de Cirene foi obrigado a carregar a cruz de Jesus.",
+    difficulty: "Médio"
   },
   {
-    id: 457,
-    question: "O que é o pecado original?",
-    options: ["Primeiro pecado de Adão e Eva", "Pecado mais grave", "Pecado contra o Espírito Santo", "Pecado mortal"],
-    correctAnswer: 0,
-    explanation: "O pecado original é o primeiro pecado cometido por Adão e Eva, transmitido a toda humanidade.",
-    difficulty: "Fácil"
+    id: 2019,
+    question: "Qual é o significado da palavra 'Eucaristia'?",
+    options: ["Comunhão", "Ação de graças", "Partilha", "Sacrifício"],
+    correctAnswer: 1,
+    explanation: "Eucaristia significa 'ação de graças' em grego.",
+    difficulty: "Médio"
   },
   {
-    id: 458,
-    question: "Qual é o nome da estrela que guiou os Reis Magos?",
-    options: ["Estrela de Belém", "Estrela de Davi", "Estrela do Oriente", "Estrela Guia"],
+    id: 2020,
+    question: "Em que ano foi proclamado o dogma da Imaculada Conceição?",
+    options: ["1850", "1854", "1858", "1862"],
+    correctAnswer: 1,
+    explanation: "O dogma da Imaculada Conceição foi proclamado pelo Papa Pio IX em 1854.",
+    difficulty: "Médio"
+  },
+  {
+    id: 2021,
+    question: "Qual é o nome do documento que estabeleceu a liberdade religiosa no Concílio Vaticano II?",
+    options: ["Gaudium et Spes", "Lumen Gentium", "Dignitatis Humanae", "Dei Verbum"],
+    correctAnswer: 2,
+    explanation: "Dignitatis Humanae é a declaração sobre a liberdade religiosa do Concílio Vaticano II.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 2022,
+    question: "Quem foi o Papa que convocou o Concílio Vaticano II?",
+    options: ["Pio XII", "João XXIII", "Paulo VI", "João Paulo I"],
+    correctAnswer: 1,
+    explanation: "O Papa João XXIII convocou o Concílio Vaticano II em 1962.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 2023,
+    question: "Em que ano terminou o Concílio de Trento?",
+    options: ["1560", "1563", "1565", "1570"],
+    correctAnswer: 1,
+    explanation: "O Concílio de Trento terminou em 1563, após 18 anos de duração.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 2024,
+    question: "Qual é o nome da encíclica de Leão XIII sobre a questão social?",
+    options: ["Quadragesimo Anno", "Rerum Novarum", "Pacem in Terris", "Populorum Progressio"],
+    correctAnswer: 1,
+    explanation: "Rerum Novarum (1891) foi a primeira encíclica social da Igreja Católica.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 2025,
+    question: "Quantos cânones tem o Código de Direito Canônico atual?",
+    options: ["1750", "1752", "1754", "1758"],
+    correctAnswer: 1,
+    explanation: "O Código de Direito Canônico de 1983 tem 1752 cânones.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 2026,
+    question: "Qual foi o primeiro Concílio Ecumênico da Igreja?",
+    options: ["Constantinopla I", "Niceia I", "Éfeso", "Calcedônia"],
+    correctAnswer: 1,
+    explanation: "O Concílio de Niceia I (325 d.C.) foi o primeiro Concílio Ecumênico.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 2027,
+    question: "Em que ano foi estabelecido o celibato sacerdotal obrigatório no Ocidente?",
+    options: ["1074", "1075", "1076", "1077"],
+    correctAnswer: 1,
+    explanation: "O celibato sacerdotal foi estabelecido obrigatoriamente em 1075 pelo Papa Gregório VII.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 2028,
+    question: "Qual santo é conhecido como o 'Doutor Angélico'?",
+    options: ["Santo Agostinho", "São Tomás de Aquino", "São Boaventura", "Santo Alberto Magno"],
+    correctAnswer: 1,
+    explanation: "São Tomás de Aquino é conhecido como o 'Doutor Angélico' por sua teologia sistemática.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 2029,
+    question: "Quantos livros deuterocanônicos a Igreja Católica reconhece no Antigo Testamento?",
+    options: ["6", "7", "8", "9"],
+    correctAnswer: 1,
+    explanation: "A Igreja Católica reconhece 7 livros deuterocanônicos no Antigo Testamento.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 2030,
+    question: "Em que concílio foi definido o cânon bíblico católico?",
+    options: ["Trento", "Vaticano I", "Florença", "Latrão IV"],
     correctAnswer: 0,
+    explanation: "O Concílio de Trento definiu oficialmente o cânon bíblico católico em 1546.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 2031,
+    question: "Qual é o nome da estrela que guiou os Magos?",
+    options: ["Estrela de Davi", "Estrela de Belém", "Estrela do Oriente", "Estrela Polar"],
+    correctAnswer: 1,
     explanation: "A Estrela de Belém guiou os Reis Magos até Jesus.",
     difficulty: "Fácil"
   },
   {
-    id: 459,
-    question: "O que é a graça?",
-    options: ["Dom gratuito de Deus", "Boa ação", "Oração", "Sacramento"],
-    correctAnswer: 0,
-    explanation: "A graça é um dom gratuito de Deus que nos ajuda a viver segundo sua vontade.",
+    id: 2032,
+    question: "Quantos anos durou o êxodo do povo de Israel no deserto?",
+    options: ["30", "35", "40", "45"],
+    correctAnswer: 2,
+    explanation: "O povo de Israel passou 40 anos no deserto antes de chegar à Terra Prometida.",
     difficulty: "Fácil"
   },
   {
-    id: 460,
-    question: "Quem é o anjo da guarda?",
-    options: ["Anjo protetor pessoal", "São Miguel", "São Gabriel", "São Rafael"],
-    correctAnswer: 0,
-    explanation: "O anjo da guarda é o anjo protetor que Deus dá a cada pessoa.",
+    id: 2033,
+    question: "Qual é o nome do anjo que anunciou a Maria que ela seria mãe de Jesus?",
+    options: ["Miguel", "Gabriel", "Rafael", "Uriel"],
+    correctAnswer: 1,
+    explanation: "O anjo Gabriel anunciou a Maria na Anunciação que ela seria mãe do Salvador.",
     difficulty: "Fácil"
   },
   {
-    id: 500,
-    question: "O que é a ressurreição da carne?",
-    options: ["Volta à vida após a morte", "Cura milagrosa", "Renovação espiritual", "Batismo"],
-    correctAnswer: 0,
-    explanation: "A ressurreição da carne é a volta à vida de nosso corpo glorificado no fim dos tempos.",
+    id: 2034,
+    question: "Em que mar Jesus acalmou a tempestade?",
+    options: ["Mar Vermelho", "Mar Mediterrâneo", "Mar da Galileia", "Mar Morto"],
+    correctAnswer: 2,
+    explanation: "Jesus acalmou a tempestade no Mar da Galileia.",
     difficulty: "Fácil"
   },
-
-  // PERGUNTAS MÉDIAS (IDs 501-1000)
   {
-    id: 501,
-    question: "O que é a Transubstanciação?",
-    options: ["A transformação da água em vinho", "A transformação do pão e do vinho no Corpo e Sangue de Cristo", "A ressurreição de Jesus", "A ascensão de Maria"],
+    id: 2035,
+    question: "Quem negou Jesus três vezes?",
+    options: ["Judas", "Pedro", "Tomé", "Tiago"],
     correctAnswer: 1,
-    explanation: "A Transubstanciação é o milagre pelo qual o pão e o vinho se transformam no Corpo e Sangue de Cristo durante a Missa.",
-    difficulty: "Médio"
+    explanation: "Pedro negou Jesus três vezes antes do galo cantar, como Jesus havia predito.",
+    difficulty: "Fácil"
   },
   {
-    id: 502,
-    question: "Quais são os dons do Espírito Santo?",
-    options: ["Fé, esperança e caridade", "Sabedoria, inteligência, conselho, fortaleza, ciência, piedade e temor de Deus", "Os sacramentos", "Os mandamentos"],
-    correctAnswer: 1,
-    explanation: "Os dons do Espírito Santo são sete: sabedoria, inteligência, conselho, fortaleza, ciência, piedade e temor de Deus.",
-    difficulty: "Médio"
-  },
-  {
-    id: 503,
-    question: "O que são as bem-aventuranças?",
-    options: ["As orações mais importantes", "As promessas de felicidade de Jesus no Sermão da Montanha", "Os milagres de Jesus", "Os ensinamentos dos apóstolos"],
-    correctAnswer: 1,
-    explanation: "As bem-aventuranças são oito promessas de felicidade que Jesus proclamou no Sermão da Montanha, mostrando o caminho para a santidade.",
-    difficulty: "Médio"
-  },
-  {
-    id: 504,
-    question: "Qual foi o primeiro milagre eucarístico documentado pela Igreja?",
-    options: ["Lanciano (século VIII)", "Bolsena (1263)", "Orvieto (1290)", "Santarém (1247)"],
+    id: 2036,
+    question: "Qual é o nome do monte onde Jesus foi crucificado?",
+    options: ["Calvário", "Sinai", "Tabor", "Sião"],
     correctAnswer: 0,
-    explanation: "O milagre de Lanciano, ocorrido no século VIII, é considerado o primeiro milagre eucarístico bem documentado e estudado pela Igreja.",
-    difficulty: "Médio"
+    explanation: "Jesus foi crucificado no monte Calvário, também chamado Gólgota.",
+    difficulty: "Fácil"
   },
   {
-    id: 505,
-    question: "Em que concílio foi definido o dogma da Transubstanciação?",
-    options: ["Concílio de Niceia", "Concílio de Trento", "Concílio Vaticano I", "Concílio de Latrão"],
+    id: 2037,
+    question: "Quantos pães e peixes Jesus usou na multiplicação?",
+    options: ["3 pães e 2 peixes", "5 pães e 2 peixes", "7 pães e 3 peixes", "4 pães e 2 peixes"],
     correctAnswer: 1,
-    explanation: "O Concílio de Trento (1545-1563) definiu oficialmente o dogma da Transubstanciação contra as heresias protestantes.",
-    difficulty: "Médio"
+    explanation: "Jesus multiplicou 5 pães e 2 peixes para alimentar cinco mil pessoas.",
+    difficulty: "Fácil"
   },
   {
-    id: 506,
-    question: "Qual é o significado da palavra 'Eucaristia'?",
-    options: ["Comunhão", "Ação de graças", "Corpo de Cristo", "Sacrifício"],
+    id: 2038,
+    question: "Qual é o nome do imposto que Jesus mandou Pedro buscar na boca do peixe?",
+    options: ["Dízimo", "Tributo", "Oferta", "Dracma"],
     correctAnswer: 1,
-    explanation: "Eucaristia vem do grego 'eucharistein' que significa 'ação de graças', referindo-se ao agradecimento de Jesus na Última Ceia.",
+    explanation: "Jesus mandou Pedro buscar o tributo (imposto do templo) na boca do peixe.",
     difficulty: "Médio"
   },
   {
-    id: 507,
-    question: "Quantos Concílios Ecumênicos a Igreja Católica reconhece?",
+    id: 2039,
+    question: "Quem foi o sumo sacerdote que interrogou Jesus?",
+    options: ["Anás", "Caifás", "Malco", "Gamaliel"],
+    correctAnswer: 1,
+    explanation: "Caifás foi o sumo sacerdote que interrogou Jesus durante o julgamento.",
+    difficulty: "Médio"
+  },
+  {
+    id: 2040,
+    question: "Em que cidade ficava a casa de Marta e Maria?",
+    options: ["Betânia", "Betfagé", "Betsaida", "Betel"],
+    correctAnswer: 0,
+    explanation: "Marta e Maria moravam em Betânia, onde Jesus era frequentemente hospedado.",
+    difficulty: "Médio"
+  },
+  {
+    id: 2041,
+    question: "Qual era a profissão de José, pai adotivo de Jesus?",
+    options: ["Pescador", "Carpinteiro", "Pastor", "Comerciante"],
+    correctAnswer: 1,
+    explanation: "José era carpinteiro, e Jesus aprendeu o ofício com ele.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 2042,
+    question: "Quantos anos Jesus permaneceu no Egito?",
+    options: ["Não se sabe ao certo", "2 anos", "3 anos", "5 anos"],
+    correctAnswer: 0,
+    explanation: "A Bíblia não especifica exatamente quanto tempo Jesus permaneceu no Egito.",
+    difficulty: "Médio"
+  },
+  {
+    id: 2043,
+    question: "Qual é o nome da oração que termina com 'Amém'?",
+    options: ["Todas as orações cristãs", "Só o Pai Nosso", "Só a Ave Maria", "Só o Credo"],
+    correctAnswer: 0,
+    explanation: "Tradicionalmente, todas as orações cristãs terminam com 'Amém', que significa 'assim seja'.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 2044,
+    question: "Em que dia da semana Jesus foi crucificado?",
+    options: ["Quinta-feira", "Sexta-feira", "Sábado", "Domingo"],
+    correctAnswer: 1,
+    explanation: "Jesus foi crucificado na Sexta-feira Santa.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 2045,
+    question: "Qual é o nome do jardim onde Adão e Eva viviam?",
+    options: ["Getsêmani", "Éden", "Paraíso", "Jordão"],
+    correctAnswer: 1,
+    explanation: "Adão e Eva viviam no jardim do Éden antes da queda.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 2046,
+    question: "Quem construiu a arca para salvar-se do dilúvio?",
+    options: ["Abraão", "Noé", "Moisés", "Davi"],
+    correctAnswer: 1,
+    explanation: "Noé construiu a arca por ordem de Deus para salvar sua família e os animais do dilúvio.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 2047,
+    question: "Qual é o nome do rio onde Jesus foi batizado?",
+    options: ["Rio Nilo", "Rio Jordão", "Rio Eufrates", "Rio Tigre"],
+    correctAnswer: 1,
+    explanation: "Jesus foi batizado no rio Jordão por João Batista.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 2048,
+    question: "Quantos frutos do Espírito Santo são mencionados por São Paulo?",
+    options: ["7", "9", "12", "10"],
+    correctAnswer: 1,
+    explanation: "São Paulo menciona 9 frutos do Espírito Santo em Gálatas 5:22-23.",
+    difficulty: "Médio"
+  },
+  {
+    id: 2049,
+    question: "Qual é o nome da cidade onde Jesus realizou seu primeiro milagre?",
+    options: ["Cafarnaum", "Caná", "Nazaré", "Jerusalém"],
+    correctAnswer: 1,
+    explanation: "Jesus realizou seu primeiro milagre em Caná da Galileia, transformando água em vinho.",
+    difficulty: "Médio"
+  },
+  {
+    id: 2050,
+    question: "Quem foi o discípulo que Jesus amava?",
+    options: ["Pedro", "João", "Tiago", "André"],
+    correctAnswer: 1,
+    explanation: "João é tradicionalmente identificado como 'o discípulo que Jesus amava'.",
+    difficulty: "Médio"
+  },
+  {
+    id: 2051,
+    question: "Qual foi a primeira palavra de Jesus na cruz?",
+    options: ["Pai, perdoa-lhes", "Tenho sede", "Está consumado", "Deus meu, por que me abandonaste"],
+    correctAnswer: 0,
+    explanation: "A primeira palavra de Jesus na cruz foi 'Pai, perdoa-lhes, porque não sabem o que fazem'.",
+    difficulty: "Médio"
+  },
+  {
+    id: 2052,
+    question: "Em que ano foi proclamado o dogma da Assunção de Maria?",
+    options: ["1950", "1951", "1952", "1953"],
+    correctAnswer: 0,
+    explanation: "O dogma da Assunção de Maria foi proclamado pelo Papa Pio XII em 1950.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 2053,
+    question: "Qual Papa instituiu a Festa do Corpus Christi?",
+    options: ["Urbano IV", "Gregório IX", "Inocêncio IV", "Alexandre IV"],
+    correctAnswer: 0,
+    explanation: "O Papa Urbano IV instituiu a Festa do Corpus Christi em 1264.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 2054,
+    question: "Em que século viveu São Tomás de Aquino?",
+    options: ["Século XII", "Século XIII", "Século XIV", "Século XV"],
+    correctAnswer: 1,
+    explanation: "São Tomás de Aquino viveu no século XIII (1225-1274).",
+    difficulty: "Difícil"
+  },
+  {
+    id: 2055,
+    question: "Qual é o nome da primeira encíclica de João Paulo II?",
+    options: ["Redemptor Hominis", "Dives in Misericordia", "Laborem Exercens", "Sollicitudo Rei Socialis"],
+    correctAnswer: 0,
+    explanation: "Redemptor Hominis (1979) foi a primeira encíclica do Papa João Paulo II.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 2056,
+    question: "Quantos artigos tem o Catecismo da Igreja Católica?",
+    options: ["2865", "2870", "2875", "2880"],
+    correctAnswer: 0,
+    explanation: "O Catecismo da Igreja Católica tem 2865 artigos.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 2057,
+    question: "Em que ano foi promulgado o Código de Direito Canônico atual?",
+    options: ["1983", "1984", "1985", "1986"],
+    correctAnswer: 0,
+    explanation: "O atual Código de Direito Canônico foi promulgado por João Paulo II em 1983.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 2058,
+    question: "Qual foi o último Papa a ser canonizado?",
+    options: ["Pio X", "João XXIII", "João Paulo II", "Paulo VI"],
+    correctAnswer: 2,
+    explanation: "João Paulo II foi canonizado em 2014 e é o último Papa a ser declarado santo.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 2059,
+    question: "Em que ano terminou o Concílio Vaticano II?",
+    options: ["1963", "1964", "1965", "1966"],
+    correctAnswer: 2,
+    explanation: "O Concílio Vaticano II terminou em 8 de dezembro de 1965.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 2060,
+    question: "Qual é o nome do documento sobre a liturgia do Concílio Vaticano II?",
+    options: ["Sacrosanctum Concilium", "Gaudium et Spes", "Lumen Gentium", "Dei Verbum"],
+    correctAnswer: 0,
+    explanation: "Sacrosanctum Concilium é a constituição sobre a liturgia do Concílio Vaticano II.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 2061,
+    question: "Quantos salmos existem na Bíblia?",
+    options: ["147", "148", "149", "150"],
+    correctAnswer: 3,
+    explanation: "Existem 150 salmos no livro dos Salmos na Bíblia.",
+    difficulty: "Médio"
+  },
+  {
+    id: 2062,
+    question: "Qual é o menor livro da Bíblia?",
+    options: ["Filemom", "2 João", "3 João", "Judas"],
+    correctAnswer: 2,
+    explanation: "3 João é o menor livro da Bíblia, com apenas 14 versículos.",
+    difficulty: "Médio"
+  },
+  {
+    id: 2063,
+    question: "Quem escreveu o livro do Apocalipse?",
+    options: ["João apóstolo", "João Batista", "João Evangelista", "João de Patmos"],
+    correctAnswer: 0,
+    explanation: "O livro do Apocalipse foi escrito pelo apóstolo João na ilha de Patmos.",
+    difficulty: "Médio"
+  },
+  {
+    id: 2064,
+    question: "Em que ilha João escreveu o Apocalipse?",
+    options: ["Chipre", "Creta", "Patmos", "Malta"],
+    correctAnswer: 2,
+    explanation: "João escreveu o Apocalipse enquanto estava exilado na ilha de Patmos.",
+    difficulty: "Médio"
+  },
+  {
+    id: 2065,
+    question: "Qual é o nome da oração mariana rezada às 6h, 12h e 18h?",
+    options: ["Ave Maria", "Angelus", "Regina Coeli", "Salve Rainha"],
+    correctAnswer: 1,
+    explanation: "O Angelus é a oração mariana tradicional rezada três vezes ao dia.",
+    difficulty: "Médio"
+  },
+  {
+    id: 2066,
+    question: "Quantas Ave Marias se reza em cada dezena do Rosário?",
+    options: ["8", "9", "10", "11"],
+    correctAnswer: 2,
+    explanation: "Em cada dezena do Rosário rezamos 10 Ave Marias.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 2067,
+    question: "Qual é o nome do primeiro livro do Novo Testamento?",
+    options: ["Marcos", "Mateus", "Lucas", "João"],
+    correctAnswer: 1,
+    explanation: "O Evangelho de Mateus é o primeiro livro do Novo Testamento.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 2068,
+    question: "Quem foi o primeiro mártir cristão?",
+    options: ["Pedro", "Paulo", "Estêvão", "Tiago"],
+    correctAnswer: 2,
+    explanation: "Santo Estêvão foi o primeiro mártir cristão, apedrejado por sua fé.",
+    difficulty: "Médio"
+  },
+  {
+    id: 2069,
+    question: "Em que cidade Paulo foi convertido?",
+    options: ["Jerusalém", "Damasco", "Antioquia", "Tarso"],
+    correctAnswer: 1,
+    explanation: "Paulo foi convertido no caminho para Damasco, onde teve a visão de Jesus.",
+    difficulty: "Médio"
+  },
+  {
+    id: 2070,
+    question: "Qual é o nome da festa que celebra a descida do Espírito Santo?",
+    options: ["Ascensão", "Pentecostes", "Epifania", "Anunciação"],
+    correctAnswer: 1,
+    explanation: "Pentecostes celebra a descida do Espírito Santo sobre os apóstolos.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 2071,
+    question: "Quantos dias após a Páscoa se celebra a Ascensão?",
+    options: ["30", "35", "39", "40"],
+    correctAnswer: 3,
+    explanation: "A Ascensão é celebrada 40 dias após a Páscoa.",
+    difficulty: "Médio"
+  },
+  {
+    id: 2072,
+    question: "Qual é o nome do período de preparação para o Natal?",
+    options: ["Quaresma", "Advento", "Epifania", "Tempo Comum"],
+    correctAnswer: 1,
+    explanation: "O Advento é o período de 4 semanas de preparação para o Natal.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 2073,
+    question: "Quantas semanas dura o tempo do Advento?",
+    options: ["3", "4", "5", "6"],
+    correctAnswer: 1,
+    explanation: "O tempo do Advento dura 4 semanas antes do Natal.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 2074,
+    question: "Qual é a cor litúrgica do Advento?",
+    options: ["Branco", "Verde", "Roxo", "Vermelho"],
+    correctAnswer: 2,
+    explanation: "A cor litúrgica do Advento é o roxo, simbolizando penitência e preparação.",
+    difficulty: "Médio"
+  },
+  {
+    id: 2075,
+    question: "Em que dia se celebra a Epifania?",
+    options: ["5 de janeiro", "6 de janeiro", "7 de janeiro", "8 de janeiro"],
+    correctAnswer: 1,
+    explanation: "A Epifania é celebrada em 6 de janeiro, festa dos Reis Magos.",
+    difficulty: "Médio"
+  },
+  {
+    id: 2076,
+    question: "Qual é o nome dos três Reis Magos?",
+    options: ["Gaspar, Melchior e Baltasar", "Pedro, Paulo e João", "Abraão, Isaac e Jacó", "Adão, Abel e Noé"],
+    correctAnswer: 0,
+    explanation: "Os três Reis Magos são tradicionalmente chamados Gaspar, Melchior e Baltasar.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 2077,
+    question: "Que presentes os Reis Magos ofereceram a Jesus?",
+    options: ["Prata, bronze e ferro", "Ouro, incenso e mirra", "Trigo, vinho e azeite", "Pão, peixe e vinho"],
+    correctAnswer: 1,
+    explanation: "Os Reis Magos ofereceram ouro, incenso e mirra ao menino Jesus.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 2078,
+    question: "Qual é o significado do ouro oferecido pelos Magos?",
+    options: ["Realeza", "Divindade", "Sacrifício", "Pureza"],
+    correctAnswer: 0,
+    explanation: "O ouro simboliza a realeza de Jesus como Rei dos reis.",
+    difficulty: "Médio"
+  },
+  {
+    id: 2079,
+    question: "Qual é o significado do incenso oferecido pelos Magos?",
+    options: ["Realeza", "Divindade", "Sacrifício", "Pureza"],
+    correctAnswer: 1,
+    explanation: "O incenso simboliza a divindade de Jesus, usado no culto a Deus.",
+    difficulty: "Médio"
+  },
+  {
+    id: 2080,
+    question: "Qual é o significado da mirra oferecida pelos Magos?",
+    options: ["Realeza", "Divindade", "Sacrifício", "Pureza"],
+    correctAnswer: 2,
+    explanation: "A mirra simboliza o sacrifício de Jesus, usada para embalsamar os mortos.",
+    difficulty: "Médio"
+  },
+  {
+    id: 2081,
+    question: "Quantos dias Jesus jejuou no deserto?",
+    options: ["30", "35", "40", "50"],
+    correctAnswer: 2,
+    explanation: "Jesus jejuou 40 dias no deserto antes de começar seu ministério público.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 2082,
+    question: "Quem tentou Jesus no deserto?",
+    options: ["Demônio", "Satanás", "Diabo", "Todas as anteriores"],
+    correctAnswer: 3,
+    explanation: "Jesus foi tentado por Satanás (também chamado demônio ou diabo) no deserto.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 2083,
+    question: "Qual foi a primeira tentação de Jesus no deserto?",
+    options: ["Transformar pedras em pão", "Pular do templo", "Adorar Satanás", "Multiplicar pães"],
+    correctAnswer: 0,
+    explanation: "A primeira tentação foi transformar pedras em pão para matar a fome.",
+    difficulty: "Médio"
+  },
+  {
+    id: 2084,
+    question: "Qual foi a resposta de Jesus à primeira tentação?",
+    options: ["Não só de pão vive o homem", "Não tentarás o Senhor", "Vai-te, Satanás", "Está escrito"],
+    correctAnswer: 0,
+    explanation: "Jesus respondeu: 'Não só de pão vive o homem, mas de toda palavra que sai da boca de Deus'.",
+    difficulty: "Médio"
+  },
+  {
+    id: 2085,
+    question: "Em que monte Satanás mostrou todos os reinos a Jesus?",
+    options: ["Monte Sinai", "Monte das Oliveiras", "Monte muito alto", "Monte Tabor"],
+    correctAnswer: 2,
+    explanation: "A Bíblia menciona que Satanás levou Jesus a um monte muito alto.",
+    difficulty: "Médio"
+  },
+  {
+    id: 2086,
+    question: "Quantas vezes Pedro negou Jesus?",
+    options: ["2", "3", "4", "5"],
+    correctAnswer: 1,
+    explanation: "Pedro negou Jesus três vezes, como o próprio Jesus havia profetizado.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 2087,
+    question: "Qual animal cantou quando Pedro negou Jesus?",
+    options: ["Galo", "Passarinho", "Pomba", "Águia"],
+    correctAnswer: 0,
+    explanation: "O galo cantou após Pedro negar Jesus pela terceira vez.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 2088,
+    question: "Quantas moedas de prata Judas recebeu para trair Jesus?",
+    options: ["20", "25", "30", "35"],
+    correctAnswer: 2,
+    explanation: "Judas recebeu 30 moedas de prata para entregar Jesus aos sacerdotes.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 2089,
+    question: "Como Judas identificou Jesus para os soldados?",
+    options: ["Apontou com o dedo", "Deu um beijo", "Chamou pelo nome", "Acendeu uma tocha"],
+    correctAnswer: 1,
+    explanation: "Judas identificou Jesus dando-lhe um beijo no jardim do Getsêmani.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 2090,
+    question: "Qual foi o fim de Judas Iscariotes?",
+    options: ["Foi perdoado", "Fugiu para outro país", "Enforcou-se", "Foi preso"],
+    correctAnswer: 2,
+    explanation: "Judas Iscariotes se enforcou após trair Jesus e se arrepender do que fez.",
+    difficulty: "Médio"
+  },
+  {
+    id: 2091,
+    question: "Quem foi escolhido para substituir Judas entre os doze apóstolos?",
+    options: ["Paulo", "Barnabé", "Matias", "Marcos"],
+    correctAnswer: 2,
+    explanation: "Matias foi escolhido por sorteio para substituir Judas entre os doze apóstolos.",
+    difficulty: "Médio"
+  },
+  {
+    id: 2092,
+    question: "Quantos evangelhos existem no Novo Testamento?",
+    options: ["3", "4", "5", "6"],
+    correctAnswer: 1,
+    explanation: "Existem quatro evangelhos no Novo Testamento: Mateus, Marcos, Lucas e João.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 2093,
+    question: "Qual evangelista é representado pelo símbolo do leão?",
+    options: ["Mateus", "Marcos", "Lucas", "João"],
+    correctAnswer: 1,
+    explanation: "São Marcos é representado pelo símbolo do leão.",
+    difficulty: "Médio"
+  },
+  {
+    id: 2094,
+    question: "Qual evangelista é representado pelo símbolo da águia?",
+    options: ["Mateus", "Marcos", "Lucas", "João"],
+    correctAnswer: 3,
+    explanation: "São João é representado pelo símbolo da águia.",
+    difficulty: "Médio"
+  },
+  {
+    id: 2095,
+    question: "Qual evangelista é representado pelo símbolo do touro?",
+    options: ["Mateus", "Marcos", "Lucas", "João"],
+    correctAnswer: 2,
+    explanation: "São Lucas é representado pelo símbolo do touro.",
+    difficulty: "Médio"
+  },
+  {
+    id: 2096,
+    question: "Qual evangelista é representado pelo símbolo do homem?",
+    options: ["Mateus", "Marcos", "Lucas", "João"],
+    correctAnswer: 0,
+    explanation: "São Mateus é representado pelo símbolo do homem (ou anjo).",
+    difficulty: "Médio"
+  },
+  {
+    id: 2097,
+    question: "Qual é o evangelho mais longo?",
+    options: ["Mateus", "Marcos", "Lucas", "João"],
+    correctAnswer: 2,
+    explanation: "O Evangelho de Lucas é o mais longo dos quatro evangelhos.",
+    difficulty: "Médio"
+  },
+  {
+    id: 2098,
+    question: "Qual é o evangelho mais curto?",
+    options: ["Mateus", "Marcos", "Lucas", "João"],
+    correctAnswer: 1,
+    explanation: "O Evangelho de Marcos é o mais curto dos quatro evangelhos.",
+    difficulty: "Médio"
+  },
+  {
+    id: 2099,
+    question: "Quantos capítulos tem o Evangelho de João?",
     options: ["19", "20", "21", "22"],
     correctAnswer: 2,
-    explanation: "A Igreja Católica reconhece 21 Concílios Ecumênicos, sendo o último o Concílio Vaticano II (1962-1965).",
+    explanation: "O Evangelho de João tem 21 capítulos.",
     difficulty: "Médio"
   },
   {
-    id: 508,
-    question: "Quem foi o Papa que convocou o Concílio Vaticano II?",
-    options: ["Pio XII", "João XXIII", "Paulo VI", "João Paulo I"],
-    correctAnswer: 1,
-    explanation: "O Papa João XXIII convocou o Concílio Vaticano II em 1962, promovendo a renovação da Igreja.",
-    difficulty: "Médio"
-  },
-  {
-    id: 509,
-    question: "O que estabelece a doutrina da Imaculada Conceição?",
-    options: ["Que Maria nasceu sem pecado original", "Que Jesus nasceu de uma virgem", "Que Maria subiu ao céu", "Que Maria é mãe de Deus"],
-    correctAnswer: 0,
-    explanation: "A Imaculada Conceição, proclamada em 1854, estabelece que Maria foi preservada do pecado original desde o momento de sua conceição.",
-    difficulty: "Médio"
-  },
-  {
-    id: 510,
-    question: "Em que ano foi proclamado o dogma da Assunção de Maria?",
-    options: ["1854", "1870", "1950", "1962"],
+    id: 2100,
+    question: "Em que língua foi escrito originalmente o Novo Testamento?",
+    options: ["Hebraico", "Aramaico", "Grego", "Latim"],
     correctAnswer: 2,
-    explanation: "O dogma da Assunção de Maria foi proclamado pelo Papa Pio XII em 1950, estabelecendo que Maria foi elevada ao céu em corpo e alma.",
+    explanation: "O Novo Testamento foi escrito originalmente em grego koiné.",
     difficulty: "Médio"
-  },
-  {
-    id: 511,
-    question: "Qual santo doutor da Igreja escreveu as 'Confissões'?",
-    options: ["São Jerônimo", "Santo Agostinho", "São Tomás de Aquino", "São João Crisóstomo"],
-    correctAnswer: 1,
-    explanation: "Santo Agostinho escreveu as 'Confissões', uma das obras mais importantes da literatura cristã e autobiografia espiritual.",
-    difficulty: "Médio"
-  },
-  {
-    id: 512,
-    question: "Qual é a principal obra de São Tomás de Aquino?",
-    options: ["Suma Contra Gentiles", "Suma Teológica", "Comentários às Sentenças", "Questões Disputadas"],
-    correctAnswer: 1,
-    explanation: "A 'Suma Teológica' é a principal obra de São Tomás de Aquino, síntese magistral da teologia católica medieval.",
-    difficulty: "Médio"
-  },
-  {
-    id: 513,
-    question: "Carlo Acutis criou sites sobre quais temas além dos milagres eucarísticos?",
-    options: ["Apenas milagres eucarísticos", "Santos e aparições marianas", "Apenas santos", "Apenas aparições"],
-    correctAnswer: 1,
-    explanation: "Carlo Acutis criou sites documentando milagres eucarísticos, santos e aparições marianas, usando a tecnologia para evangelizar.",
-    difficulty: "Médio"
-  },
-  {
-    id: 514,
-    question: "Qual era a nacionalidade de Carlo Acutis?",
-    options: ["Inglesa", "Italiana", "Francesa", "Espanhola"],
-    correctAnswer: 1,
-    explanation: "Carlo Acutis era italiano, nascido em Londres mas criado em Milão, onde viveu praticamente toda sua vida.",
-    difficulty: "Médio"
-  },
-  {
-    id: 515,
-    question: "Quem foi o postulador da causa de beatificação de Carlo Acutis?",
-    options: ["Cardeal Angelo Becciu", "Nicola Gori", "Cardeal Giuseppe Versaldi", "Paolo Vilotta"],
-    correctAnswer: 1,
-    explanation: "Nicola Gori foi o postulador da causa de beatificação de Carlo Acutis, trabalhando para promover seu reconhecimento oficial.",
-    difficulty: "Médio"
-  },
-  {
-    id: 516,
-    question: "Em que ano ocorreu o milagre eucarístico de Bolsena?",
-    options: ["1263", "1264", "1265", "1266"],
-    correctAnswer: 0,
-    explanation: "O milagre eucarístico de Bolsena ocorreu em 1263, quando um sacerdote duvidoso viu a hóstia sangrar durante a consagração.",
-    difficulty: "Médio"
-  },
-  {
-    id: 517,
-    question: "Qual cidade portuguesa é famosa por um milagre eucarístico no século XIII?",
-    options: ["Porto", "Lisboa", "Coimbra", "Santarém"],
-    correctAnswer: 3,
-    explanation: "Santarém é famosa pelo milagre eucarístico de 1247, onde uma hóstia consagrada roubada começou a sangrar.",
-    difficulty: "Médio"
-  },
-  {
-    id: 518,
-    question: "O que aconteceu no milagre eucarístico de Siena (1730)?",
-    options: ["Hóstias se transformaram em carne", "Hóstias se multiplicaram", "Hóstias permaneceram incorruptas", "Hóstias levitaram"],
-    correctAnswer: 2,
-    explanation: "No milagre de Siena, 223 hóstias consagradas permaneceram incorruptas por quase 300 anos, desafiando as leis naturais.",
-    difficulty: "Médio"
-  },
-  {
-    id: 519,
-    question: "Qual foi a reação da ciência moderna aos milagres eucarísticos?",
-    options: ["Negação total", "Confirmação através de análises", "Indiferença", "Ceticismo apenas"],
-    correctAnswer: 1,
-    explanation: "Análises científicas modernas confirmaram a autenticidade de vários milagres eucarísticos, encontrando tecido cardíaco humano real.",
-    difficulty: "Médio"
-  },
-  {
-    id: 520,
-    question: "Quantos países Carlo Acutis visitou para documentar milagres eucarísticos?",
-    options: ["Apenas a Itália", "5 países", "Mais de 20 países", "10 países"],
-    correctAnswer: 2,
-    explanation: "Carlo Acutis documentou milagres eucarísticos de mais de 20 países ao redor do mundo, criando um catálogo global.",
-    difficulty: "Médio"
-  },
-  {
-    id: 521,
-    question: "Em que ano o Cristianismo se tornou religião oficial do Império Romano?",
-    options: ["313", "325", "380", "391"],
-    correctAnswer: 2,
-    explanation: "O Cristianismo tornou-se religião oficial do Império Romano em 380, com o Édito de Tessalônica do imperador Teodósio I.",
-    difficulty: "Médio"
-  },
-  {
-    id: 522,
-    question: "Qual foi o primeiro Concílio Ecumênico da Igreja?",
-    options: ["Concílio de Jerusalém", "Concílio de Niceia I", "Concílio de Constantinopla", "Concílio de Éfeso"],
-    correctAnswer: 1,
-    explanation: "O Concílio de Niceia I (325) foi o primeiro concílio ecumênico, condenando o arianismo e proclamando a divindade de Cristo.",
-    difficulty: "Médio"
-  },
-  {
-    id: 523,
-    question: "Qual heresia negava a divindade de Cristo?",
-    options: ["Gnosticismo", "Arianismo", "Pelagianismo", "Nestorianismo"],
-    correctAnswer: 1,
-    explanation: "O Arianismo, propagado por Ário, negava a divindade de Cristo, considerando-o inferior ao Pai.",
-    difficulty: "Médio"
-  },
-  {
-    id: 524,
-    question: "Qual Papa é conhecido como 'o Grande'?",
-    options: ["São Leão I", "São Gregório I", "São Pio X", "São João Paulo II"],
-    correctAnswer: 0,
-    explanation: "São Leão I é conhecido como 'Leão Magno' ou 'o Grande', famoso por deter Átila e defender a ortodoxia cristã.",
-    difficulty: "Médio"
-  },
-  {
-    id: 525,
-    question: "Em que ano começou o Grande Cisma do Ocidente?",
-    options: ["1054", "1378", "1414", "1449"],
-    correctAnswer: 1,
-    explanation: "O Grande Cisma do Ocidente começou em 1378, quando houve papas rivais em Roma e Avignon simultaneamente.",
-    difficulty: "Médio"
-  },
-  {
-    id: 526,
-    question: "O que é a Tradição na Igreja Católica?",
-    options: ["Costumes antigos", "Transmissão oral da Revelação", "Rituais litúrgicos", "Ensinamentos dos padres"],
-    correctAnswer: 1,
-    explanation: "A Tradição é a transmissão oral da Revelação divina, complementando a Sagrada Escritura.",
-    difficulty: "Médio"
-  },
-  {
-    id: 527,
-    question: "Qual é a diferença entre dogma e doutrina?",
-    options: ["Não há diferença", "Dogma é verdade revelada definida, doutrina é ensinamento geral", "Dogma é antigo, doutrina é nova", "Dogma é papal, doutrina é conciliar"],
-    correctAnswer: 1,
-    explanation: "Dogma é uma verdade revelada definitivamente proclamada pela Igreja; doutrina é o conjunto mais amplo de ensinamentos.",
-    difficulty: "Médio"
-  },
-  {
-    id: 528,
-    question: "O que é o Magistério da Igreja?",
-    options: ["Ensino universitário católico", "Autoridade para ensinar a fé e moral", "Livros sagrados", "Tradições populares"],
-    correctAnswer: 1,
-    explanation: "O Magistério é a autoridade da Igreja para ensinar autenticamente a fé e a moral cristã.",
-    difficulty: "Médio"
-  },
-  {
-    id: 529,
-    question: "Qual é a estrutura hierárquica da Igreja?",
-    options: ["Papa, Bispos, Padres, Diáconos", "Papa, Cardeais, Bispos, Padres", "Papa, Arcebispos, Bispos, Padres", "Todas as anteriores"],
-    correctAnswer: 0,
-    explanation: "A hierarquia básica da Igreja é: Papa, Bispos, Padres (presbíteros) e Diáconos.",
-    difficulty: "Médio"
-  },
-  {
-    id: 530,
-    question: "O que são as virtudes cardeais?",
-    options: ["Prudência, Justiça, Fortaleza, Temperança", "Fé, Esperança, Caridade", "Humildade, Castidade, Pobreza", "Obediência, Paciência, Mansidão"],
-    correctAnswer: 0,
-    explanation: "As virtudes cardeais são: Prudência, Justiça, Fortaleza e Temperança.",
-    difficulty: "Médio"
-  },
-  {
-    id: 970,
-    question: "O que é a escatologia?",
-    options: ["Estudo dos últimos tempos", "Estudo das Escrituras", "Estudo dos santos", "Estudo da liturgia"],
-    correctAnswer: 0,
-    explanation: "A escatologia é o estudo das realidades últimas: morte, juízo, céu, inferno e segunda vinda de Cristo.",
-    difficulty: "Médio"
-  },
-  {
-    id: 980,
-    question: "Qual é o papel dos anjos na teologia católica?",
-    options: ["Mensageiros de Deus", "Guardiões", "Intercessores", "Todas as anteriores"],
-    correctAnswer: 3,
-    explanation: "Os anjos são mensageiros de Deus, guardiões dos homens e intercessores junto ao Altíssimo.",
-    difficulty: "Médio"
-  },
-  {
-    id: 990,
-    question: "O que é a mariologia?",
-    options: ["Estudo sobre Maria", "Devoção mariana", "Aparições de Nossa Senhora", "Orações a Maria"],
-    correctAnswer: 0,
-    explanation: "A mariologia é o ramo da teologia que estuda a pessoa e o papel de Maria na economia da salvação.",
-    difficulty: "Médio"
-  },
-  {
-    id: 1000,
-    question: "Qual é a relação entre fé e razão segundo a Igreja?",
-    options: ["São opostas", "São complementares", "A fé supera a razão", "A razão supera a fé"],
-    correctAnswer: 1,
-    explanation: "Para a Igreja Católica, fé e razão são complementares, ambas conduzem à verdade divina.",
-    difficulty: "Médio"
-  },
-
-  // PERGUNTAS DIFÍCEIS (IDs 1001-1500)
-  {
-    id: 1001,
-    question: "Qual é a diferença entre transubstanciação e consubstanciação?",
-    options: ["Na transubstanciação a substância muda, na consubstanciação coexistem", "São a mesma coisa", "Consubstanciação é mais antiga", "Transubstanciação é protestante"],
-    correctAnswer: 0,
-    explanation: "Na transubstanciação (católica) a substância do pão e vinho muda completamente; na consubstanciação (luterana) as substâncias coexistem.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1002,
-    question: "Qual é o significado teológico preciso do 'Filioque' no Credo?",
-    options: ["Que o Espírito Santo procede do Pai e do Filho", "Que Jesus é Filho de Deus", "Que o Pai gera o Filho", "Que o Espírito é enviado"],
-    correctAnswer: 0,
-    explanation: "O 'Filioque' afirma que o Espírito Santo procede do Pai e do Filho, questão que dividiu as Igrejas Oriental e Ocidental.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1003,
-    question: "Segundo a teologia tomista, qual é a diferença entre essência e existência em Deus?",
-    options: ["São realmente distintas", "São idênticas", "Uma é superior à outra", "Não se aplicam a Deus"],
-    correctAnswer: 1,
-    explanation: "Na teologia tomista, em Deus essência e existência são idênticas, pois Deus é o próprio Ser subsistente.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1004,
-    question: "O que estabelece precisamente a doutrina da 'comunicação de idiomas'?",
-    options: ["A união das duas naturezas em Cristo", "A comunicação entre as pessoas da Trindade", "A transmissão da graça", "A inspiração bíblica"],
-    correctAnswer: 0,
-    explanation: "A 'comunicação de idiomas' estabelece que, devido à união hipostática, os atributos de cada natureza podem ser atribuídos à pessoa de Cristo.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1005,
-    question: "Qual é a diferença entre 'ex opere operato' e 'ex opere operantis' na sacramentologia?",
-    options: ["Eficácia objetiva vs subjetiva", "Sacramento vs oração", "Matéria vs forma", "Ministro vs recipiente"],
-    correctAnswer: 0,
-    explanation: "'Ex opere operato' refere-se à eficácia objetiva do sacramento; 'ex opere operantis' à disposição subjetiva de quem o recebe.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1006,
-    question: "Na cristologia calcedônica, o que significa 'sem confusão, sem mudança, sem divisão, sem separação'?",
-    options: ["As propriedades da união hipostática", "Os atributos de Deus", "As características da Trindade", "As condições da Encarnação"],
-    correctAnswer: 0,
-    explanation: "Estes quatro advérbios definem como as duas naturezas se unem na pessoa de Cristo: distintas mas não separadas, unidas mas não confundidas.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1007,
-    question: "Qual é o objeto formal da virtude teologal da fé?",
-    options: ["As verdades reveladas", "Deus enquanto Verdade Primeira", "A Sagrada Escritura", "O Magistério da Igreja"],
-    correctAnswer: 1,
-    explanation: "O objeto formal da fé é Deus enquanto Verdade Primeira revelante, não meramente as verdades que Ele revela.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1008,
-    question: "Segundo São Tomás, qual é a diferença entre scientia e sapientia?",
-    options: ["Conhecimento humano vs divino", "Razão vs fé", "Conhecimento pelas causas próximas vs últimas", "Teoria vs prática"],
-    correctAnswer: 2,
-    explanation: "Scientia conhece pelas causas próximas; sapientia conhece pelas causas primeiras e últimas, sendo a mais alta forma de conhecimento.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1009,
-    question: "O que significa tecnicamente a 'circumincessão' trinitária?",
-    options: ["A mútua inhabitação das pessoas divinas", "A processão do Espírito Santo", "A geração do Filho", "A unidade de essência"],
-    correctAnswer: 0,
-    explanation: "Circumincessão (ou pericórese) designa a mútua inhabitação das três pessoas divinas, uma na outra, preservando suas distinções.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1010,
-    question: "Na eclesiologia, qual é a diferença entre 'infalibilidade' e 'inerrância'?",
-    options: ["São sinônimos", "Infalibilidade é maior que inerrância", "Infalibilidade refere-se ao ensino, inerrância à Escritura", "Uma é dogma, outra não"],
-    correctAnswer: 2,
-    explanation: "Infalibilidade refere-se ao magistério papal/conciliar no ensino; inerrância refere-se à ausência de erros na Sagrada Escritura.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1011,
-    question: "Qual foi a metodologia específica que Carlo Acutis usou para verificar a autenticidade dos milagres eucarísticos?",
-    options: ["Análise pessoal apenas", "Consulta a fontes oficiais da Igreja e estudos científicos", "Apenas tradições locais", "Investigação jornalística"],
-    correctAnswer: 1,
-    explanation: "Carlo consultou rigorosamente fontes oficiais da Igreja, documentos históricos e estudos científicos para verificar cada milagre.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1012,
-    question: "Que linguagens de programação Carlo Acutis dominava?",
-    options: ["Apenas HTML", "HTML, CSS e JavaScript", "Python e Java", "C++ e Assembly"],
-    correctAnswer: 1,
-    explanation: "Carlo dominava HTML, CSS e JavaScript, usando essas linguagens para criar seus sites de evangelização digital.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1013,
-    question: "Qual foi o impacto específico da exposição de Carlo Acutis sobre milagres eucarísticos?",
-    options: ["Apenas local", "Internacional, percorrendo cinco continentes", "Apenas na Europa", "Apenas na Itália"],
-    correctAnswer: 1,
-    explanation: "A exposição de Carlo percorreu cinco continentes, impactando milhões de pessoas e sendo traduzida para múltiplas línguas.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1014,
-    question: "Qual era a relação específica de Carlo Acutis com a Eucaristia além da participação diária na Missa?",
-    options: ["Apenas comunhão diária", "Adoração eucarística prolongada e apostolado eucarístico", "Apenas devoção pessoal", "Estudo teológico"],
-    correctAnswer: 1,
-    explanation: "Carlo fazia adoração eucarística prolongada e desenvolveu um intenso apostolado eucarístico através de seus projetos digitais.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1015,
-    question: "Qual foi o milagre específico que permitiu a beatificação de Carlo Acutis?",
-    options: ["Cura de leucemia", "Cura de malformação pancreática", "Ressurreição", "Cura de cegueira"],
-    correctAnswer: 1,
-    explanation: "O milagre foi a cura instantânea de uma malformação pancreática grave em uma criança brasileira através da intercessão de Carlo.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1016,
-    question: "Qual é a composição molecular específica encontrada nos milagres eucarísticos estudados cientificamente?",
-    options: ["Tecido muscular comum", "Tecido cardíaco humano do tipo AB", "Tecido neural", "Tecido hepático"],
-    correctAnswer: 1,
-    explanation: "As análises científicas confirmaram tecido cardíaco humano do tipo sanguíneo AB, o mesmo tipo encontrado no Sudário de Turim.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1017,
-    question: "Qual laboratório forense foi responsável pelas análises mais detalhadas dos milagres eucarísticos?",
-    options: ["Laboratório do Vaticano", "Universidade de Sydney", "Laboratório Forense de Buenos Aires", "Instituto Gemelli"],
-    correctAnswer: 2,
-    explanation: "O Laboratório Forense de Buenos Aires realizou análises detalhadas que confirmaram a natureza extraordinária do tecido.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1018,
-    question: "Qual é a particularidade histológica do tecido encontrado no milagre de Buenos Aires (1996)?",
-    options: ["Tecido morto", "Tecido vivo com contrações cardíacas", "Tecido em decomposição", "Tecido sintético"],
-    correctAnswer: 1,
-    explanation: "O tecido cardíaco estava vivo e apresentava contrações rítmicas, como se fosse um coração palpitante.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1019,
-    question: "Quantos séculos abrange o período histórico dos milagres eucarísticos documentados por Carlo?",
-    options: ["5 séculos", "10 séculos", "13 séculos", "15 séculos"],
-    correctAnswer: 2,
-    explanation: "Os milagres documentados abrangem aproximadamente 13 séculos, do século VIII ao século XXI.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1020,
-    question: "Qual é a frequência estatística aproximada de milagres eucarísticos reconhecidos pela Igreja?",
-    options: ["1 por ano", "1 por década", "1 por século", "Irregular e rara"],
-    correctAnswer: 3,
-    explanation: "Os milagres eucarísticos são eventos irregulares e raros, não seguindo uma frequência estatística previsível.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1021,
-    question: "Qual é a distinção tomista entre 'suppositum' e 'persona'?",
-    options: ["São sinônimos", "Suppositum é mais geral, persona específica para seres racionais", "Persona é material, suppositum espiritual", "Não há distinção"],
-    correctAnswer: 1,
-    explanation: "Para Tomás de Aquino, 'suppositum' é o indivíduo em qualquer natureza; 'persona' é o suppositum de natureza racional.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1022,
-    question: "O que significa precisamente 'actus purus' em relação a Deus?",
-    options: ["Deus é puro ato, sem potencialidade", "Deus age puramente", "Deus é ação pura", "Deus atua com pureza"],
-    correctAnswer: 0,
-    explanation: "Actus purus significa que Deus é ato puro, sem mistura de potencialidade, sendo perfeição absoluta.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1023,
-    question: "Qual é a diferença entre 'gratia gratum faciens' e 'gratia gratis data'?",
-    options: ["Uma santifica, outra é para o bem comum", "São a mesma graça", "Uma é sacramental, outra não", "Uma é habitual, outra atual"],
-    correctAnswer: 0,
-    explanation: "Gratia gratum faciens santifica quem a recebe; gratia gratis data (carismas) é dada para o bem comum.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1024,
-    question: "O que estabelece a 'comunicatio idiomatum' na cristologia?",
-    options: ["A troca de propriedades entre naturezas", "A comunicação das pessoas divinas", "A união das naturezas", "A distinção das naturezas"],
-    correctAnswer: 0,
-    explanation: "A comunicatio idiomatum permite atribuir à pessoa de Cristo propriedades de ambas as naturezas.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1025,
-    question: "Qual é o objeto formal 'quo' da teologia segundo Tomás de Aquino?",
-    options: ["Deus", "A revelação", "A luz da revelação divina", "As verdades de fé"],
-    correctAnswer: 2,
-    explanation: "O objeto formal 'quo' da teologia é a luz da revelação divina, meio pelo qual conhecemos as verdades teológicas.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1026,
-    question: "Qual é a precisão técnica da metodologia que Carlo usou para verificar os milagres eucarísticos?",
-    options: ["Apenas pesquisa online", "Cruzamento de fontes históricas, científicas e eclesiásticas", "Apenas documentos da Igreja", "Apenas relatos populares"],
-    correctAnswer: 1,
-    explanation: "Carlo cruzava rigorosamente fontes históricas, análises científicas modernas e documentos eclesiásticos oficiais.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1027,
-    question: "Qual é a fundamentação teológica específica que Carlo apresentou para os milagres eucarísticos?",
-    options: ["Prova da transubstanciação", "Confirmação da presença real", "Demonstração da fé católica", "Todas as anteriores"],
-    correctAnswer: 3,
-    explanation: "Carlo apresentou os milagres como confirmação simultânea da transubstanciação, presença real e verdade católica.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1028,
-    question: "Qual é a contribuição epistemológica específica de Carlo à apologética eucarística?",
-    options: ["Catalogação sistemática", "Uso de tecnologia digital", "Síntese entre fé e ciência", "Todas as anteriores"],
-    correctAnswer: 3,
-    explanation: "Carlo revolucionou a apologética eucarística combinando catalogação sistemática, tecnologia e síntese fé-ciência.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1029,
-    question: "Qual é a significância hermenêutica dos milagres eucarísticos na obra de Carlo?",
-    options: ["Interpretação literal apenas", "Sinais que confirmam a doutrina", "Fenômenos sobrenaturais isolados", "Curiosidades históricas"],
-    correctAnswer: 1,
-    explanation: "Carlo interpretou os milagres como sinais hermenêuticos que confirmam e iluminam a doutrina eucarística.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1030,
-    question: "Qual é a dimensão escatológica dos milagres eucarísticos segundo a visão de Carlo?",
-    options: ["Antecipação da glória futura", "Apenas eventos presentes", "Lembrança do passado", "Preparação para o fim dos tempos"],
-    correctAnswer: 0,
-    explanation: "Carlo via os milagres como antecipações da glória eucarística que teremos na vida eterna.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1031,
-    question: "Qual é a composição histológica específica encontrada no milagre de Lanciano?",
-    options: ["Músculo cardíaco com fibras estriadas", "Tecido muscular comum", "Tecido epitelial", "Tecido conjuntivo"],
-    correctAnswer: 0,
-    explanation: "A análise histológica revelou músculo cardíaco com fibras estriadas típicas do miocárdio humano.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1032,
-    question: "Qual é a particularidade imunológica do sangue dos milagres eucarísticos?",
-    options: ["Tipo AB positivo com propriedades especiais", "Sangue comum", "Tipo O universal", "Sem características especiais"],
-    correctAnswer: 0,
-    explanation: "O sangue é tipo AB positivo, mesmo tipo do Sudário de Turim, com características de sangue humano fresco.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1033,
-    question: "Qual é a significância da ausência de conservantes nos tecidos dos milagres eucarísticos?",
-    options: ["Prova da intervenção divina", "Erro de análise", "Conservação natural", "Processos químicos desconhecidos"],
-    correctAnswer: 0,
-    explanation: "A ausência de conservantes e a preservação perfeita por séculos indica intervenção sobrenatural.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1034,
-    question: "Qual é a análise genética dos tecidos encontrados nos milagres eucarísticos?",
-    options: ["DNA humano masculino completo", "DNA degradado", "Sem DNA detectável", "DNA não humano"],
-    correctAnswer: 0,
-    explanation: "As análises revelam DNA humano masculino completo, confirmando origem em pessoa do sexo masculino.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1035,
-    question: "Qual é a resposta da comunidade científica internacional aos milagres eucarísticos?",
-    options: ["Negação completa", "Reconhecimento da anomalia científica", "Indiferença", "Explicações naturalísticas forçadas"],
-    correctAnswer: 1,
-    explanation: "A comunidade científica reconhece as anomalias sem conseguir explicações naturalísticas satisfatórias.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1036,
-    question: "Qual é a relação entre a filosofia aristotélico-tomista e a explicação dos milagres eucarísticos?",
-    options: ["Contradição", "Confirmação da teoria hilemórfica", "Irrelevância", "Superação da filosofia antiga"],
-    correctAnswer: 1,
-    explanation: "Os milagres confirmam a teoria hilemórfica: a substância muda enquanto os acidentes permanecem.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1037,
-    question: "Qual é a dimensão mariológica na espiritualidade eucarística de Carlo Acutis?",
-    options: ["Maria como modelo de adoração eucarística", "Separação entre devoções", "Incompatibilidade", "Secundariedade mariana"],
-    correctAnswer: 0,
-    explanation: "Carlo via Maria como modelo perfeito de adoração eucarística, sendo ela o primeiro sacrário vivo.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1038,
-    question: "Qual é a contribuição de Carlo para a teologia digital contemporânea?",
-    options: ["Evangelização através da tecnologia", "Crítica à tecnologia", "Uso superficial da internet", "Tecnofobia religiosa"],
-    correctAnswer: 0,
-    explanation: "Carlo pioneirou a teologia digital, mostrando como usar a tecnologia para evangelizar e catequizar.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1039,
-    question: "Qual é a dimensão pneumatológica dos milagres eucarísticos?",
-    options: ["Ação do Espírito Santo confirmando a verdade eucarística", "Fenômenos meramente físicos", "Ações angelicais", "Coincidências naturais"],
-    correctAnswer: 0,
-    explanation: "Os milagres manifestam a ação do Espírito Santo confirmando a verdade da presença real eucarística.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1040,
-    question: "Qual é a hermenêutica sacramental dos milagres eucarísticos na obra de Carlo?",
-    options: ["Sinais que revelam o mistério eucarístico", "Fenômenos isolados", "Curiosidades históricas", "Lendas populares"],
-    correctAnswer: 0,
-    explanation: "Carlo interpretou os milagres como sinais sacramentais que revelam e aprofundam o mistério eucarístico.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1041,
-    question: "Qual é a dimensão eclesiológica dos milagres eucarísticos?",
-    options: ["Confirmação da autoridade magisterial", "Crítica à hierarquia", "Fenômenos independentes", "Questões disciplinares"],
-    correctAnswer: 0,
-    explanation: "Os milagres confirmam a autoridade da Igreja em ensinar sobre a Eucaristia e reconhecer os sinais divinos.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1042,
-    question: "Qual é a metodologia científica específica usada na análise forense dos milagres eucarísticos?",
-    options: ["Análise histológica, imunológica e genética", "Apenas observação visual", "Métodos obsoletos", "Técnicas não científicas"],
-    correctAnswer: 0,
-    explanation: "Utilizam-se análises histológicas, imunológicas, genéticas e espectrométricas de última geração.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1043,
-    question: "Qual é a significância da preservação incorrupta dos milagres eucarísticos para a física moderna?",
-    options: ["Desafio às leis da entropia", "Fenômeno normal", "Explicação química simples", "Processo natural conhecido"],
-    correctAnswer: 0,
-    explanation: "A preservação incorrupta por séculos desafia as leis da entropia e decomposição natural.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1044,
-    question: "Qual é a relação entre os milagres eucarísticos e a cristologia calcedônica?",
-    options: ["Confirmação das duas naturezas de Cristo", "Contradição dogmática", "Irrelevância cristológica", "Questão apenas devocional"],
-    correctAnswer: 0,
-    explanation: "Os milagres confirmam a cristologia de Calcedônia: Cristo verdadeiro Deus e verdadeiro homem presente na Eucaristia.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1045,
-    question: "Qual é a contribuição epistemológica única de Carlo Acutis à apologética católica?",
-    options: ["Síntese entre fé, razão e tecnologia", "Apenas divulgação", "Repetição de argumentos antigos", "Contribuição menor"],
-    correctAnswer: 0,
-    explanation: "Carlo criou uma nova síntese apologética integrando fé, razão científica e tecnologia digital.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1046,
-    question: "Qual é o legado teológico-pastoral definitivo de Carlo Acutis para a Igreja contemporânea?",
-    options: ["Modelo de santidade digital e eucarística", "Exemplo isolado", "Influência temporária", "Impacto limitado"],
-    correctAnswer: 0,
-    explanation: "Carlo deixou um modelo perene de como integrar santidade, tecnologia e devoção eucarística na era digital.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1047,
-    question: "O que é a 'analogia entis' na filosofia tomista?",
-    options: ["Analogia do ser", "Comparação entre criaturas", "Semelhança com Deus", "Todas as anteriores"],
-    correctAnswer: 3,
-    explanation: "A analogia entis é a doutrina tomista sobre a analogia do ser, permitindo conhecer Deus através das criaturas.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1048,
-    question: "Qual é a diferença entre 'potentia absoluta' e 'potentia ordinata' de Deus?",
-    options: ["Poder absoluto vs ordenado", "Poder criador vs conservador", "Poder natural vs sobrenatural", "Poder temporal vs eterno"],
-    correctAnswer: 0,
-    explanation: "Potentia absoluta é o poder absoluto de Deus; potentia ordinata é seu poder exercido segundo a ordem estabelecida.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1100,
-    question: "O que significa 'theosis' na tradição patrística?",
-    options: ["Divinização do homem", "Humanização de Deus", "União mística", "Contemplação divina"],
-    correctAnswer: 0,
-    explanation: "Theosis é o conceito patrístico da divinização do homem pela graça, tornando-se participante da natureza divina.",
-    difficulty: "Difícil"
-  },
-  {
-    id: 1500,
-    question: "Qual é a síntese definitiva entre tomismo e franciscanismo na teologia contemporânea?",
-    options: ["Incompatibilidade", "Complementaridade na busca da verdade", "Superação mútua", "Fusão completa"],
-    correctAnswer: 1,
-    explanation: "A teologia contemporânea reconhece a complementaridade entre as escolas tomista e franciscana na busca da verdade divina.",
-    difficulty: "Difícil"
   }
 ];
 
-// Função para gerenciar sessão de jogo única
-const getGameSession = (): string => {
-  let sessionId = sessionStorage.getItem('quiz-game-session');
-  if (!sessionId) {
-    sessionId = `game-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-    sessionStorage.setItem('quiz-game-session', sessionId);
-  }
-  return sessionId;
+// Sistema de controle de perguntas usadas
+let usedQuestionIds: Set<number> = new Set();
+let sessionId: string = Math.random().toString(36).substring(2, 15);
+
+// Função para obter todas as perguntas
+export const getAllQuestions = (): Question[] => {
+  return [...easyQuestions, ...mediumQuestions, ...hardQuestions, ...additionalQuestions];
 };
 
-// Função para obter perguntas usadas da sessão atual
-const getUsedQuestions = (): Set<number> => {
-  const sessionId = getGameSession();
-  const key = `quiz-used-questions-${sessionId}`;
-  const saved = localStorage.getItem(key);
-  if (saved) {
-    try {
-      const array = JSON.parse(saved);
-      return new Set(array);
-    } catch {
-      return new Set();
-    }
-  }
-  return new Set();
-};
-
-// Função para salvar perguntas usadas da sessão atual
-const saveUsedQuestions = (usedQuestions: Set<number>) => {
-  const sessionId = getGameSession();
-  const key = `quiz-used-questions-${sessionId}`;
-  localStorage.setItem(key, JSON.stringify([...usedQuestions]));
-};
-
-// Função principal para obter 10 perguntas aleatórias sem repetição
+// Função para obter perguntas para uma fase (10 perguntas aleatórias sem repetição)
 export const getQuestionsForPhase = (): Question[] => {
-  console.log('=== INÍCIO SELEÇÃO DE 10 PERGUNTAS ALEATÓRIAS (SEM REPETIÇÃO) ===');
+  const allQuestions = getAllQuestions();
+  const availableQuestions = allQuestions.filter(q => !usedQuestionIds.has(q.id));
   
-  const usedQuestions = getUsedQuestions();
-  console.log(`Perguntas já usadas nesta sessão: ${usedQuestions.size}/${questionsDatabase.length}`);
-  
-  // Filtrar perguntas não utilizadas
-  let availableQuestions = questionsDatabase.filter(q => !usedQuestions.has(q.id));
-  
-  // Se menos de 10 perguntas disponíveis, resetar sessão
+  // Se não há perguntas suficientes disponíveis, resetar o sistema
   if (availableQuestions.length < 10) {
-    console.log('⚠️ ATENÇÃO: Menos de 10 perguntas disponíveis! Resetando sessão...');
-    // Criar nova sessão de jogo
-    const newSessionId = `game-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-    sessionStorage.setItem('quiz-game-session', newSessionId);
-    // Limpar perguntas usadas da sessão anterior
-    const oldKey = `quiz-used-questions-${getGameSession()}`;
-    localStorage.removeItem(oldKey);
-    // Todas as perguntas ficam disponíveis novamente
-    availableQuestions = questionsDatabase;
+    console.log('🔄 RESETANDO sistema de perguntas - todas foram usadas!');
+    usedQuestionIds.clear();
+    sessionId = Math.random().toString(36).substring(2, 15);
+    return getQuestionsForPhase(); // Recursão para tentar novamente
   }
   
-  console.log(`Perguntas disponíveis para seleção: ${availableQuestions.length}`);
-  
-  // Embaralhar as perguntas disponíveis usando algoritmo Fisher-Yates
-  const shuffled = [...availableQuestions];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  
-  // Selecionar as primeiras 10
+  // Embaralhar e pegar 10 perguntas
+  const shuffled = [...availableQuestions].sort(() => Math.random() - 0.5);
   const selectedQuestions = shuffled.slice(0, 10);
   
-  // Atualizar perguntas usadas
-  const newUsedQuestions = new Set([...usedQuestions, ...selectedQuestions.map(q => q.id)]);
-  saveUsedQuestions(newUsedQuestions);
-  
-  console.log(`✅ ${selectedQuestions.length} perguntas selecionadas (IDs: ${selectedQuestions.map(q => q.id).join(', ')})`);
-  console.log(`Total de perguntas usadas após seleção: ${newUsedQuestions.size}/${questionsDatabase.length}`);
-  console.log(`Perguntas restantes: ${questionsDatabase.length - newUsedQuestions.size}`);
-  console.log('=== FIM SELEÇÃO DE PERGUNTAS ===');
+  // Marcar as perguntas como usadas
+  selectedQuestions.forEach(q => usedQuestionIds.add(q.id));
   
   return selectedQuestions;
 };
 
-// Função para resetar perguntas usadas manualmente (para debug)
-export const resetUsedQuestions = () => {
-  const sessionId = getGameSession();
-  const key = `quiz-used-questions-${sessionId}`;
-  localStorage.removeItem(key);
-  console.log('🔄 Todas as perguntas usadas foram resetadas manualmente');
+// Função para obter estatísticas das perguntas
+export const getQuestionStats = () => {
+  const totalQuestions = getAllQuestions().length;
+  const usedQuestions = usedQuestionIds.size;
+  const remainingQuestions = totalQuestions - usedQuestions;
+  
+  return {
+    totalQuestions,
+    usedQuestions,
+    remainingQuestions,
+    sessionId
+  };
 };
 
-// Função para verificar estatísticas de uso
-export const getQuestionStats = () => {
-  const usedQuestions = getUsedQuestions();
-  return {
-    totalQuestions: questionsDatabase.length,
-    usedQuestions: usedQuestions.size,
-    remainingQuestions: questionsDatabase.length - usedQuestions.size,
-    sessionId: getGameSession()
-  };
+// Função para resetar o sistema de perguntas usadas
+export const resetUsedQuestions = () => {
+  usedQuestionIds.clear();
+  sessionId = Math.random().toString(36).substring(2, 15);
+  console.log('🔄 Sistema de perguntas resetado!');
 };
