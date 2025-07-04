@@ -933,6 +933,214 @@ const questionsDatabase: Question[] = [
     correctAnswer: 3,
     explanation: "Os milagres eucarísticos são eventos irregulares e raros, não seguindo uma frequência estatística previsível.",
     difficulty: "Difícil"
+  },
+  {
+    id: 1021,
+    question: "Qual é a distinção tomista entre 'suppositum' e 'persona'?",
+    options: ["São sinônimos", "Suppositum é mais geral, persona específica para seres racionais", "Persona é material, suppositum espiritual", "Não há distinção"],
+    correctAnswer: 1,
+    explanation: "Para Tomás de Aquino, 'suppositum' é o indivíduo em qualquer natureza; 'persona' é o suppositum de natureza racional.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 1022,
+    question: "O que significa precisamente 'actus purus' em relação a Deus?",
+    options: ["Deus é puro ato, sem potencialidade", "Deus age puramente", "Deus é ação pura", "Deus atua com pureza"],
+    correctAnswer: 0,
+    explanation: "Actus purus significa que Deus é ato puro, sem mistura de potencialidade, sendo perfeição absoluta.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 1023,
+    question: "Qual é a diferença entre 'gratia gratum faciens' e 'gratia gratis data'?",
+    options: ["Uma santifica, outra é para o bem comum", "São a mesma graça", "Uma é sacramental, outra não", "Uma é habitual, outra atual"],
+    correctAnswer: 0,
+    explanation: "Gratia gratum faciens santifica quem a recebe; gratia gratis data (carismas) é dada para o bem comum.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 1024,
+    question: "O que estabelece a 'comunicatio idiomatum' na cristologia?",
+    options: ["A troca de propriedades entre naturezas", "A comunicação das pessoas divinas", "A união das naturezas", "A distinção das naturezas"],
+    correctAnswer: 0,
+    explanation: "A comunicatio idiomatum permite atribuir à pessoa de Cristo propriedades de ambas as naturezas.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 1025,
+    question: "Qual é o objeto formal 'quo' da teologia segundo Tomás de Aquino?",
+    options: ["Deus", "A revelação", "A luz da revelação divina", "As verdades de fé"],
+    correctAnswer: 2,
+    explanation: "O objeto formal 'quo' da teologia é a luz da revelação divina, meio pelo qual conhecemos as verdades teológicas.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 1026,
+    question: "Qual é a precisão técnica da metodologia que Carlo usou para verificar os milagres eucarísticos?",
+    options: ["Apenas pesquisa online", "Cruzamento de fontes históricas, científicas e eclesiásticas", "Apenas documentos da Igreja", "Apenas relatos populares"],
+    correctAnswer: 1,
+    explanation: "Carlo cruzava rigorosamente fontes históricas, análises científicas modernas e documentos eclesiásticos oficiais.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 1027,
+    question: "Qual é a fundamentação teológica específica que Carlo apresentou para os milagres eucarísticos?",
+    options: ["Prova da transubstanciação", "Confirmação da presença real", "Demonstração da fé católica", "Todas as anteriores"],
+    correctAnswer: 3,
+    explanation: "Carlo apresentou os milagres como confirmação simultânea da transubstanciação, presença real e verdade católica.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 1028,
+    question: "Qual é a contribuição epistemológica específica de Carlo à apologética eucarística?",
+    options: ["Catalogação sistemática", "Uso de tecnologia digital", "Síntese entre fé e ciência", "Todas as anteriores"],
+    correctAnswer: 3,
+    explanation: "Carlo revolucionou a apologética eucarística combinando catalogação sistemática, tecnologia e síntese fé-ciência.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 1029,
+    question: "Qual é a significância hermenêutica dos milagres eucarísticos na obra de Carlo?",
+    options: ["Interpretação literal apenas", "Sinais que confirmam a doutrina", "Fenômenos sobrenaturais isolados", "Curiosidades históricas"],
+    correctAnswer: 1,
+    explanation: "Carlo interpretou os milagres como sinais hermenêuticos que confirmam e iluminam a doutrina eucarística.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 1030,
+    question: "Qual é a dimensão escatológica dos milagres eucarísticos segundo a visão de Carlo?",
+    options: ["Antecipação da glória futura", "Apenas eventos presentes", "Lembrança do passado", "Preparação para o fim dos tempos"],
+    correctAnswer: 0,
+    explanation: "Carlo via os milagres como antecipações da glória eucarística que teremos na vida eterna.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 1031,
+    question: "Qual é a composição histológica específica encontrada no milagre de Lanciano?",
+    options: ["Músculo cardíaco com fibras estriadas", "Tecido muscular comum", "Tecido epitelial", "Tecido conjuntivo"],
+    correctAnswer: 0,
+    explanation: "A análise histológica revelou músculo cardíaco com fibras estriadas típicas do miocárdio humano.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 1032,
+    question: "Qual é a particularidade imunológica do sangue dos milagres eucarísticos?",
+    options: ["Tipo AB positivo com propriedades especiais", "Sangue comum", "Tipo O universal", "Sem características especiais"],
+    correctAnswer: 0,
+    explanation: "O sangue é tipo AB positivo, mesmo tipo do Sudário de Turim, com características de sangue humano fresco.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 1033,
+    question: "Qual é a significância da ausência de conservantes nos tecidos dos milagres eucarísticos?",
+    options: ["Prova da intervenção divina", "Erro de análise", "Conservação natural", "Processos químicos desconhecidos"],
+    correctAnswer: 0,
+    explanation: "A ausência de conservantes e a preservação perfeita por séculos indica intervenção sobrenatural.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 1034,
+    question: "Qual é a análise genética dos tecidos encontrados nos milagres eucarísticos?",
+    options: ["DNA humano masculino completo", "DNA degradado", "Sem DNA detectável", "DNA não humano"],
+    correctAnswer: 0,
+    explanation: "As análises revelam DNA humano masculino completo, confirmando origem em pessoa do sexo masculino.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 1035,
+    question: "Qual é a resposta da comunidade científica internacional aos milagres eucarísticos?",
+    options: ["Negação completa", "Reconhecimento da anomalia científica", "Indiferença", "Explicações naturalísticas forçadas"],
+    correctAnswer: 1,
+    explanation: "A comunidade científica reconhece as anomalias sem conseguir explicações naturalísticas satisfatórias.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 1036,
+    question: "Qual é a relação entre a filosofia aristotélico-tomista e a explicação dos milagres eucarísticos?",
+    options: ["Contradição", "Confirmação da teoria hilemórfica", "Irrelevância", "Superação da filosofia antiga"],
+    correctAnswer: 1,
+    explanation: "Os milagres confirmam a teoria hilemórfica: a substância muda enquanto os acidentes permanecem.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 1037,
+    question: "Qual é a dimensão mariológica na espiritualidade eucarística de Carlo Acutis?",
+    options: ["Maria como modelo de adoração eucarística", "Separação entre devoções", "Incompatibilidade", "Secundariedade mariana"],
+    correctAnswer: 0,
+    explanation: "Carlo via Maria como modelo perfeito de adoração eucarística, sendo ela o primeiro sacrário vivo.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 1038,
+    question: "Qual é a contribuição de Carlo para a teologia digital contemporânea?",
+    options: ["Evangelização através da tecnologia", "Crítica à tecnologia", "Uso superficial da internet", "Tecnofobia religiosa"],
+    correctAnswer: 0,
+    explanation: "Carlo pioneirou a teologia digital, mostrando como usar a tecnologia para evangelizar e catequizar.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 1039,
+    question: "Qual é a dimensão pneumatológica dos milagres eucarísticos?",
+    options: ["Ação do Espírito Santo confirmando a verdade eucarística", "Fenômenos meramente físicos", "Ações angelicais", "Coincidências naturais"],
+    correctAnswer: 0,
+    explanation: "Os milagres manifestam a ação do Espírito Santo confirmando a verdade da presença real eucarística.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 1040,
+    question: "Qual é a hermenêutica sacramental dos milagres eucarísticos na obra de Carlo?",
+    options: ["Sinais que revelam o mistério eucarístico", "Fenômenos isolados", "Curiosidades históricas", "Lendas populares"],
+    correctAnswer: 0,
+    explanation: "Carlo interpretou os milagres como sinais sacramentais que revelam e aprofundam o mistério eucarístico.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 1041,
+    question: "Qual é a dimensão eclesiológica dos milagres eucarísticos?",
+    options: ["Confirmação da autoridade magisterial", "Crítica à hierarquia", "Fenômenos independentes", "Questões disciplinares"],
+    correctAnswer: 0,
+    explanation: "Os milagres confirmam a autoridade da Igreja em ensinar sobre a Eucaristia e reconhecer os sinais divinos.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 1042,
+    question: "Qual é a metodologia científica específica usada na análise forense dos milagres eucarísticos?",
+    options: ["Análise histológica, imunológica e genética", "Apenas observação visual", "Métodos obsoletos", "Técnicas não científicas"],
+    correctAnswer: 0,
+    explanation: "Utilizam-se análises histológicas, imunológicas, genéticas e espectrométricas de última geração.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 1043,
+    question: "Qual é a significância da preservação incorrupta dos milagres eucarísticos para a física moderna?",
+    options: ["Desafio às leis da entropia", "Fenômeno normal", "Explicação química simples", "Processo natural conhecido"],
+    correctAnswer: 0,
+    explanation: "A preservação incorrupta por séculos desafia as leis da entropia e decomposição natural.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 1044,
+    question: "Qual é a relação entre os milagres eucarísticos e a cristologia calcedônica?",
+    options: ["Confirmação das duas naturezas de Cristo", "Contradição dogmática", "Irrelevância cristológica", "Questão apenas devocional"],
+    correctAnswer: 0,
+    explanation: "Os milagres confirmam a cristologia de Calcedônia: Cristo verdadeiro Deus e verdadeiro homem presente na Eucaristia.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 1045,
+    question: "Qual é a contribuição epistemológica única de Carlo Acutis à apologética católica?",
+    options: ["Síntese entre fé, razão e tecnologia", "Apenas divulgação", "Repetição de argumentos antigos", "Contribuição menor"],
+    correctAnswer: 0,
+    explanation: "Carlo criou uma nova síntese apologética integrando fé, razão científica e tecnologia digital.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 1046,
+    question: "Qual é o legado teológico-pastoral definitivo de Carlo Acutis para a Igreja contemporânea?",
+    options: ["Modelo de santidade digital e eucarística", "Exemplo isolado", "Influência temporária", "Impacto limitado"],
+    correctAnswer: 0,
+    explanation: "Carlo deixou um modelo perene de como integrar santidade, tecnologia e devoção eucarística na era digital.",
+    difficulty: "Difícil"
   }
 ];
 
