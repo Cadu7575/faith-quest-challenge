@@ -1,7 +1,7 @@
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { toast } from 'sonner';
-import { getQuestionsForPattern } from '../data/questions';
+import { getQuestionsForPhase } from '../data/questions';
 import { useLeaderboard } from '../hooks/useLeaderboard';
 
 interface Avatar {
@@ -11,10 +11,12 @@ interface Avatar {
 }
 
 interface Question {
+  id: number;
   question: string;
   options: string[];
   correctAnswer: number;
   explanation: string;
+  difficulty: 'Fácil' | 'Médio' | 'Difícil';
 }
 
 interface GameProgress {
@@ -40,8 +42,6 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
   const [showExplanation, setShowExplanation] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [avatarAnimation, setAvatarAnimation] = useState<'idle' | 'correct' | 'wrong'>('idle');
-  const [currentDifficulty, setCurrentDifficulty] = useState<'Fácil' | 'Médio' | 'Difícil'>('Fácil');
-  const [difficultyPattern, setDifficultyPattern] = useState<('Fácil' | 'Médio' | 'Difícil')[]>([]);
   const { saveScore, leaderboard } = useLeaderboard();
 
   // Calculate player's rank
@@ -79,40 +79,19 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
     updateProgress();
   }, [updateProgress]);
 
-  // Function to generate a mixed difficulty pattern for 10 questions
-  const generateDifficultyPattern = useCallback(() => {
-    const patterns = [
-      ['Fácil', 'Fácil', 'Fácil', 'Fácil', 'Médio', 'Fácil', 'Difícil', 'Fácil', 'Médio', 'Fácil'],
-      ['Fácil', 'Médio', 'Fácil', 'Fácil', 'Fácil', 'Difícil', 'Fácil', 'Médio', 'Fácil', 'Fácil'],
-      ['Fácil', 'Fácil', 'Médio', 'Fácil', 'Fácil', 'Fácil', 'Difícil', 'Fácil', 'Médio', 'Difícil'],
-      ['Médio', 'Fácil', 'Fácil', 'Difícil', 'Fácil', 'Fácil', 'Médio', 'Fácil', 'Fácil', 'Fácil'],
-      ['Fácil', 'Fácil', 'Fácil', 'Médio', 'Difícil', 'Fácil', 'Fácil', 'Médio', 'Fácil', 'Difícil'],
-      ['Fácil', 'Médio', 'Fácil', 'Difícil', 'Fácil', 'Médio', 'Fácil', 'Fácil', 'Fácil', 'Médio'],
-      ['Médio', 'Fácil', 'Difícil', 'Fácil', 'Fácil', 'Fácil', 'Médio', 'Fácil', 'Difícil', 'Fácil']
-    ];
-    
-    const randomPattern = patterns[Math.floor(Math.random() * patterns.length)];
-    return randomPattern as ('Fácil' | 'Médio' | 'Difícil')[];
-  }, []);
-
   const loadQuestions = useCallback((phase: number) => {
-    console.log(`=== CARREGANDO PERGUNTAS PARA FASE ${phase} ===`);
+    console.log(`=== CARREGANDO 10 PERGUNTAS PARA FASE ${phase} ===`);
     
     setLoading(true);
     
     try {
-      // Generate difficulty pattern for this phase
-      const pattern = generateDifficultyPattern();
-      setDifficultyPattern(pattern);
-      console.log('✅ Padrão de dificuldade gerado:', pattern);
-      
-      // Get questions based on the pattern
-      const phaseQuestions = getQuestionsForPattern(pattern);
+      // Obter 10 perguntas aleatórias sem repetição
+      const phaseQuestions = getQuestionsForPhase();
       
       if (phaseQuestions.length > 0) {
         setQuestions(phaseQuestions);
         console.log(`✅ ${phaseQuestions.length} perguntas carregadas com sucesso para a fase ${phase}`);
-        toast.success(`${phaseQuestions.length} perguntas carregadas para a fase ${phase}!`, {
+        toast.success(`10 perguntas aleatórias carregadas para a fase ${phase}!`, {
           duration: 2000
         });
       } else {
@@ -128,7 +107,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
       setLoading(false);
       console.log('=== CARREGAMENTO DE PERGUNTAS FINALIZADO ===\n');
     }
-  }, [generateDifficultyPattern]);
+  }, []);
 
   // Load questions when phase changes
   useEffect(() => {
@@ -140,13 +119,6 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
     }
   }, [currentPhase, loadQuestions, questions.length]);
 
-  // Update current difficulty based on the question being shown
-  useEffect(() => {
-    if (difficultyPattern.length > 0 && currentQuestion < difficultyPattern.length) {
-      setCurrentDifficulty(difficultyPattern[currentQuestion]);
-    }
-  }, [currentQuestion, difficultyPattern]);
-
   const handleAnswerSelect = (answerIndex: number) => {
     if (selectedAnswer !== null) return;
     
@@ -154,8 +126,8 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
     const currentQ = questions[currentQuestion];
     
     if (answerIndex === currentQ.correctAnswer) {
-      // Different points based on difficulty
-      const points = currentDifficulty === 'Fácil' ? 1 : currentDifficulty === 'Médio' ? 2 : 3;
+      // Pontos baseados na dificuldade da pergunta
+      const points = currentQ.difficulty === 'Fácil' ? 1 : currentQ.difficulty === 'Médio' ? 2 : 3;
       const newScore = score + points;
       setScore(newScore);
       setAvatarAnimation('correct');
@@ -188,7 +160,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
       setAvatarAnimation('idle');
     } else {
       // End of phase
-      if (currentPhase < 100) {
+      if (currentPhase < 150) { // 150 fases = 1500 perguntas
         setCurrentPhase(prev => prev + 1);
         setCurrentQuestion(0);
         setSelectedAnswer(null);
@@ -201,7 +173,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
       } else {
         // Game completed - save score to leaderboard
         saveScore(avatar.name, score, currentPhase);
-        toast.success(`Parabéns! Você completou todas as 100 fases com ${score} pontos! Você é um verdadeiro mestre da fé católica!`, {
+        toast.success(`Parabéns! Você completou todas as 150 fases com ${score} pontos! Você é um verdadeiro mestre da fé católica!`, {
           duration: 4000
         });
       }
@@ -213,8 +185,8 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-          <p className="text-white">Carregando perguntas da fase {currentPhase}...</p>
-          <p className="text-blue-300 text-sm mt-2">Preparando mix de dificuldades...</p>
+          <p className="text-white">Carregando 10 perguntas aleatórias da fase {currentPhase}...</p>
+          <p className="text-blue-300 text-sm mt-2">Sem repetições garantidas!</p>
         </div>
       </div>
     );
@@ -267,7 +239,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
           <div className="flex justify-between items-center mb-2">
             <div className="flex items-center gap-4">
               <span className="text-sm text-blue-300">Progresso Geral</span>
-              <span className="text-sm text-blue-300">Fase {currentPhase}/100</span>
+              <span className="text-sm text-blue-300">Fase {currentPhase}/150</span>
               {onViewLeaderboard && (
                 <button
                   onClick={onViewLeaderboard}
@@ -282,7 +254,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
           <div className="w-full bg-slate-700 rounded-full h-3">
             <div 
               className="bg-gradient-to-r from-blue-500 to-purple-500 h-3 rounded-full transition-all duration-500"
-              style={{ width: `${(currentPhase / 100) * 100}%` }}
+              style={{ width: `${(currentPhase / 150) * 100}%` }}
             />
           </div>
         </div>
@@ -326,13 +298,16 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
               <div className="flex-1 mx-8">
                 <div className="flex items-center gap-3 mb-4 justify-center">
                   <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                    currentDifficulty === 'Fácil' 
+                    currentQ.difficulty === 'Fácil' 
                       ? 'bg-green-600 text-green-100' 
-                      : currentDifficulty === 'Médio'
+                      : currentQ.difficulty === 'Médio'
                         ? 'bg-yellow-600 text-yellow-100'
                         : 'bg-red-600 text-red-100'
                   }`}>
-                    {currentDifficulty}
+                    {currentQ.difficulty}
+                  </span>
+                  <span className="text-sm text-gray-400">
+                    Pergunta {currentQuestion + 1}/10
                   </span>
                 </div>
                 
@@ -391,7 +366,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
                 >
                   {currentQuestion < questions.length - 1 
                     ? 'Próxima Pergunta' 
-                    : currentPhase < 100 
+                    : currentPhase < 150 
                       ? 'Próxima Fase' 
                       : 'Finalizar Quiz'
                   }
