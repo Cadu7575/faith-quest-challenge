@@ -195,58 +195,113 @@ const hardQuestions: Question[] = [
   }
 ];
 
-export const getQuestionsForPattern = (pattern: ('Fácil' | 'Médio' | 'Difícil')[], usedQuestions: Set<string> = new Set()): Question[] => {
+// Global tracking of used questions across all phases - persisted in localStorage
+const getUsedQuestions = (): Set<string> => {
+  const saved = localStorage.getItem('quiz-used-questions');
+  if (saved) {
+    try {
+      const array = JSON.parse(saved);
+      return new Set(array);
+    } catch {
+      return new Set();
+    }
+  }
+  return new Set();
+};
+
+const saveUsedQuestions = (usedQuestions: Set<string>) => {
+  localStorage.setItem('quiz-used-questions', JSON.stringify([...usedQuestions]));
+};
+
+export const getQuestionsForPattern = (pattern: ('Fácil' | 'Médio' | 'Difícil')[]): Question[] => {
   const selectedQuestions: Question[] = [];
+  const usedQuestions = getUsedQuestions();
   
-  // Create a copy of used questions to track within this selection
-  const localUsedQuestions = new Set(usedQuestions);
+  console.log('=== INÍCIO SELEÇÃO DE PERGUNTAS ===');
+  console.log('Perguntas já usadas:', usedQuestions.size);
+  console.log('Padrão solicitado:', pattern);
   
-  for (const difficulty of pattern) {
+  // Track used questions in this selection to prevent duplicates within same pattern
+  const localUsedQuestions = new Set<string>();
+  
+  for (let i = 0; i < pattern.length; i++) {
+    const difficulty = pattern[i];
     let availableQuestions: Question[] = [];
     
     switch (difficulty) {
       case 'Fácil':
-        availableQuestions = easyQuestions.filter(q => !localUsedQuestions.has(q.question));
+        availableQuestions = easyQuestions.filter(q => 
+          !usedQuestions.has(q.question) && !localUsedQuestions.has(q.question)
+        );
         break;
       case 'Médio':
-        availableQuestions = mediumQuestions.filter(q => !localUsedQuestions.has(q.question));
+        availableQuestions = mediumQuestions.filter(q => 
+          !usedQuestions.has(q.question) && !localUsedQuestions.has(q.question)
+        );
         break;
       case 'Difícil':
-        availableQuestions = hardQuestions.filter(q => !localUsedQuestions.has(q.question));
+        availableQuestions = hardQuestions.filter(q => 
+          !usedQuestions.has(q.question) && !localUsedQuestions.has(q.question)
+        );
         break;
     }
     
-    // If no unused questions available for this difficulty, reset for this difficulty only
+    console.log(`Dificuldade ${difficulty}: ${availableQuestions.length} perguntas disponíveis`);
+    
+    // If no unused questions available for this difficulty, use all questions for this difficulty
     if (availableQuestions.length === 0) {
-      console.log(`Resetando perguntas ${difficulty} - todas já foram usadas`);
+      console.log(`⚠️ Resetando perguntas ${difficulty} - todas já foram usadas`);
       switch (difficulty) {
         case 'Fácil':
-          availableQuestions = easyQuestions;
+          availableQuestions = easyQuestions.filter(q => !localUsedQuestions.has(q.question));
           break;
         case 'Médio':
-          availableQuestions = mediumQuestions;
+          availableQuestions = mediumQuestions.filter(q => !localUsedQuestions.has(q.question));
           break;
         case 'Difícil':
-          availableQuestions = hardQuestions;
+          availableQuestions = hardQuestions.filter(q => !localUsedQuestions.has(q.question));
           break;
       }
+      console.log(`Após reset: ${availableQuestions.length} perguntas disponíveis para ${difficulty}`);
     }
     
     if (availableQuestions.length > 0) {
+      // Use a more random selection method
       const randomIndex = Math.floor(Math.random() * availableQuestions.length);
       const selectedQuestion = availableQuestions[randomIndex];
       selectedQuestions.push(selectedQuestion);
       
       // Add to local tracking to prevent duplicates within the same pattern
       localUsedQuestions.add(selectedQuestion.question);
+      
+      console.log(`✅ Pergunta ${i + 1} selecionada (${difficulty}): ${selectedQuestion.question.substring(0, 50)}...`);
+    } else {
+      console.error(`❌ Não foi possível encontrar pergunta para dificuldade ${difficulty}`);
     }
   }
+  
+  // Update global used questions with the newly selected ones
+  const updatedUsedQuestions = new Set([...usedQuestions, ...localUsedQuestions]);
+  
+  // Reset if we've used too many questions (80% of total)
+  const totalQuestions = easyQuestions.length + mediumQuestions.length + hardQuestions.length;
+  if (updatedUsedQuestions.size >= totalQuestions * 0.8) {
+    console.log('🔄 Resetando todas as perguntas usadas - limite atingido');
+    updatedUsedQuestions.clear();
+    // Add only the current selection to avoid immediate repetition
+    localUsedQuestions.forEach(q => updatedUsedQuestions.add(q));
+  }
+  
+  saveUsedQuestions(updatedUsedQuestions);
+  
+  console.log(`=== FIM SELEÇÃO: ${selectedQuestions.length} perguntas selecionadas ===`);
+  console.log(`Total de perguntas já usadas: ${updatedUsedQuestions.size}`);
   
   return selectedQuestions;
 };
 
-// Function to reset used questions when we run out
-export const shouldResetUsedQuestions = (usedQuestions: Set<string>): boolean => {
-  const totalQuestions = easyQuestions.length + mediumQuestions.length + hardQuestions.length;
-  return usedQuestions.size >= totalQuestions * 0.8; // Reset when 80% have been used
+// Function to manually reset used questions (can be called if needed)
+export const resetUsedQuestions = () => {
+  localStorage.removeItem('quiz-used-questions');
+  console.log('🔄 Todas as perguntas usadas foram resetadas manualmente');
 };

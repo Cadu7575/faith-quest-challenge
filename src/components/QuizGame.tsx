@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { toast } from 'sonner';
 import { getQuestionsForPattern } from '../data/questions';
@@ -41,7 +42,6 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
   const [avatarAnimation, setAvatarAnimation] = useState<'idle' | 'correct' | 'wrong'>('idle');
   const [currentDifficulty, setCurrentDifficulty] = useState<'Fácil' | 'Médio' | 'Difícil'>('Fácil');
   const [difficultyPattern, setDifficultyPattern] = useState<('Fácil' | 'Médio' | 'Difícil')[]>([]);
-  const [usedQuestions, setUsedQuestions] = useState<Set<string>>(new Set());
   const { saveScore, leaderboard } = useLeaderboard();
 
   // Calculate player's rank
@@ -96,9 +96,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
   }, []);
 
   const loadQuestions = useCallback((phase: number) => {
-    console.log(`=== CARREGANDO PERGUNTAS ===`);
-    console.log(`Fase: ${phase}`);
-    console.log(`Perguntas já usadas: ${usedQuestions.size}`);
+    console.log(`=== CARREGANDO PERGUNTAS PARA FASE ${phase} ===`);
     
     setLoading(true);
     
@@ -108,32 +106,12 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
       setDifficultyPattern(pattern);
       console.log('✅ Padrão de dificuldade gerado:', pattern);
       
-      // Check if we should reset used questions
-      const shouldReset = usedQuestions.size >= 25; // Reset after 25 questions used
-      let questionsToUse = usedQuestions;
-      
-      if (shouldReset) {
-        console.log('🔄 Resetando perguntas usadas para aumentar variedade');
-        questionsToUse = new Set();
-        setUsedQuestions(new Set());
-        toast.success('Banco de perguntas renovado para maior variedade!', {
-          duration: 2000
-        });
-      }
-      
-      // Get questions based on the pattern, excluding used ones
-      const phaseQuestions = getQuestionsForPattern(pattern, questionsToUse);
+      // Get questions based on the pattern
+      const phaseQuestions = getQuestionsForPattern(pattern);
       
       if (phaseQuestions.length > 0) {
         setQuestions(phaseQuestions);
-        
-        // Add new questions to used questions set
-        const newUsedQuestions = new Set(questionsToUse);
-        phaseQuestions.forEach(q => newUsedQuestions.add(q.question));
-        setUsedQuestions(newUsedQuestions);
-        
         console.log(`✅ ${phaseQuestions.length} perguntas carregadas com sucesso para a fase ${phase}`);
-        console.log(`Total de perguntas usadas agora: ${newUsedQuestions.size}`);
         toast.success(`${phaseQuestions.length} perguntas carregadas para a fase ${phase}!`, {
           duration: 2000
         });
@@ -150,7 +128,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
       setLoading(false);
       console.log('=== CARREGAMENTO DE PERGUNTAS FINALIZADO ===\n');
     }
-  }, [generateDifficultyPattern, usedQuestions]);
+  }, [generateDifficultyPattern]);
 
   // Load questions when phase changes
   useEffect(() => {
