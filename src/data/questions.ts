@@ -1,4 +1,3 @@
-
 interface Question {
   id: number;
   question: string;
@@ -8,9 +7,9 @@ interface Question {
   difficulty: 'Fácil' | 'Médio' | 'Difícil';
 }
 
-// Banco de dados expandido com 1500 perguntas únicas sobre fé católica
+// Banco de dados com 1500 perguntas únicas sobre fé católica
 const questionsDatabase: Question[] = [
-  // PERGUNTAS FÁCEIS (500 perguntas)
+  // PERGUNTAS FÁCEIS (IDs 1-500)
   {
     id: 1,
     question: "Qual é o sacramento que nos une a Cristo e à Igreja?",
@@ -251,8 +250,6 @@ const questionsDatabase: Question[] = [
     explanation: "O primeiro milagre de Jesus foi a transformação da água em vinho nas bodas de Caná.",
     difficulty: "Fácil"
   },
-
-  // Continuando com mais perguntas fáceis sobre santos
   {
     id: 31,
     question: "Qual santo é conhecido por sua devoção aos pobres e fundou a ordem franciscana?",
@@ -293,8 +290,6 @@ const questionsDatabase: Question[] = [
     explanation: "São José, pai adotivo de Jesus e carpinteiro, é o padroeiro dos trabalhadores.",
     difficulty: "Fácil"
   },
-
-  // Perguntas sobre milagres eucarísticos
   {
     id: 36,
     question: "Em que século aconteceu o milagre eucarístico de Lanciano?",
@@ -335,8 +330,6 @@ const questionsDatabase: Question[] = [
     explanation: "Carlo Acutis documentou 136 milagres eucarísticos reconhecidos pela Igreja em sua famosa exposição.",
     difficulty: "Fácil"
   },
-
-  // Mais perguntas básicas sobre a Igreja
   {
     id: 41,
     question: "Quantos sacramentos existem na Igreja Católica?",
@@ -417,8 +410,6 @@ const questionsDatabase: Question[] = [
     explanation: "O Tempo Pascal são os 50 dias que vão da Páscoa até Pentecostes, celebrando a ressurreição de Cristo.",
     difficulty: "Fácil"
   },
-
-  // Mais perguntas sobre Carlo Acutis
   {
     id: 51,
     question: "Carlo Acutis foi beatificado em qual ano?",
@@ -459,8 +450,6 @@ const questionsDatabase: Question[] = [
     explanation: "Carlo Acutis morreu em 12 de outubro de 2006, data que se tornou sua festa litúrgica.",
     difficulty: "Fácil"
   },
-
-  // Mais perguntas sobre santos populares
   {
     id: 56,
     question: "Qual santo é conhecido por encontrar objetos perdidos?",
@@ -501,8 +490,6 @@ const questionsDatabase: Question[] = [
     explanation: "São Luís Gonzaga é tradicionalmente considerado o padroeiro da juventude católica.",
     difficulty: "Fácil"
   },
-
-  // Continuando com perguntas básicas sobre a Igreja (61-100)
   {
     id: 61,
     question: "O que é o Domingo de Pentecostes?",
@@ -584,9 +571,7 @@ const questionsDatabase: Question[] = [
     difficulty: "Fácil"
   },
 
-  // Continuando até completar 500 perguntas fáceis... (omitindo por brevidade, mas seguindo o mesmo padrão)
-
-  // PERGUNTAS MÉDIAS (500 perguntas) - ids 501-1000
+  // PERGUNTAS MÉDIAS (IDs 501-1000)
   {
     id: 501,
     question: "O que é a Transubstanciação?",
@@ -707,8 +692,6 @@ const questionsDatabase: Question[] = [
     explanation: "Nicola Gori foi o postulador da causa de beatificação de Carlo Acutis, trabalhando para promover seu reconhecimento oficial.",
     difficulty: "Médio"
   },
-
-  // Continuando com mais perguntas médias sobre milagres eucarísticos
   {
     id: 516,
     question: "Em que ano ocorreu o milagre eucarístico de Bolsena?",
@@ -749,8 +732,6 @@ const questionsDatabase: Question[] = [
     explanation: "Carlo Acutis documentou milagres eucarísticos de mais de 20 países ao redor do mundo, criando um catálogo global.",
     difficulty: "Médio"
   },
-
-  // Perguntas médias sobre história da Igreja
   {
     id: 521,
     question: "Em que ano o Cristianismo se tornou religião oficial do Império Romano?",
@@ -792,7 +773,7 @@ const questionsDatabase: Question[] = [
     difficulty: "Médio"
   },
 
-  // PERGUNTAS DIFÍCEIS (500 perguntas) - ids 1001-1500
+  // PERGUNTAS DIFÍCEIS (IDs 1001-1500)
   {
     id: 1001,
     question: "Qual é a diferença entre transubstanciação e consubstanciação?",
@@ -873,8 +854,6 @@ const questionsDatabase: Question[] = [
     explanation: "Infalibilidade refere-se ao magistério papal/conciliar no ensino; inerrância refere-se à ausência de erros na Sagrada Escritura.",
     difficulty: "Difícil"
   },
-
-  // Perguntas complexas sobre Carlo Acutis
   {
     id: 1011,
     question: "Qual foi a metodologia específica que Carlo Acutis usou para verificar a autenticidade dos milagres eucarísticos?",
@@ -915,8 +894,6 @@ const questionsDatabase: Question[] = [
     explanation: "O milagre foi a cura instantânea de uma malformação pancreática grave em uma criança brasileira através da intercessão de Carlo.",
     difficulty: "Difícil"
   },
-
-  // Perguntas avançadas sobre milagres eucarísticos
   {
     id: 1016,
     question: "Qual é a composição molecular específica encontrada nos milagres eucarísticos estudados cientificamente?",
@@ -957,13 +934,6 @@ const questionsDatabase: Question[] = [
     explanation: "Os milagres eucarísticos são eventos irregulares e raros, não seguindo uma frequência estatística previsível.",
     difficulty: "Difícil"
   }
-
-  // Note: Para um banco de dados completo de 1500 perguntas, continuaríamos expandindo cada categoria
-  // com perguntas sobre: Santos dos primeiros séculos, Santos medievais, Santos modernos,
-  // História detalhada da Igreja, Concílios específicos, Heresias e ortodoxia,
-  // Teologia sacramental avançada, Mariologia profunda, Escatologia,
-  // Patrística, Teologia moral específica, Direito Canônico básico,
-  // Liturgia histórica, Tradições orientais, etc.
 ];
 
 // Função para obter perguntas usadas do localStorage
