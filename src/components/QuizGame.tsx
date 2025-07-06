@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { toast } from 'sonner';
 import { getQuestionsForPhase, getQuestionStats } from '../data/questions';
@@ -89,8 +90,8 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
     setLoading(true);
     
     try {
-      // Obter 10 perguntas aleatórias sem repetição
-      const phaseQuestions = getQuestionsForPhase();
+      // Obter 10 perguntas específicas para esta fase
+      const phaseQuestions = getQuestionsForPhase(phase);
       
       if (phaseQuestions.length > 0) {
         // Verificar se não há IDs duplicados
@@ -106,10 +107,6 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
         setQuestions(phaseQuestions);
         console.log(`✅ ${phaseQuestions.length} perguntas carregadas com sucesso para a fase ${phase}`);
         console.log(`📝 IDs das perguntas: [${ids.join(', ')}]`);
-        
-        // Mostrar estatísticas após carregar
-        const newStats = getQuestionStats();
-        console.log(`📊 NOVA ESTATÍSTICA: ${newStats.usedQuestions}/${newStats.totalQuestions} usadas, ${newStats.remainingQuestions} restantes`);
         
         toast.success(`10 perguntas únicas carregadas para a fase ${phase}!`, {
           duration: 2000
@@ -180,7 +177,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
       setAvatarAnimation('idle');
     } else {
       // End of phase
-      if (currentPhase < 150) { // 150 fases = 1500 perguntas
+      if (currentPhase < 100) { // 100 fases = 1000 perguntas
         setCurrentPhase(prev => prev + 1);
         setCurrentQuestion(0);
         setSelectedAnswer(null);
@@ -193,7 +190,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
       } else {
         // Game completed - save score to leaderboard
         saveScore(avatar.name, score, currentPhase);
-        toast.success(`Parabéns! Você completou todas as 150 fases com ${score} pontos! Você é um verdadeiro mestre da fé católica!`, {
+        toast.success(`Parabéns! Você completou todas as 100 fases com ${score} pontos! Você é um verdadeiro mestre da fé católica!`, {
           duration: 4000
         });
       }
@@ -259,7 +256,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
           <div className="flex justify-between items-center mb-2">
             <div className="flex items-center gap-4">
               <span className="text-sm text-blue-300">Progresso Geral</span>
-              <span className="text-sm text-blue-300">Fase {currentPhase}/150</span>
+              <span className="text-sm text-blue-300">Fase {currentPhase}/100</span>
               {onViewLeaderboard && (
                 <button
                   onClick={onViewLeaderboard}
@@ -274,7 +271,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
           <div className="w-full bg-slate-700 rounded-full h-3">
             <div 
               className="bg-gradient-to-r from-blue-500 to-purple-500 h-3 rounded-full transition-all duration-500"
-              style={{ width: `${(currentPhase / 150) * 100}%` }}
+              style={{ width: `${(currentPhase / 100) * 100}%` }}
             />
           </div>
         </div>
@@ -386,7 +383,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
                 >
                   {currentQuestion < questions.length - 1 
                     ? 'Próxima Pergunta' 
-                    : currentPhase < 150 
+                    : currentPhase < 100 
                       ? 'Próxima Fase' 
                       : 'Finalizar Quiz'
                   }
