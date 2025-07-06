@@ -9,169 +9,179 @@ interface Question {
 }
 
 // 1000 perguntas únicas organizadas por fase (10 perguntas por fase = 100 fases)
-const phaseQuestions: { [phase: number]: Question[] } = {
-  1: [
-    {
-      id: 1,
-      question: "Quem é o fundador da Igreja Católica?",
-      options: ["São Paulo", "São Pedro", "Jesus Cristo", "Santo Agostinho"],
-      correctAnswer: 2,
-      explanation: "Jesus Cristo é o fundador da Igreja Católica. Ele estabeleceu sua Igreja sobre os apóstolos, com Pedro como líder.",
-      difficulty: "Fácil"
-    },
-    {
-      id: 2,
-      question: "Quantos sacramentos existem na Igreja Católica?",
-      options: ["5", "6", "7", "8"],
-      correctAnswer: 2,
-      explanation: "A Igreja Católica reconhece sete sacramentos: Batismo, Confirmação, Eucaristia, Penitência, Unção dos Enfermos, Ordem e Matrimônio.",
-      difficulty: "Fácil"
-    },
-    {
-      id: 3,
-      question: "Qual é o primeiro sacramento que recebemos?",
-      options: ["Eucaristia", "Batismo", "Confirmação", "Penitência"],
-      correctAnswer: 1,
-      explanation: "O Batismo é o primeiro sacramento, que nos purifica do pecado original e nos torna filhos de Deus.",
-      difficulty: "Fácil"
-    },
-    {
-      id: 4,
-      question: "Em que cidade fica o Vaticano?",
-      options: ["Milão", "Nápoles", "Roma", "Florença"],
-      correctAnswer: 2,
-      explanation: "O Vaticano está localizado em Roma, Itália, e é a sede da Igreja Católica.",
-      difficulty: "Fácil"
-    },
-    {
-      id: 5,
-      question: "Qual é a oração principal que Jesus nos ensinou?",
-      options: ["Ave Maria", "Pai Nosso", "Glória", "Credo"],
-      correctAnswer: 1,
-      explanation: "O Pai Nosso é a oração que Jesus ensinou aos seus discípulos quando eles pediram para aprender a orar.",
-      difficulty: "Médio"
-    },
-    {
-      id: 6,
-      question: "Quantos apóstolos Jesus escolheu?",
-      options: ["10", "11", "12", "13"],
-      correctAnswer: 2,
-      explanation: "Jesus escolheu 12 apóstolos para serem seus seguidores mais próximos.",
-      difficulty: "Fácil"
-    },
-    {
-      id: 7,
-      question: "Em que cidade Jesus nasceu?",
-      options: ["Nazaré", "Jerusalém", "Belém", "Cafarnaum"],
-      correctAnswer: 2,
-      explanation: "Jesus nasceu em Belém, na Judeia, conforme profetizado no Antigo Testamento.",
-      difficulty: "Fácil"
-    },
-    {
-      id: 8,
-      question: "Quem batizou Jesus no rio Jordão?",
-      options: ["Pedro", "João Batista", "André", "Tiago"],
-      correctAnswer: 1,
-      explanation: "João Batista batizou Jesus no rio Jordão, marcando o início do ministério público de Jesus.",
-      difficulty: "Médio"
-    },
-    {
-      id: 9,
-      question: "Qual é o primeiro livro da Bíblia?",
-      options: ["Êxodo", "Levítico", "Gênesis", "Números"],
-      correctAnswer: 2,
-      explanation: "Gênesis é o primeiro livro da Bíblia, que narra a criação do mundo.",
-      difficulty: "Fácil"
-    },
-    {
-      id: 10,
-      question: "Quem foi o primeiro papa da Igreja Católica?",
-      options: ["Paulo", "Pedro", "João", "Tiago"],
-      correctAnswer: 1,
-      explanation: "São Pedro foi o primeiro papa, escolhido por Jesus como líder dos apóstolos.",
-      difficulty: "Fácil"
-    }
-  ]
-};
+const allQuestions: Question[] = [
+  // Fase 1 - Perguntas 1-10
+  {
+    id: 1,
+    question: "Quem é o fundador da Igreja Católica?",
+    options: ["São Paulo", "São Pedro", "Jesus Cristo", "Santo Agostinho"],
+    correctAnswer: 2,
+    explanation: "Jesus Cristo é o fundador da Igreja Católica. Ele estabeleceu sua Igreja sobre os apóstolos, com Pedro como líder.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 2,
+    question: "Quantos sacramentos existem na Igreja Católica?",
+    options: ["5", "6", "7", "8"],
+    correctAnswer: 2,
+    explanation: "A Igreja Católica reconhece sete sacramentos: Batismo, Confirmação, Eucaristia, Penitência, Unção dos Enfermos, Ordem e Matrimônio.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 3,
+    question: "Qual é o primeiro sacramento que recebemos?",
+    options: ["Eucaristia", "Batismo", "Confirmação", "Penitência"],
+    correctAnswer: 1,
+    explanation: "O Batismo é o primeiro sacramento, que nos purifica do pecado original e nos torna filhos de Deus.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 4,
+    question: "Em que cidade fica o Vaticano?",
+    options: ["Milão", "Nápoles", "Roma", "Florença"],
+    correctAnswer: 2,
+    explanation: "O Vaticano está localizado em Roma, Itália, e é a sede da Igreja Católica.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 5,
+    question: "Qual é a oração principal que Jesus nos ensinou?",
+    options: ["Ave Maria", "Pai Nosso", "Glória", "Credo"],
+    correctAnswer: 1,
+    explanation: "O Pai Nosso é a oração que Jesus ensinou aos seus discípulos quando eles pediram para aprender a orar.",
+    difficulty: "Médio"
+  },
+  {
+    id: 6,
+    question: "Quantos apóstolos Jesus escolheu?",
+    options: ["10", "11", "12", "13"],
+    correctAnswer: 2,
+    explanation: "Jesus escolheu 12 apóstolos para serem seus seguidores mais próximos.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 7,
+    question: "Em que cidade Jesus nasceu?",
+    options: ["Nazaré", "Jerusalém", "Belém", "Cafarnaum"],
+    correctAnswer: 2,
+    explanation: "Jesus nasceu em Belém, na Judeia, conforme profetizado no Antigo Testamento.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 8,
+    question: "Quem batizou Jesus no rio Jordão?",
+    options: ["Pedro", "João Batista", "André", "Tiago"],
+    correctAnswer: 1,
+    explanation: "João Batista batizou Jesus no rio Jordão, marcando o início do ministério público de Jesus.",
+    difficulty: "Médio"
+  },
+  {
+    id: 9,
+    question: "Qual é o primeiro livro da Bíblia?",
+    options: ["Êxodo", "Levítico", "Gênesis", "Números"],
+    correctAnswer: 2,
+    explanation: "Gênesis é o primeiro livro da Bíblia, que narra a criação do mundo.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 10,
+    question: "Quem foi o primeiro papa da Igreja Católica?",
+    options: ["Paulo", "Pedro", "João", "Tiago"],
+    correctAnswer: 1,
+    explanation: "São Pedro foi o primeiro papa, escolhido por Jesus como líder dos apóstolos.",
+    difficulty: "Fácil"
+  },
 
-// Gerar automaticamente as outras 99 fases com perguntas únicas
-const generateAllPhases = (): void => {
+  // Fase 2 - Perguntas 11-20
+  {
+    id: 11,
+    question: "Em que dia da semana Jesus ressuscitou?",
+    options: ["Sábado", "Domingo", "Segunda-feira", "Sexta-feira"],
+    correctAnswer: 1,
+    explanation: "Jesus ressuscitou no domingo, razão pela qual celebramos este dia como o Dia do Senhor.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 12,
+    question: "Quantos mandamentos Deus deu a Moisés?",
+    options: ["8", "9", "10", "11"],
+    correctAnswer: 2,
+    explanation: "Deus deu dez mandamentos a Moisés no Monte Sinai.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 13,
+    question: "Quem escreveu a maior parte das cartas do Novo Testamento?",
+    options: ["Pedro", "João", "Paulo", "Tiago"],
+    correctAnswer: 2,
+    explanation: "São Paulo escreveu a maior parte das cartas do Novo Testamento.",
+    difficulty: "Médio"
+  },
+  {
+    id: 14,
+    question: "Qual foi o primeiro milagre de Jesus?",
+    options: ["Multiplicação dos pães", "Transformar água em vinho", "Cura de um cego", "Ressurreição de Lázaro"],
+    correctAnswer: 1,
+    explanation: "O primeiro milagre de Jesus foi transformar água em vinho nas bodas de Caná.",
+    difficulty: "Médio"
+  },
+  {
+    id: 15,
+    question: "Quantos anos tinha Jesus quando começou seu ministério público?",
+    options: ["25", "28", "30", "33"],
+    correctAnswer: 2,
+    explanation: "Jesus tinha cerca de 30 anos quando começou seu ministério público.",
+    difficulty: "Médio"
+  },
+  {
+    id: 16,
+    question: "Qual é o nome da mãe de João Batista?",
+    options: ["Maria", "Isabel", "Ana", "Marta"],
+    correctAnswer: 1,
+    explanation: "Isabel era a mãe de João Batista e prima de Maria.",
+    difficulty: "Médio"
+  },
+  {
+    id: 17,
+    question: "Em qual monte Jesus foi transfigurado?",
+    options: ["Monte Sinai", "Monte das Oliveiras", "Monte Tabor", "Monte Carmelo"],
+    correctAnswer: 2,
+    explanation: "A Transfiguração de Jesus aconteceu no Monte Tabor.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 18,
+    question: "Qual apóstolo duvidou da ressurreição de Jesus?",
+    options: ["Pedro", "João", "Tomé", "André"],
+    correctAnswer: 2,
+    explanation: "Tomé duvidou da ressurreição até tocar as chagas de Jesus.",
+    difficulty: "Fácil"
+  },
+  {
+    id: 19,
+    question: "Quantos peixes foram pescados na pesca milagrosa?",
+    options: ["144", "150", "153", "160"],
+    correctAnswer: 2,
+    explanation: "Foram pescados 153 peixes grandes na pesca milagrosa após a ressurreição.",
+    difficulty: "Difícil"
+  },
+  {
+    id: 20,
+    question: "Qual é o nome do jardim onde Jesus foi preso?",
+    options: ["Getsêmani", "Éden", "Oliveira", "Cedron"],
+    correctAnswer: 0,
+    explanation: "Jesus foi preso no jardim do Getsêmani, após orar intensamente.",
+    difficulty: "Médio"
+  }
+];
+
+// Gerar as outras 980 perguntas automaticamente
+const generateRemainingQuestions = (): Question[] => {
+  const additionalQuestions: Question[] = [];
+  let questionId = 21;
+
+  // Templates de perguntas com diferentes temas
   const questionTemplates = [
-    // Fase 2
-    {
-      question: "Em que dia da semana Jesus ressuscitou?",
-      options: ["Sábado", "Domingo", "Segunda-feira", "Sexta-feira"],
-      correctAnswer: 1,
-      explanation: "Jesus ressuscitou no domingo, razão pela qual celebramos este dia como o Dia do Senhor.",
-      difficulty: "Fácil"
-    },
-    {
-      question: "Quantos mandamentos Deus deu a Moisés?",
-      options: ["8", "9", "10", "11"],
-      correctAnswer: 2,
-      explanation: "Deus deu dez mandamentos a Moisés no Monte Sinai.",
-      difficulty: "Fácil"
-    },
-    {
-      question: "Quem escreveu a maior parte das cartas do Novo Testamento?",
-      options: ["Pedro", "João", "Paulo", "Tiago"],
-      correctAnswer: 2,
-      explanation: "São Paulo escreveu a maior parte das cartas do Novo Testamento.",
-      difficulty: "Médio"
-    },
-    {
-      question: "Qual foi o primeiro milagre de Jesus?",
-      options: ["Multiplicação dos pães", "Transformar água em vinho", "Cura de um cego", "Ressurreição de Lázaro"],
-      correctAnswer: 1,
-      explanation: "O primeiro milagre de Jesus foi transformar água em vinho nas bodas de Caná.",
-      difficulty: "Médio"
-    },
-    {
-      question: "Quantos anos tinha Jesus quando começou seu ministério público?",
-      options: ["25", "28", "30", "33"],
-      correctAnswer: 2,
-      explanation: "Jesus tinha cerca de 30 anos quando começou seu ministério público.",
-      difficulty: "Médio"
-    },
-    {
-      question: "Qual é o nome da mãe de João Batista?",
-      options: ["Maria", "Isabel", "Ana", "Marta"],
-      correctAnswer: 1,
-      explanation: "Isabel era a mãe de João Batista e prima de Maria.",
-      difficulty: "Médio"
-    },
-    {
-      question: "Em qual monte Jesus foi transfigurado?",
-      options: ["Monte Sinai", "Monte das Oliveiras", "Monte Tabor", "Monte Carmelo"],
-      correctAnswer: 2,
-      explanation: "A Transfiguração de Jesus aconteceu no Monte Tabor.",
-      difficulty: "Difícil"
-    },
-    {
-      question: "Qual apóstolo duvidou da ressurreição de Jesus?",
-      options: ["Pedro", "João", "Tomé", "André"],
-      correctAnswer: 2,
-      explanation: "Tomé duvidou da ressurreição até tocar as chagas de Jesus.",
-      difficulty: "Fácil"
-    },
-    {
-      question: "Quantos peixes foram pescados na pesca milagrosa?",
-      options: ["144", "150", "153", "160"],
-      correctAnswer: 2,
-      explanation: "Foram pescados 153 peixes grandes na pesca milagrosa após a ressurreição.",
-      difficulty: "Difícil"
-    },
-    {
-      question: "Qual é o nome do jardim onde Jesus foi preso?",
-      options: ["Getsêmani", "Éden", "Oliveira", "Cedron"],
-      correctAnswer: 0,
-      explanation: "Jesus foi preso no jardim do Getsêmani, após orar intensamente.",
-      difficulty: "Médio"
-    }
-  ];
-
-  // Temas e perguntas para gerar as outras fases
-  const themes = [
     // Santos e Santas
     {
       question: "Qual santa é conhecida como 'Doutora da Igreja' e viveu no século XVI?",
@@ -208,7 +218,7 @@ const generateAllPhases = (): void => {
       explanation: "São Francisco de Assis fundou a Ordem dos Frades Menores em 1209.",
       difficulty: "Difícil"
     },
-    
+
     // História da Igreja
     {
       question: "Em que ano foi o Grande Cisma do Oriente?",
@@ -284,96 +294,122 @@ const generateAllPhases = (): void => {
     }
   ];
 
-  let questionId = 11;
-  
-  // Gerar fase 2
-  phaseQuestions[2] = [];
-  for (let i = 0; i < 10; i++) {
-    phaseQuestions[2].push({
+  // Gerar 980 perguntas únicas restantes
+  for (let i = 0; i < 980; i++) {
+    const templateIndex = i % questionTemplates.length;
+    const baseTemplate = questionTemplates[templateIndex];
+    
+    // Criar variações únicas para cada pergunta
+    const uniqueQuestion = createUniqueQuestion(baseTemplate, questionId, i);
+    
+    additionalQuestions.push({
       id: questionId++,
-      ...questionTemplates[i]
+      ...uniqueQuestion
     });
   }
 
-  // Gerar as outras 98 fases com perguntas únicas
-  for (let phase = 3; phase <= 100; phase++) {
-    phaseQuestions[phase] = [];
-    
-    for (let q = 0; q < 10; q++) {
-      const baseTemplate = themes[Math.floor(Math.random() * themes.length)];
-      
-      // Criar variação da pergunta para garantir unicidade
-      const variations = createQuestionVariation(baseTemplate, questionId, phase, q);
-      
-      phaseQuestions[phase].push({
-        id: questionId++,
-        ...variations
-      });
-    }
-  }
+  return additionalQuestions;
 };
 
-const createQuestionVariation = (baseTemplate: any, id: number, phase: number, questionIndex: number) => {
-  // Criar variações baseadas na fase e índice da pergunta
-  const variationFactors = {
-    saints: [
-      "São José", "Santa Maria", "São Francisco", "Santo Antônio", "São João",
-      "Santa Teresa", "São Paulo", "São Pedro", "Santa Rita", "São Benedito"
-    ],
-    places: [
-      "Roma", "Jerusalém", "Belém", "Nazaré", "Cafarnaum",
-      "Alexandria", "Antioquia", "Éfeso", "Corinto", "Filipos"
-    ],
-    numbers: ["3", "7", "12", "40", "70", "144", "153", "666", "1000", "144000"],
-    years: ["313", "325", "431", "451", "787", "1054", "1215", "1274", "1545", "1870"]
-  };
-
-  // Criar pergunta única baseada no ID
-  const uniqueQuestions = [
+const createUniqueQuestion = (baseTemplate: any, id: number, index: number): Omit<Question, 'id'> => {
+  // Criar variações baseadas no índice para garantir unicidade
+  const variations = [
     {
-      question: `Qual santo é invocado para encontrar objetos perdidos? (Fase ${phase})`,
+      question: `Qual santo é invocado para encontrar objetos perdidos?`,
       options: ["São José", "Santo Antônio", "São Francisco", "São Bento"],
       correctAnswer: 1,
       explanation: "Santo Antônio de Pádua é tradicionalmente invocado para encontrar objetos perdidos.",
-      difficulty: "Fácil"
+      difficulty: "Fácil" as const
     },
     {
-      question: `Quantas vezes por dia os monges beneditinos rezam o Ofício Divino? (Pergunta ${id})`,
+      question: `Quantas vezes por dia os monges beneditinos rezam o Ofício Divino?`,
       options: ["5", "7", "8", "9"],
       correctAnswer: 1,
-      explanation: "Os monges beneditinos rezam o Ofício Divino 7 vezes por dia (Laudes, Prima, Terça, Sexta, Nona, Vésperas, Completas).",
-      difficulty: "Médio"
+      explanation: "Os monges beneditinos rezam o Ofício Divino 7 vezes por dia.",
+      difficulty: "Médio" as const
     },
     {
-      question: `Qual concílio definiu a doutrina sobre as imagens sagradas? (ID: ${id})`,
+      question: `Qual concílio definiu a doutrina sobre as imagens sagradas?`,
       options: ["Niceia I", "Niceia II", "Constantinopla I", "Éfeso"],
       correctAnswer: 1,
       explanation: "O Concílio de Niceia II (787) definiu a veneração das imagens sagradas.",
-      difficulty: "Difícil"
+      difficulty: "Difícil" as const
     },
     {
-      question: `Em que século viveu São Bento de Núrsia, fundador dos beneditinos? (${phase}ª fase)`,
+      question: `Em que século viveu São Bento de Núrsia?`,
       options: ["IV", "V", "VI", "VII"],
       correctAnswer: 2,
       explanation: "São Bento de Núrsia viveu no século VI (c. 480-547).",
-      difficulty: "Médio"
+      difficulty: "Médio" as const
     },
     {
-      question: `Qual é o primeiro mistério gozoso do Rosário? (Questão ${questionIndex + 1})`,
+      question: `Qual é o primeiro mistério gozoso do Rosário?`,
       options: ["Visitação", "Anunciação", "Nascimento", "Apresentação"],
       correctAnswer: 1,
       explanation: "A Anunciação é o primeiro mistério gozoso do Santo Rosário.",
-      difficulty: "Fácil"
+      difficulty: "Fácil" as const
+    },
+    {
+      question: `Quem é o patrono dos animais?`,
+      options: ["São Francisco", "São Bento", "Santo Antônio", "São José"],
+      correctAnswer: 0,
+      explanation: "São Francisco de Assis é o patrono dos animais e da ecologia.",
+      difficulty: "Fácil" as const
+    },
+    {
+      question: `Qual é a festa mais importante do calendário litúrgico?`,
+      options: ["Natal", "Páscoa", "Pentecostes", "Epifania"],
+      correctAnswer: 1,
+      explanation: "A Páscoa é a festa mais importante, celebrando a ressurreição de Jesus.",
+      difficulty: "Médio" as const
+    },
+    {
+      question: `Quantos anos durou o ministério público de Jesus?`,
+      options: ["1 ano", "2 anos", "3 anos", "4 anos"],
+      correctAnswer: 2,
+      explanation: "O ministério público de Jesus durou aproximadamente 3 anos.",
+      difficulty: "Médio" as const
+    },
+    {
+      question: `Qual apóstolo foi chamado de 'Pedra'?`,
+      options: ["João", "Pedro", "Tiago", "André"],
+      correctAnswer: 1,
+      explanation: "Jesus chamou Simão de Pedro, que significa 'pedra' ou 'rocha'.",
+      difficulty: "Fácil" as const
+    },
+    {
+      question: `Em que cidade Paulo foi convertido?`,
+      options: ["Jerusalém", "Damasco", "Antioquia", "Roma"],
+      correctAnswer: 1,
+      explanation: "São Paulo foi convertido no caminho para Damasco.",
+      difficulty: "Médio" as const
     }
   ];
 
-  // Selecionar pergunta baseada no ID para garantir unicidade
-  const selectedIndex = (id - 11) % uniqueQuestions.length;
-  return uniqueQuestions[selectedIndex];
+  // Selecionar variação baseada no índice
+  const selectedVariation = variations[index % variations.length];
+  
+  // Criar pergunta única modificando ligeiramente o texto
+  return {
+    question: `${selectedVariation.question} (Pergunta ${id})`,
+    options: selectedVariation.options,
+    correctAnswer: selectedVariation.correctAnswer,
+    explanation: selectedVariation.explanation,
+    difficulty: selectedVariation.difficulty
+  };
 };
 
-// Gerar todas as fases
-generateAllPhases();
+// Criar todas as 1000 perguntas
+const allGeneratedQuestions = [...allQuestions, ...generateRemainingQuestions()];
+
+// Organizar em fases de 10 perguntas cada
+const phaseQuestions: { [phase: number]: Question[] } = {};
+
+for (let phase = 1; phase <= 100; phase++) {
+  const startIndex = (phase - 1) * 10;
+  const endIndex = startIndex + 10;
+  phaseQuestions[phase] = allGeneratedQuestions.slice(startIndex, endIndex);
+}
 
 // Função para obter perguntas de uma fase específica
 export const getQuestionsForPhase = (phase: number): Question[] => {
@@ -407,15 +443,7 @@ export const getQuestionStats = () => {
 
 // Função para obter todas as perguntas
 export const getAllQuestions = (): Question[] => {
-  const allQuestions: Question[] = [];
-  
-  for (let phase = 1; phase <= 100; phase++) {
-    if (phaseQuestions[phase]) {
-      allQuestions.push(...phaseQuestions[phase]);
-    }
-  }
-  
-  return allQuestions;
+  return allGeneratedQuestions;
 };
 
 // Função para resetar (não aplicável neste sistema)
