@@ -79,19 +79,14 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
     updateProgress();
   }, [updateProgress]);
 
-  const loadQuestions = useCallback((phase: number) => {
-    console.log(`=== CARREGANDO 10 PERGUNTAS PARA FASE ${phase} ===`);
-    
-    // Mostrar estatísticas antes de carregar
-    const stats = getQuestionStats();
-    console.log(`📊 ESTATÍSTICAS: ${stats.usedQuestions}/${stats.totalQuestions} usadas, ${stats.remainingQuestions} restantes`);
-    console.log(`🔑 Sessão: ${stats.sessionId}`);
+  const loadQuestions = useCallback(async (phase: number) => {
+    console.log(`=== CARREGANDO PERGUNTAS DA FASE ${phase} DO BANCO ===`);
     
     setLoading(true);
     
     try {
-      // Obter 10 perguntas específicas para esta fase
-      const phaseQuestions = getQuestionsForPhase(phase);
+      // Buscar perguntas específicas da fase no banco de dados
+      const phaseQuestions = await getQuestionsForPhase(phase);
       
       if (phaseQuestions.length > 0) {
         // Verificar se não há IDs duplicados
@@ -105,19 +100,19 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
         }
         
         setQuestions(phaseQuestions);
-        console.log(`✅ ${phaseQuestions.length} perguntas carregadas com sucesso para a fase ${phase}`);
+        console.log(`✅ ${phaseQuestions.length} perguntas carregadas do banco para a fase ${phase}`);
         console.log(`📝 IDs das perguntas: [${ids.join(', ')}]`);
         
-        toast.success(`10 perguntas únicas carregadas para a fase ${phase}!`, {
+        toast.success(`10 perguntas únicas da fase ${phase} carregadas do banco!`, {
           duration: 2000
         });
       } else {
-        throw new Error('Nenhuma pergunta foi carregada');
+        throw new Error('Nenhuma pergunta foi carregada do banco');
       }
       
     } catch (error) {
-      console.error('❌ ERRO ao carregar perguntas:', error);
-      toast.error('Erro ao carregar perguntas.', {
+      console.error('❌ ERRO ao carregar perguntas do banco:', error);
+      toast.error('Erro ao carregar perguntas do banco de dados.', {
         duration: 2000
       });
     } finally {
@@ -131,7 +126,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
     console.log(`useEffect monitoramento - Fase: ${currentPhase}, Questions: ${questions.length}`);
     
     if (questions.length === 0) {
-      console.log('🚀 Disparando carregamento de perguntas...');
+      console.log('🚀 Disparando carregamento de perguntas do banco...');
       loadQuestions(currentPhase);
     }
   }, [currentPhase, loadQuestions, questions.length]);
@@ -202,8 +197,8 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-          <p className="text-white">Carregando 10 perguntas únicas da fase {currentPhase}...</p>
-          <p className="text-blue-300 text-sm mt-2">Sistema anti-repetição ativo!</p>
+          <p className="text-white">Carregando 10 perguntas únicas da fase {currentPhase} do banco...</p>
+          <p className="text-blue-300 text-sm mt-2">🔗 Conectado ao Supabase - Cada pergunta é única!</p>
         </div>
       </div>
     );
@@ -257,6 +252,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
             <div className="flex items-center gap-4">
               <span className="text-sm text-blue-300">Progresso Geral</span>
               <span className="text-sm text-blue-300">Fase {currentPhase}/100</span>
+              <span className="text-xs text-green-400">🔗 Banco Supabase</span>
               {onViewLeaderboard && (
                 <button
                   onClick={onViewLeaderboard}
@@ -326,6 +322,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
                   <span className="text-sm text-gray-400">
                     Pergunta {currentQuestion + 1}/10
                   </span>
+                  <span className="text-xs text-green-400">#{currentQ.id}</span>
                 </div>
                 
                 <h2 className="text-xl font-bold text-white text-center">

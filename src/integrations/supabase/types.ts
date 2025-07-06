@@ -36,6 +36,48 @@ export type Database = {
         }
         Relationships: []
       }
+      questions: {
+        Row: {
+          category: string
+          correct_answer: number
+          created_at: string
+          difficulty: string
+          explanation: string
+          id: string
+          options: string[]
+          phase: number
+          question: string
+          question_in_phase: number
+          question_number: number
+        }
+        Insert: {
+          category: string
+          correct_answer: number
+          created_at?: string
+          difficulty: string
+          explanation: string
+          id?: string
+          options: string[]
+          phase: number
+          question: string
+          question_in_phase: number
+          question_number: number
+        }
+        Update: {
+          category?: string
+          correct_answer?: number
+          created_at?: string
+          difficulty?: string
+          explanation?: string
+          id?: string
+          options?: string[]
+          phase?: number
+          question?: string
+          question_in_phase?: number
+          question_number?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
