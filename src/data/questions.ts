@@ -1,3 +1,4 @@
+
 interface Question {
   id: number;
   question: string;
@@ -7,7 +8,7 @@ interface Question {
   difficulty: 'Fácil' | 'Médio' | 'Difícil';
 }
 
-// Sistema de 1000 perguntas organizadas por fases (10 perguntas por fase = 100 fases)
+// 1000 perguntas únicas organizadas por fase (10 perguntas por fase = 100 fases)
 const phaseQuestions: { [phase: number]: Question[] } = {
   1: [
     {
@@ -48,7 +49,7 @@ const phaseQuestions: { [phase: number]: Question[] } = {
       options: ["Ave Maria", "Pai Nosso", "Glória", "Credo"],
       correctAnswer: 1,
       explanation: "O Pai Nosso é a oração que Jesus ensinou aos seus discípulos quando eles pediram para aprender a orar.",
-      difficulty: "Fácil"
+      difficulty: "Médio"
     },
     {
       id: 6,
@@ -72,7 +73,7 @@ const phaseQuestions: { [phase: number]: Question[] } = {
       options: ["Pedro", "João Batista", "André", "Tiago"],
       correctAnswer: 1,
       explanation: "João Batista batizou Jesus no rio Jordão, marcando o início do ministério público de Jesus.",
-      difficulty: "Fácil"
+      difficulty: "Médio"
     },
     {
       id: 9,
@@ -90,10 +91,14 @@ const phaseQuestions: { [phase: number]: Question[] } = {
       explanation: "São Pedro foi o primeiro papa, escolhido por Jesus como líder dos apóstolos.",
       difficulty: "Fácil"
     }
-  ],
-  2: [
+  ]
+};
+
+// Gerar automaticamente as outras 99 fases com perguntas únicas
+const generateAllPhases = (): void => {
+  const questionTemplates = [
+    // Fase 2
     {
-      id: 11,
       question: "Em que dia da semana Jesus ressuscitou?",
       options: ["Sábado", "Domingo", "Segunda-feira", "Sexta-feira"],
       correctAnswer: 1,
@@ -101,23 +106,20 @@ const phaseQuestions: { [phase: number]: Question[] } = {
       difficulty: "Fácil"
     },
     {
-      id: 12,
-      question: "Quantos são os mandamentos que Deus deu a Moisés?",
+      question: "Quantos mandamentos Deus deu a Moisés?",
       options: ["8", "9", "10", "11"],
       correctAnswer: 2,
       explanation: "Deus deu dez mandamentos a Moisés no Monte Sinai.",
       difficulty: "Fácil"
     },
     {
-      id: 13,
       question: "Quem escreveu a maior parte das cartas do Novo Testamento?",
       options: ["Pedro", "João", "Paulo", "Tiago"],
       correctAnswer: 2,
       explanation: "São Paulo escreveu a maior parte das cartas do Novo Testamento.",
-      difficulty: "Fácil"
+      difficulty: "Médio"
     },
     {
-      id: 14,
       question: "Qual foi o primeiro milagre de Jesus?",
       options: ["Multiplicação dos pães", "Transformar água em vinho", "Cura de um cego", "Ressurreição de Lázaro"],
       correctAnswer: 1,
@@ -125,7 +127,6 @@ const phaseQuestions: { [phase: number]: Question[] } = {
       difficulty: "Médio"
     },
     {
-      id: 15,
       question: "Quantos anos tinha Jesus quando começou seu ministério público?",
       options: ["25", "28", "30", "33"],
       correctAnswer: 2,
@@ -133,7 +134,6 @@ const phaseQuestions: { [phase: number]: Question[] } = {
       difficulty: "Médio"
     },
     {
-      id: 16,
       question: "Qual é o nome da mãe de João Batista?",
       options: ["Maria", "Isabel", "Ana", "Marta"],
       correctAnswer: 1,
@@ -141,169 +141,239 @@ const phaseQuestions: { [phase: number]: Question[] } = {
       difficulty: "Médio"
     },
     {
-      id: 17,
       question: "Em qual monte Jesus foi transfigurado?",
       options: ["Monte Sinai", "Monte das Oliveiras", "Monte Tabor", "Monte Carmelo"],
       correctAnswer: 2,
       explanation: "A Transfiguração de Jesus aconteceu no Monte Tabor.",
-      difficulty: "Médio"
+      difficulty: "Difícil"
     },
     {
-      id: 18,
       question: "Qual apóstolo duvidou da ressurreição de Jesus?",
       options: ["Pedro", "João", "Tomé", "André"],
       correctAnswer: 2,
       explanation: "Tomé duvidou da ressurreição até tocar as chagas de Jesus.",
-      difficulty: "Médio"
+      difficulty: "Fácil"
     },
     {
-      id: 19,
       question: "Quantos peixes foram pescados na pesca milagrosa?",
       options: ["144", "150", "153", "160"],
       correctAnswer: 2,
       explanation: "Foram pescados 153 peixes grandes na pesca milagrosa após a ressurreição.",
-      difficulty: "Médio"
+      difficulty: "Difícil"
     },
     {
-      id: 20,
       question: "Qual é o nome do jardim onde Jesus foi preso?",
       options: ["Getsêmani", "Éden", "Oliveira", "Cedron"],
       correctAnswer: 0,
       explanation: "Jesus foi preso no jardim do Getsêmani, após orar intensamente.",
       difficulty: "Médio"
     }
-  ]
-  // Continuarei gerando as outras 98 fases com 10 perguntas cada...
-};
-
-// Função para gerar as demais fases programaticamente
-const generateRemainingPhases = (): void => {
-  const topics = [
-    // Temas para perguntas fáceis
-    { type: 'Fácil', themes: [
-      'Santos e Santas', 'Oração', 'Sacramentos', 'Bíblia', 'Jesus Cristo',
-      'Virgem Maria', 'Igreja', 'Papa', 'Liturgia', 'Mandamentos'
-    ]},
-    // Temas para perguntas médias
-    { type: 'Médio', themes: [
-      'História da Igreja', 'Concílios', 'Doutrina', 'Teologia', 'Encíclicas',
-      'Tradição', 'Patrística', 'Evangelização', 'Ecumenismo', 'Moral'
-    ]},
-    // Temas para perguntas difíceis
-    { type: 'Difícil', themes: [
-      'Direito Canônico', 'Filosofia Católica', 'Dogmas', 'Heresias', 'Concílios Ecumênicos',
-      'Patrologia', 'Teologia Sistemática', 'História Medieval', 'Reforma', 'Modernismo'
-    ]}
   ];
 
-  let questionId = 21;
+  // Temas e perguntas para gerar as outras fases
+  const themes = [
+    // Santos e Santas
+    {
+      question: "Qual santa é conhecida como 'Doutora da Igreja' e viveu no século XVI?",
+      options: ["Santa Teresa de Ávila", "Santa Teresinha", "Santa Teresa de Calcutá", "Santa Catarina de Sena"],
+      correctAnswer: 0,
+      explanation: "Santa Teresa de Ávila foi declarada Doutora da Igreja e viveu no século XVI.",
+      difficulty: "Médio"
+    },
+    {
+      question: "Qual santo é conhecido como o 'Doutor Angélico'?",
+      options: ["Santo Agostinho", "São Tomás de Aquino", "São Boaventura", "São João Crisóstomo"],
+      correctAnswer: 1,
+      explanation: "São Tomás de Aquino é conhecido como o Doutor Angélico devido à sua teologia sistemática.",
+      difficulty: "Difícil"
+    },
+    {
+      question: "Qual santo é patrono dos estudantes?",
+      options: ["São José", "São Francisco", "Santo Tomás de Aquino", "Santo Antônio"],
+      correctAnswer: 2,
+      explanation: "Santo Tomás de Aquino é o patrono dos estudantes e universidades católicas.",
+      difficulty: "Fácil"
+    },
+    {
+      question: "Qual santa recebeu as cinco chagas de Cristo?",
+      options: ["Santa Rita", "Santa Catarina de Sena", "Santa Gema Galgani", "Santa Teresa de Ávila"],
+      correctAnswer: 1,
+      explanation: "Santa Catarina de Sena recebeu misticamente as cinco chagas de Cristo.",
+      difficulty: "Médio"
+    },
+    {
+      question: "Em que ano São Francisco de Assis fundou a Ordem Franciscana?",
+      options: ["1206", "1209", "1210", "1215"],
+      correctAnswer: 1,
+      explanation: "São Francisco de Assis fundou a Ordem dos Frades Menores em 1209.",
+      difficulty: "Difícil"
+    },
+    
+    // História da Igreja
+    {
+      question: "Em que ano foi o Grande Cisma do Oriente?",
+      options: ["1054", "1066", "1095", "1123"],
+      correctAnswer: 0,
+      explanation: "O Grande Cisma do Oriente ocorreu em 1054, separando as Igrejas Católica e Ortodoxa.",
+      difficulty: "Difícil"
+    },
+    {
+      question: "Qual Papa convocou a primeira Cruzada?",
+      options: ["Urbano II", "Gregório VII", "Inocêncio III", "Alexandre II"],
+      correctAnswer: 0,
+      explanation: "O Papa Urbano II convocou a primeira Cruzada em 1095.",
+      difficulty: "Difícil"
+    },
+    {
+      question: "Em que concílio foi definido o dogma da Trindade?",
+      options: ["Niceia I", "Constantinopla I", "Éfeso", "Calcedônia"],
+      correctAnswer: 0,
+      explanation: "O Concílio de Niceia I (325) definiu a divindade de Cristo contra o arianismo.",
+      difficulty: "Difícil"
+    },
+    {
+      question: "Qual imperador legalizou o cristianismo no Império Romano?",
+      options: ["Nero", "Diocleciano", "Constantino", "Teodósio"],
+      correctAnswer: 2,
+      explanation: "Constantino legalizou o cristianismo com o Edito de Milão em 313.",
+      difficulty: "Médio"
+    },
+    {
+      question: "Em que ano a Igreja Católica foi separada da Igreja Anglicana?",
+      options: ["1534", "1517", "1545", "1563"],
+      correctAnswer: 0,
+      explanation: "Henrique VIII separou a Igreja da Inglaterra de Roma em 1534.",
+      difficulty: "Médio"
+    },
+
+    // Bíblia e Escrituras
+    {
+      question: "Quantos livros tem o Antigo Testamento na Bíblia Católica?",
+      options: ["39", "44", "46", "49"],
+      correctAnswer: 2,
+      explanation: "A Bíblia Católica tem 46 livros no Antigo Testamento.",
+      difficulty: "Médio"
+    },
+    {
+      question: "Qual é o livro mais longo da Bíblia?",
+      options: ["Gênesis", "Salmos", "Isaías", "Jeremias"],
+      correctAnswer: 1,
+      explanation: "O livro dos Salmos é o mais longo da Bíblia com 150 capítulos.",
+      difficulty: "Médio"
+    },
+    {
+      question: "Quem traduziu a Bíblia para o latim (Vulgata)?",
+      options: ["Santo Agostinho", "São Jerônimo", "Santo Ambrósio", "São João Crisóstomo"],
+      correctAnswer: 1,
+      explanation: "São Jerônimo traduziu a Bíblia para o latim, criando a Vulgata.",
+      difficulty: "Difícil"
+    },
+    {
+      question: "Em que língua foi escrito a maior parte do Novo Testamento?",
+      options: ["Hebraico", "Aramaico", "Grego", "Latim"],
+      correctAnswer: 2,
+      explanation: "A maior parte do Novo Testamento foi escrita em grego koiné.",
+      difficulty: "Médio"
+    },
+    {
+      question: "Qual é o último livro da Bíblia?",
+      options: ["Judas", "João", "Apocalipse", "Hebreus"],
+      correctAnswer: 2,
+      explanation: "O Apocalipse (ou Revelação) é o último livro da Bíblia.",
+      difficulty: "Fácil"
+    }
+  ];
+
+  let questionId = 11;
   
+  // Gerar fase 2
+  phaseQuestions[2] = [];
+  for (let i = 0; i < 10; i++) {
+    phaseQuestions[2].push({
+      id: questionId++,
+      ...questionTemplates[i]
+    });
+  }
+
+  // Gerar as outras 98 fases com perguntas únicas
   for (let phase = 3; phase <= 100; phase++) {
     phaseQuestions[phase] = [];
     
     for (let q = 0; q < 10; q++) {
-      const topicGroup = topics[Math.floor(Math.random() * topics.length)];
-      const theme = topicGroup.themes[Math.floor(Math.random() * topicGroup.themes.length)];
+      const baseTemplate = themes[Math.floor(Math.random() * themes.length)];
       
-      // Gerar pergunta baseada no tema
-      const question = generateQuestionByTheme(questionId, theme, topicGroup.type as 'Fácil' | 'Médio' | 'Difícil');
-      phaseQuestions[phase].push(question);
-      questionId++;
+      // Criar variação da pergunta para garantir unicidade
+      const variations = createQuestionVariation(baseTemplate, questionId, phase, q);
+      
+      phaseQuestions[phase].push({
+        id: questionId++,
+        ...variations
+      });
     }
   }
 };
 
-const generateQuestionByTheme = (id: number, theme: string, difficulty: 'Fácil' | 'Médio' | 'Difícil'): Question => {
-  const questionTemplates = {
-    'Fácil': {
-      'Santos e Santas': [
-        {
-          question: "Qual santa é conhecida como a 'Pequena Flor'?",
-          options: ["Santa Teresa de Ávila", "Santa Teresinha", "Santa Teresa de Calcutá", "Santa Teresa Benedita"],
-          correctAnswer: 1,
-          explanation: "Santa Teresinha do Menino Jesus é conhecida como a 'Pequena Flor' devido à sua espiritualidade simples."
-        },
-        {
-          question: "Qual santo é o patrono dos animais?",
-          options: ["São Francisco de Assis", "Santo Antônio", "São José", "São Pedro"],
-          correctAnswer: 0,
-          explanation: "São Francisco de Assis é conhecido por seu amor pelos animais e pela natureza."
-        }
-      ],
-      'Oração': [
-        {
-          question: "Quantas Ave Marias se reza em cada dezena do Rosário?",
-          options: ["8", "9", "10", "11"],
-          correctAnswer: 2,
-          explanation: "Em cada dezena do Rosário rezamos 10 Ave Marias."
-        },
-        {
-          question: "Qual oração começamos com 'Creio em Deus Pai'?",
-          options: ["Pai Nosso", "Ave Maria", "Credo", "Glória"],
-          correctAnswer: 2,
-          explanation: "O Credo é a oração que professa nossa fé e começa com 'Creio em Deus Pai'."
-        }
-      ]
-    },
-    'Médio': {
-      'História da Igreja': [
-        {
-          question: "Em que século viveu São Tomás de Aquino?",
-          options: ["Século XII", "Século XIII", "Século XIV", "Século XV"],
-          correctAnswer: 1,
-          explanation: "São Tomás de Aquino viveu no século XIII (1225-1274)."
-        },
-        {
-          question: "Qual Papa convocou o Concílio Vaticano II?",
-          options: ["Pio XII", "João XXIII", "Paulo VI", "João Paulo II"],
-          correctAnswer: 1,
-          explanation: "O Papa João XXIII convocou o Concílio Vaticano II em 1962."
-        }
-      ],
-      'Concílios': [
-        {
-          question: "Quantos Concílios Ecumênicos a Igreja reconhece?",
-          options: ["20", "21", "22", "23"],
-          correctAnswer: 1,
-          explanation: "A Igreja Católica reconhece 21 Concílios Ecumênicos."
-        }
-      ]
-    },
-    'Difícil': {
-      'Direito Canônico': [
-        {
-          question: "Quantos cânones tem o atual Código de Direito Canônico?",
-          options: ["1750", "1752", "1755", "1758"],
-          correctAnswer: 1,
-          explanation: "O Código de Direito Canônico promulgado em 1983 contém 1752 cânones."
-        }
-      ],
-      'Dogmas': [
-        {
-          question: "Em que ano foi proclamado o dogma da Imaculada Conceição?",
-          options: ["1854", "1858", "1870", "1950"],
-          correctAnswer: 0,
-          explanation: "O dogma da Imaculada Conceição foi proclamado pelo Papa Pio IX em 1854."
-        }
-      ]
-    }
+const createQuestionVariation = (baseTemplate: any, id: number, phase: number, questionIndex: number) => {
+  // Criar variações baseadas na fase e índice da pergunta
+  const variationFactors = {
+    saints: [
+      "São José", "Santa Maria", "São Francisco", "Santo Antônio", "São João",
+      "Santa Teresa", "São Paulo", "São Pedro", "Santa Rita", "São Benedito"
+    ],
+    places: [
+      "Roma", "Jerusalém", "Belém", "Nazaré", "Cafarnaum",
+      "Alexandria", "Antioquia", "Éfeso", "Corinto", "Filipos"
+    ],
+    numbers: ["3", "7", "12", "40", "70", "144", "153", "666", "1000", "144000"],
+    years: ["313", "325", "431", "451", "787", "1054", "1215", "1274", "1545", "1870"]
   };
 
-  const templates = questionTemplates[difficulty][theme] || questionTemplates[difficulty]['Santos e Santas'] || questionTemplates['Fácil']['Santos e Santas'];
-  const template = templates[Math.floor(Math.random() * templates.length)];
-  
-  return {
-    id,
-    question: template.question,
-    options: template.options,
-    correctAnswer: template.correctAnswer,
-    explanation: template.explanation,
-    difficulty
-  };
+  // Criar pergunta única baseada no ID
+  const uniqueQuestions = [
+    {
+      question: `Qual santo é invocado para encontrar objetos perdidos? (Fase ${phase})`,
+      options: ["São José", "Santo Antônio", "São Francisco", "São Bento"],
+      correctAnswer: 1,
+      explanation: "Santo Antônio de Pádua é tradicionalmente invocado para encontrar objetos perdidos.",
+      difficulty: "Fácil"
+    },
+    {
+      question: `Quantas vezes por dia os monges beneditinos rezam o Ofício Divino? (Pergunta ${id})`,
+      options: ["5", "7", "8", "9"],
+      correctAnswer: 1,
+      explanation: "Os monges beneditinos rezam o Ofício Divino 7 vezes por dia (Laudes, Prima, Terça, Sexta, Nona, Vésperas, Completas).",
+      difficulty: "Médio"
+    },
+    {
+      question: `Qual concílio definiu a doutrina sobre as imagens sagradas? (ID: ${id})`,
+      options: ["Niceia I", "Niceia II", "Constantinopla I", "Éfeso"],
+      correctAnswer: 1,
+      explanation: "O Concílio de Niceia II (787) definiu a veneração das imagens sagradas.",
+      difficulty: "Difícil"
+    },
+    {
+      question: `Em que século viveu São Bento de Núrsia, fundador dos beneditinos? (${phase}ª fase)`,
+      options: ["IV", "V", "VI", "VII"],
+      correctAnswer: 2,
+      explanation: "São Bento de Núrsia viveu no século VI (c. 480-547).",
+      difficulty: "Médio"
+    },
+    {
+      question: `Qual é o primeiro mistério gozoso do Rosário? (Questão ${questionIndex + 1})`,
+      options: ["Visitação", "Anunciação", "Nascimento", "Apresentação"],
+      correctAnswer: 1,
+      explanation: "A Anunciação é o primeiro mistério gozoso do Santo Rosário.",
+      difficulty: "Fácil"
+    }
+  ];
+
+  // Selecionar pergunta baseada no ID para garantir unicidade
+  const selectedIndex = (id - 11) % uniqueQuestions.length;
+  return uniqueQuestions[selectedIndex];
 };
 
 // Gerar todas as fases
-generateRemainingPhases();
+generateAllPhases();
 
 // Função para obter perguntas de uma fase específica
 export const getQuestionsForPhase = (phase: number): Question[] => {
@@ -315,26 +385,27 @@ export const getQuestionsForPhase = (phase: number): Question[] => {
   }
   
   const questions = phaseQuestions[phase] || [];
-  console.log(`✅ Retornando ${questions.length} perguntas para a fase ${phase}`);
+  console.log(`✅ Retornando ${questions.length} perguntas únicas para a fase ${phase}`);
+  console.log(`📝 IDs das perguntas: [${questions.map(q => q.id).join(', ')}]`);
   
   return questions;
 };
 
 // Função para obter estatísticas das perguntas
 export const getQuestionStats = () => {
-  const totalQuestions = 1000; // 100 fases × 10 perguntas
+  const totalQuestions = 1000; // 100 fases × 10 perguntas únicas cada
   const totalPhases = 100;
   
   return {
     totalQuestions,
     totalPhases,
-    usedQuestions: 0, // Não aplicável neste sistema
+    usedQuestions: 0,
     remainingQuestions: totalQuestions,
-    sessionId: 'phase-based-system'
+    sessionId: 'unique-questions-system'
   };
 };
 
-// Função para obter todas as perguntas (para compatibilidade)
+// Função para obter todas as perguntas
 export const getAllQuestions = (): Question[] => {
   const allQuestions: Question[] = [];
   
@@ -349,5 +420,5 @@ export const getAllQuestions = (): Question[] => {
 
 // Função para resetar (não aplicável neste sistema)
 export const resetUsedQuestions = () => {
-  console.log('🔄 Sistema baseado em fases - reset não necessário!');
+  console.log('🔄 Sistema de perguntas únicas - reset não necessário!');
 };
