@@ -2,7 +2,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { toast } from 'sonner';
 import { getQuestionsForPhase, getQuestionStats } from '../data/questions';
-import { useLeaderboard } from '../hooks/useLeaderboard';
+// import { useLeaderboard } from '../hooks/useLeaderboard';
 
 interface Avatar {
   gender: 'boy' | 'girl';
@@ -42,7 +42,8 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
   const [showExplanation, setShowExplanation] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [avatarAnimation, setAvatarAnimation] = useState<'idle' | 'correct' | 'wrong'>('idle');
-  const { saveScore, leaderboard } = useLeaderboard();
+  // const { saveScore, leaderboard } = useLeaderboard();
+  const leaderboard: any[] = [];
 
   // Calculate player's rank
   const playerRank = useMemo(() => {
@@ -153,7 +154,7 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
       });
       
       // Salvar pontuação após cada pergunta correta
-      saveScore(avatar.name, newScore, currentPhase);
+      // saveScore(avatar.name, newScore, currentPhase);
     } else {
       setAvatarAnimation('wrong');
       toast.error('Resposta incorreta!', {
@@ -188,8 +189,8 @@ const QuizGame = ({ avatar, initialProgress, onProgressUpdate, onViewLeaderboard
           duration: 2000
         });
       } else {
-        // Game completed - save score to leaderboard
-        saveScore(avatar.name, score, currentPhase);
+        // Game completed
+        // saveScore(avatar.name, score, currentPhase);
         toast.success(`Parabéns! Você completou todas as 100 fases com ${score} pontos! Você é um verdadeiro mestre da fé católica!`, {
           duration: 4000
         });
