@@ -938,7 +938,7 @@ const generateAdditionalQuestions = (): Question[] => {
       options: baseQ.opts,
       correctAnswer: baseQ.correct,
       explanation: baseQ.exp,
-      difficulty: baseQ.diff
+      difficulty: baseQ.diff as 'Fácil' | 'Médio' | 'Difícil'
     });
     
     currentId++;

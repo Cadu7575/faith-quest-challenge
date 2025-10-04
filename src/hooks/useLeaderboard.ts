@@ -1,6 +1,5 @@
 
 import { useState, useEffect } from 'react';
-import { supabase } from '../integrations/supabase/client';
 import { toast } from 'sonner';
 
 interface LeaderboardEntry {
@@ -11,65 +10,58 @@ interface LeaderboardEntry {
   created_at: string;
 }
 
+const LEADERBOARD_KEY = 'catholic-quiz-leaderboard';
+
+// Sistema de leaderboard local usando localStorage
 export const useLeaderboard = () => {
   const [saving, setSaving] = useState(false);
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const fetchLeaderboard = async () => {
+  const fetchLeaderboard = () => {
     setLoading(true);
     try {
-      const { data, error } = await supabase
-        .from('leaderboard')
-        .select('*')
-        .order('score', { ascending: false })
-        .limit(50);
-
-      if (error) {
-        console.error('Erro ao buscar leaderboard:', error);
-        return;
+      const stored = localStorage.getItem(LEADERBOARD_KEY);
+      if (stored) {
+        const data = JSON.parse(stored) as LeaderboardEntry[];
+        // Ordenar por pontuação (maior para menor)
+        const sorted = data.sort((a, b) => b.score - a.score);
+        setLeaderboard(sorted.slice(0, 50)); // Top 50
+      } else {
+        setLeaderboard([]);
       }
-
-      setLeaderboard(data || []);
     } catch (error) {
       console.error('Erro ao buscar leaderboard:', error);
+      setLeaderboard([]);
     } finally {
       setLoading(false);
     }
   };
 
-  const saveScore = async (playerName: string, score: number, phasesCompleted: number) => {
+  const saveScore = (playerName: string, score: number, phasesCompleted: number) => {
     setSaving(true);
     try {
       console.log('Salvando pontuação:', { playerName, score, phasesCompleted });
 
+      // Buscar leaderboard atual
+      const stored = localStorage.getItem(LEADERBOARD_KEY);
+      let currentLeaderboard: LeaderboardEntry[] = stored ? JSON.parse(stored) : [];
+
       // Verificar se o jogador já existe
-      const { data: existingPlayer, error: fetchError } = await supabase
-        .from('leaderboard')
-        .select('*')
-        .eq('player_name', playerName)
-        .single();
+      const existingPlayerIndex = currentLeaderboard.findIndex(
+        entry => entry.player_name === playerName
+      );
 
-      if (fetchError && fetchError.code !== 'PGRST116') {
-        console.error('Erro ao buscar jogador existente:', fetchError);
-        throw fetchError;
-      }
-
-      if (existingPlayer) {
-        // Sempre atualizar a pontuação (mesmo que seja menor)
-        const { error: updateError } = await supabase
-          .from('leaderboard')
-          .update({ 
-            score, 
-            phases_completed: phasesCompleted,
-            updated_at: new Date().toISOString()
-          })
-          .eq('id', existingPlayer.id);
-
-        if (updateError) {
-          console.error('Erro ao atualizar pontuação:', updateError);
-          throw updateError;
-        }
+      if (existingPlayerIndex !== -1) {
+        const existingPlayer = currentLeaderboard[existingPlayerIndex];
+        
+        // Sempre atualizar a pontuação
+        currentLeaderboard[existingPlayerIndex] = {
+          ...existingPlayer,
+          score,
+          phases_completed: phasesCompleted,
+          created_at: new Date().toISOString()
+        };
 
         // Mostrar toast apenas se melhorou a pontuação
         if (score > existingPlayer.score) {
@@ -77,24 +69,22 @@ export const useLeaderboard = () => {
         }
       } else {
         // Criar nova entrada
-        const { error: insertError } = await supabase
-          .from('leaderboard')
-          .insert({ 
-            player_name: playerName, 
-            score, 
-            phases_completed: phasesCompleted 
-          });
-
-        if (insertError) {
-          console.error('Erro ao inserir nova pontuação:', insertError);
-          throw insertError;
-        }
-
+        const newEntry: LeaderboardEntry = {
+          id: crypto.randomUUID(),
+          player_name: playerName,
+          score,
+          phases_completed: phasesCompleted,
+          created_at: new Date().toISOString()
+        };
+        currentLeaderboard.push(newEntry);
         toast.success('Entrada no ranking criada!');
       }
 
-      // Atualizar o leaderboard após salvar
-      await fetchLeaderboard();
+      // Salvar no localStorage
+      localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(currentLeaderboard));
+
+      // Atualizar o estado
+      fetchLeaderboard();
       console.log('Pontuação salva com sucesso!');
     } catch (error) {
       console.error('Erro ao salvar pontuação:', error);
