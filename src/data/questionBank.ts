@@ -920,8 +920,18 @@ const generateAdditionalQuestions = (): Question[] => {
     }
   ];
 
-  // Gerar perguntas ciclando pelos temas
+  // Gerar perguntas ciclando pelos temas com embaralhamento das opções
   const questionsNeeded = 940;
+  
+  // Função para embaralhar array usando Fisher-Yates
+  const shuffleArray = <T,>(array: T[]): T[] => {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  };
   
   for (let i = 0; i < questionsNeeded; i++) {
     const themeIndex = i % catholicThemes.length;
@@ -929,14 +939,16 @@ const generateAdditionalQuestions = (): Question[] => {
     const questionIndex = Math.floor(i / catholicThemes.length) % theme.questions.length;
     const baseQ = theme.questions[questionIndex];
     
-    // Criar pergunta única adicionando contexto da fase
-    const phase = Math.floor((currentId - 1) / 10) + 1;
+    // Embaralhar as opções para variar a posição da resposta correta
+    const originalCorrectAnswer = baseQ.opts[baseQ.correct];
+    const shuffledOptions = shuffleArray(baseQ.opts);
+    const newCorrectIndex = shuffledOptions.indexOf(originalCorrectAnswer);
     
     additionalQuestions.push({
       id: currentId,
       question: baseQ.q,
-      options: baseQ.opts,
-      correctAnswer: baseQ.correct,
+      options: shuffledOptions,
+      correctAnswer: newCorrectIndex,
       explanation: baseQ.exp,
       difficulty: baseQ.diff as 'Fácil' | 'Médio' | 'Difícil'
     });
